@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrical Building - Neyriz Steel Plant | Structural Engineering Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --concrete-dark: #2c3038;
+            --concrete-mid: #4a4f5a;
+            --concrete-light: #6b7280;
+            --steel-blue: #3d5a73;
+            --rebar-orange: #d97706;
+            --blueprint-bg: #1e3a5f;
+            --blueprint-line: #4a90c2;
+            --blueprint-grid: rgba(74, 144, 194, 0.15);
+            --white: #ffffff;
+            --off-white: #f8f9fa;
+            --light-gray: #e5e7eb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Barlow', sans-serif;
+            background-color: var(--off-white);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .blueprint-pattern {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; opacity: 0.4;
+            background-image: 
+                linear-gradient(rgba(45, 65, 85, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 65, 85, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(45, 65, 85, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 65, 85, 0.02) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+        }
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1rem 4rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); border-bottom: 3px solid var(--concrete-dark);
+            transition: all 0.3s ease;
+        }
+        nav::after {
+            content: ''; position: absolute; bottom: 0; left: 0; height: 3px;
+            width: var(--scroll-progress, 0%);
+            background: linear-gradient(90deg, var(--rebar-orange), var(--steel-blue));
+            transition: width 0.1s ease-out;
+        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon {
+            width: 40px; height: 40px; background: var(--concrete-dark);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-icon svg { width: 24px; height: 24px; stroke: var(--rebar-orange); }
+        .logo-text {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 700; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; line-height: 1.1;
+        }
+        .logo-text span {
+            display: block; font-size: 0.7rem; font-weight: 500;
+            color: var(--concrete-light); letter-spacing: 0.15em;
+        }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--concrete-mid); font-size: 0.8125rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+            transition: color 0.3s ease; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -6px; left: 0; width: 0;
+            height: 2px; background: var(--rebar-orange); transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--concrete-dark); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Hero */
+        .hero {
+            position: relative; min-height: 100vh;
+            background: linear-gradient(135deg, var(--blueprint-bg) 0%, #152a45 100%);
+            display: flex; align-items: center; padding: 8rem 4rem 4rem; z-index: 1;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px),
+                linear-gradient(rgba(74, 144, 194, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 144, 194, 0.08) 1px, transparent 1px);
+            background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+        }
+        .corner-mark {
+            position: absolute; width: 60px; height: 60px;
+            border: 2px solid var(--blueprint-line); opacity: 0.4;
+            animation: floatCorner 6s ease-in-out infinite;
+        }
+        .corner-mark.top-left { top: 100px; left: 40px; border-right: none; border-bottom: none; animation-delay: 0s; }
+        .corner-mark.top-right { top: 100px; right: 40px; border-left: none; border-bottom: none; animation-delay: 1.5s; }
+        .corner-mark.bottom-left { bottom: 40px; left: 40px; border-right: none; border-top: none; animation-delay: 3s; }
+        .corner-mark.bottom-right { bottom: 40px; right: 40px; border-left: none; border-top: none; animation-delay: 4.5s; }
+        @keyframes floatCorner {
+            0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+            50% { transform: translate(5px, 5px); opacity: 0.6; }
+        }
+        .hero-content {
+            position: relative; z-index: 2; max-width: 1400px; width: 100%; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: center;
+        }
+        .hero-text { color: var(--white); }
+        .project-code {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--blueprint-line); margin-bottom: 1.5rem; padding: 0.5rem 1rem;
+            border: 1px solid var(--blueprint-line); background: rgba(74, 144, 194, 0.1);
+            animation: pulseBorder 3s ease-in-out infinite;
+        }
+        .project-code::before { content: ''; width: 8px; height: 8px; background: var(--rebar-orange); animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulseBorder {
+            0%, 100% { border-color: var(--blueprint-line); box-shadow: 0 0 0 rgba(74, 144, 194, 0); }
+            50% { border-color: var(--rebar-orange); box-shadow: 0 0 15px rgba(217, 119, 6, 0.3); }
+        }
+        .hero h1 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700; line-height: 1.1; text-transform: uppercase;
+            letter-spacing: 0.02em; margin-bottom: 1rem;
+            animation: slideUp 0.8s ease 0.1s forwards; opacity: 0; transform: translateY(30px);
+        }
+        .hero h1 .highlight { color: var(--rebar-orange); }
+        .hero-location {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.875rem;
+            color: var(--blueprint-line); margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 0.5rem;
+            animation: slideUp 0.8s ease 0.2s forwards; opacity: 0; transform: translateY(30px);
+        }
+        .hero-location svg { width: 16px; height: 16px; }
+        .hero-subtitle {
+            font-size: 1.0625rem; color: rgba(255, 255, 255, 0.75);
+            max-width: 500px; line-height: 1.7;
+            animation: slideUp 0.8s ease 0.3s forwards; opacity: 0; transform: translateY(30px);
+        }
+        .hero-image-wrapper {
+            position: relative;
+            animation: fadeIn 1s ease 0.4s forwards; opacity: 0;
+        }
+        .hero-image-frame {
+            position: relative; border: 2px solid var(--blueprint-line); padding: 10px;
+            transition: transform 0.3s ease;
+        }
+        .hero-image-frame:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.02);
+        }
+        .hero-image-frame::before {
+            content: 'FIG. 01 — EXTERIOR VIEW'; position: absolute; top: -25px; left: 10px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem;
+            color: var(--blueprint-line); letter-spacing: 0.1em;
+        }
+        .hero-image { width: 100%; height: 450px; object-fit: cover; display: block; }
+        .dimension-line {
+            position: absolute; display: flex; align-items: center;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; color: var(--blueprint-line);
+        }
+        .dimension-line.horizontal { bottom: -30px; left: 10px; right: 10px; }
+        .dimension-line.horizontal::before, .dimension-line.horizontal::after {
+            content: ''; flex: 1; height: 1px; background: var(--blueprint-line);
+        }
+        .dimension-line span { padding: 0 10px; }
+
+        /* Data Strip */
+        .data-strip { position: relative; z-index: 1; background: var(--concrete-dark); }
+        .data-strip-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(5, 1fr);
+        }
+        .data-item {
+            padding: 2rem 1.5rem; border-right: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center; position: relative;
+        }
+        .data-item:last-child { border-right: none; }
+        .data-item::before {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--rebar-orange); transform: scaleX(0); transition: transform 0.4s ease;
+        }
+        .data-item:hover::before { transform: scaleX(1); }
+        .data-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: rgba(255, 255, 255, 0.5); text-transform: uppercase;
+            letter-spacing: 0.15em; margin-bottom: 0.5rem;
+        }
+        .data-value {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.75rem;
+            font-weight: 700; color: var(--white);
+        }
+        .data-value .unit { font-size: 0.875rem; font-weight: 500; color: var(--rebar-orange); margin-left: 2px; }
+
+        /* Project Statistics Section */
+        .stats-section {
+            position: relative; z-index: 1; background: var(--white);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .stats-header {
+            background: var(--steel-blue); padding: 1rem 4rem;
+            border-bottom: 3px solid var(--rebar-orange);
+        }
+        .stats-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--white); text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(6, 1fr);
+            max-width: 1400px; margin: 0 auto; padding: 2rem 4rem;
+            gap: 1.5rem; border-bottom: 1px solid var(--light-gray);
+        }
+        .stat-block {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 1rem; background: var(--off-white); border: 1px solid var(--light-gray);
+            transition: all 0.3s ease;
+        }
+        .stat-block:hover { border-color: var(--steel-blue); transform: translateY(-2px); }
+        .stat-icon {
+            width: 40px; height: 40px; background: var(--concrete-dark);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .stat-icon svg { width: 20px; height: 20px; stroke: var(--rebar-orange); }
+        .stat-info { display: flex; flex-direction: column; }
+        .stat-value-lg {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem;
+            font-weight: 700; color: var(--concrete-dark); line-height: 1;
+        }
+        .stat-value-lg .stat-unit { font-size: 0.75rem; font-weight: 500; color: var(--steel-blue); margin-left: 2px; }
+        .stat-label-lg { font-size: 0.6875rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; }
+        .stats-details {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            max-width: 1400px; margin: 0 auto; padding: 2rem 4rem; gap: 2rem;
+        }
+        .stats-column { }
+        .stats-column h5 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 0.875rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; padding-bottom: 0.75rem; margin-bottom: 0.75rem;
+            border-bottom: 2px solid var(--rebar-orange);
+        }
+        .stats-column .detail-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.5rem 0; border-bottom: 1px solid var(--light-gray); font-size: 0.8125rem;
+        }
+        .stats-column .detail-row:last-child { border-bottom: none; }
+        .stats-column .detail-row span:first-child { color: var(--text-secondary); }
+        .stats-column .detail-row span:last-child { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: var(--text-primary); }
+
+        /* Interdisciplinary Coordination */
+        .coord-section {
+            position: relative; z-index: 1; background: var(--off-white);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .coord-header {
+            background: var(--concrete-mid); padding: 1rem 4rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .coord-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem;
+            font-weight: 600; color: var(--white); text-transform: uppercase; letter-spacing: 0.1em;
+        }
+        .coord-note {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: rgba(255,255,255,0.7); letter-spacing: 0.05em;
+        }
+        .coord-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            max-width: 1400px; margin: 0 auto; padding: 1.5rem 4rem; gap: 1.5rem;
+        }
+        .coord-block {
+            background: var(--white); border: 1px solid var(--light-gray);
+            padding: 1.25rem; position: relative;
+        }
+        .coord-block::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+        }
+        .coord-block:nth-child(1)::before { background: #f59e0b; }
+        .coord-block:nth-child(2)::before { background: #3b82f6; }
+        .coord-block:nth-child(3)::before { background: #8b5cf6; }
+        .coord-block:nth-child(4)::before { background: #10b981; }
+        .coord-icon {
+            width: 32px; height: 32px; display: flex; align-items: center;
+            justify-content: center; margin-bottom: 0.75rem;
+        }
+        .coord-icon svg { width: 20px; height: 20px; }
+        .coord-icon.electrical svg { stroke: #f59e0b; }
+        .coord-icon.mechanical svg { stroke: #3b82f6; }
+        .coord-icon.architectural svg { stroke: #8b5cf6; }
+        .coord-icon.geotech svg { stroke: #10b981; }
+        .coord-content h5 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 0.8125rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .coord-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.375rem 0; font-size: 0.75rem;
+        }
+        .coord-item span:first-child { color: var(--text-secondary); }
+        .coord-item span:last-child { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: var(--text-primary); font-size: 0.6875rem; }
+
+        /* Section Styles */
+        section { position: relative; z-index: 1; padding: 6rem 4rem; max-width: 1400px; margin: 0 auto; }
+        .section-header {
+            display: flex; align-items: flex-end; gap: 1.5rem; margin-bottom: 3rem;
+            padding-bottom: 1.5rem; border-bottom: 2px solid var(--light-gray);
+        }
+        .section-number {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--concrete-light); background: var(--light-gray);
+            padding: 0.25rem 0.75rem; letter-spacing: 0.05em;
+        }
+        .section-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 2rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.02em; color: var(--concrete-dark);
+            position: relative;
+        }
+        .section-title .accent { 
+            color: var(--steel-blue); 
+            position: relative;
+        }
+        .section-title .accent::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+            background: var(--rebar-orange);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .section-header:hover .section-title .accent::after { width: 100%; }
+
+        /* Scope */
+        .scope-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; }
+        .scope-text p { font-size: 1.0625rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.8; }
+        .scope-text p:first-of-type { font-size: 1.125rem; color: var(--text-primary); font-weight: 500; }
+        .spec-table { background: var(--white); border: 1px solid var(--light-gray); position: relative; }
+        .spec-table::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, var(--steel-blue), var(--rebar-orange));
+        }
+        .spec-table-header {
+            background: var(--concrete-dark); padding: 1rem 1.5rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem;
+            color: rgba(255, 255, 255, 0.7); text-transform: uppercase; letter-spacing: 0.15em;
+        }
+        .spec-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 1.5rem; border-bottom: 1px solid var(--light-gray); transition: background 0.3s ease;
+        }
+        .spec-row:last-child { border-bottom: none; }
+        .spec-row:hover { background: rgba(61, 90, 115, 0.05); }
+        .spec-label { font-size: 0.8125rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+        .spec-value { font-weight: 600; color: var(--text-primary); text-align: right; }
+
+        /* Gallery */
+        .gallery-section {
+            background: var(--white); max-width: 100%; padding: 6rem 4rem;
+            border-top: 1px solid var(--light-gray); border-bottom: 1px solid var(--light-gray);
+        }
+        .gallery-section .section-header { max-width: 1400px; margin: 0 auto 3rem; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1400px; margin: 0 auto; }
+        .gallery-item {
+            position: relative; overflow: hidden; cursor: pointer;
+            border: 1px solid var(--light-gray); background: var(--off-white);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gallery-item:hover {
+            border-color: var(--steel-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(44, 48, 56, 0.15);
+        }
+        .gallery-item::before {
+            content: attr(data-label); position: absolute; top: 0; left: 0; right: 0;
+            padding: 0.75rem 1rem; background: var(--concrete-dark);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: rgba(255, 255, 255, 0.7); letter-spacing: 0.1em; text-transform: uppercase; z-index: 2;
+        }
+        .gallery-item img { width: 100%; height: 280px; object-fit: cover; margin-top: 36px; transition: transform 0.6s ease; }
+        .gallery-item:hover img { transform: scale(1.05); }
+        .gallery-overlay {
+            position: absolute; inset: 36px 0 0 0;
+            background: linear-gradient(to top, rgba(44, 48, 56, 0.9), transparent 60%);
+            opacity: 0; transition: opacity 0.4s ease; display: flex; align-items: flex-end; padding: 1.25rem;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-caption { color: var(--white); font-size: 0.8125rem; font-weight: 500; }
+
+        /* 3D Viewer Section */
+        .viewer-section {
+            background: var(--concrete-dark); max-width: 100%; padding: 5rem 4rem;
+            position: relative;
+        }
+        .viewer-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .viewer-section .section-header { max-width: 1400px; margin: 0 auto 2rem; border-bottom-color: rgba(255, 255, 255, 0.1); }
+        .viewer-section .section-number { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); }
+        .viewer-section .section-title { color: var(--white); }
+        .viewer-section .section-title .accent { color: var(--rebar-orange); }
+        .viewer-container {
+            display: grid; grid-template-columns: 1fr 320px; gap: 2rem;
+            max-width: 1400px; margin: 0 auto; position: relative; z-index: 1;
+        }
+        .viewer-wrapper {
+            position: relative; background: #f8fafc; border: 2px solid var(--steel-blue);
+            height: 450px; overflow: hidden;
+        }
+        .viewer-wrapper.dark-mode { background: #1a1a2e; }
+        .viewer-controls {
+            position: absolute; top: 12px; left: 12px; z-index: 10;
+            display: flex; gap: 12px; align-items: center;
+        }
+        .viewer-control-row {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(44, 48, 56, 0.9); padding: 6px 12px; border-radius: 4px;
+        }
+        .viewer-control-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: rgba(255, 255, 255, 0.7); text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .viewer-toggle { position: relative; width: 36px; height: 20px; }
+        .viewer-toggle input { opacity: 0; width: 0; height: 0; }
+        .viewer-slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2); border-radius: 20px; transition: 0.3s;
+        }
+        .viewer-slider::before {
+            position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+            background-color: white; border-radius: 50%; transition: 0.3s;
+        }
+        .viewer-toggle input:checked + .viewer-slider { background-color: var(--rebar-orange); }
+        .viewer-toggle input:checked + .viewer-slider::before { transform: translateX(16px); }
+        .viewer-reset-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(44, 48, 56, 0.9); border: none; padding: 6px 12px;
+            color: rgba(255, 255, 255, 0.8); font-family: 'JetBrains Mono', monospace;
+            font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.05em;
+            cursor: pointer; border-radius: 4px; transition: all 0.3s ease;
+        }
+        .viewer-reset-btn:hover { background: var(--rebar-orange); color: white; }
+        .viewer-reset-btn svg { width: 14px; height: 14px; }
+        .viewer-fullscreen-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: var(--steel-blue); border: none; padding: 6px 12px;
+            color: white; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.05em;
+            cursor: pointer; border-radius: 4px; transition: all 0.3s ease;
+        }
+        .viewer-fullscreen-btn:hover { background: var(--rebar-orange); }
+        .viewer-fullscreen-btn svg { width: 14px; height: 14px; }
+        
+        /* Fullscreen mode - applied to body */
+        body.fullscreen-mode { overflow: hidden !important; }
+        body.fullscreen-mode nav { display: none !important; }
+        body.fullscreen-mode .hero { display: none !important; }
+        body.fullscreen-mode .data-strip { display: none !important; }
+        body.fullscreen-mode .stats-section { display: none !important; }
+        body.fullscreen-mode .coord-section { display: none !important; }
+        body.fullscreen-mode .gallery-section { display: none !important; }
+        body.fullscreen-mode .loads-section { display: none !important; }
+        body.fullscreen-mode .analysis-section { display: none !important; }
+        body.fullscreen-mode .approach-section { display: none !important; }
+        body.fullscreen-mode .materials-section { display: none !important; }
+        body.fullscreen-mode .cta-section { display: none !important; }
+        body.fullscreen-mode footer { display: none !important; }
+        body.fullscreen-mode .blueprint-pattern { display: none !important; }
+        
+        body.fullscreen-mode .viewer-section {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            z-index: 99999 !important;
+        }
+        body.fullscreen-mode .viewer-section::before { display: none !important; }
+        body.fullscreen-mode .viewer-section .section-header { display: none !important; }
+        
+        body.fullscreen-mode .viewer-container {
+            display: block !important;
+            max-width: 100% !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        body.fullscreen-mode .viewer-info { display: none !important; }
+        
+        body.fullscreen-mode .viewer-wrapper {
+            width: 100vw !important;
+            height: 100vh !important;
+            border: none !important;
+        }
+        body.fullscreen-mode .viewer-controls {
+            top: 20px !important;
+            left: 20px !important;
+        }
+        body.fullscreen-mode .viewer-instructions {
+            bottom: 20px !important;
+            right: 20px !important;
+        }
+        #modelCanvas { width: 100%; height: 100%; display: block; }
+        .viewer-instructions {
+            position: absolute; bottom: 12px; right: 12px;
+            background: rgba(44, 48, 56, 0.9); padding: 10px 14px; border-radius: 4px;
+        }
+        .instruction-item {
+            font-size: 0.6875rem; color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 4px; display: flex; gap: 8px;
+        }
+        .instruction-item:last-child { margin-bottom: 0; }
+        .instruction-key {
+            font-family: 'JetBrains Mono', monospace; color: var(--rebar-orange);
+            min-width: 45px; font-weight: 500;
+        }
+        .viewer-info {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.5rem; display: flex; flex-direction: column;
+        }
+        .viewer-info h4 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 600;
+            color: var(--white); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 1rem;
+        }
+        .viewer-info p { font-size: 0.875rem; color: rgba(255, 255, 255, 0.6); line-height: 1.7; margin-bottom: 1.5rem; }
+        .viewer-stats { margin-top: auto; }
+        .viewer-stat {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.625rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .viewer-stat:last-child { border-bottom: none; }
+        .viewer-stat-label { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); }
+        .viewer-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--rebar-orange); }
+
+        /* Loads */
+        .loads-section {
+            background: linear-gradient(135deg, var(--concrete-dark) 0%, #1f242b 100%);
+            max-width: 100%; padding: 6rem 4rem; position: relative;
+        }
+        .loads-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .loads-section .section-header { max-width: 1400px; margin: 0 auto 3rem; border-bottom-color: rgba(255, 255, 255, 0.1); }
+        .loads-section .section-number { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); }
+        .loads-section .section-title { color: var(--white); }
+        .loads-section .section-title .accent { color: var(--rebar-orange); }
+        .loads-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+        .load-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative;
+        }
+        .load-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0;
+            background: var(--rebar-orange); transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .load-card:hover { 
+            background: rgba(255, 255, 255, 0.08); 
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        .load-card:hover::before { height: 100%; }
+        .load-card:hover .load-icon { transform: scale(1.1) rotate(5deg); }
+        .load-icon { 
+            width: 48px; height: 48px; background: var(--rebar-orange); 
+            display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+        .load-icon svg { width: 24px; height: 24px; stroke: var(--white); }
+        .load-card h4 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem; font-weight: 600;
+            color: var(--white); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.75rem;
+        }
+        .load-card p { font-size: 0.9375rem; color: rgba(255, 255, 255, 0.6); line-height: 1.7; }
+
+        /* Analysis */
+        .analysis-section { background: var(--off-white); }
+        .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+        .analysis-image { position: relative; border: 1px solid var(--light-gray); background: var(--white); padding: 10px; }
+        .analysis-image::before {
+            content: 'FIG. 07 — FINITE ELEMENT MODEL'; position: absolute; top: -25px; left: 10px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; color: var(--concrete-light); letter-spacing: 0.1em;
+        }
+        .analysis-image img { width: 100%; display: block; }
+        .analysis-content h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; font-weight: 700;
+            text-transform: uppercase; color: var(--concrete-dark); margin-bottom: 1.5rem;
+        }
+        .check-list { list-style: none; }
+        .check-item { display: flex; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--light-gray); }
+        .check-item:last-child { border-bottom: none; }
+        .check-icon { width: 32px; height: 32px; background: var(--steel-blue); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .check-icon svg { width: 16px; height: 16px; stroke: var(--white); }
+        .check-content strong { display: block; font-size: 0.9375rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .check-content span { font-size: 0.875rem; color: var(--text-secondary); }
+
+        /* Approach */
+        .approach-section { background: var(--white); border-top: 1px solid var(--light-gray); }
+        .approach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .approach-card {
+            border: 1px solid var(--light-gray); padding: 2rem; position: relative;
+            transition: all 0.4s ease; background: var(--off-white);
+        }
+        .approach-card::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--steel-blue); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+        }
+        .approach-card:hover { border-color: var(--steel-blue); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(44, 48, 56, 0.1); }
+        .approach-card:hover::after { transform: scaleX(1); }
+        .approach-number { font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: var(--concrete-light); margin-bottom: 1rem; }
+        .approach-card h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 600;
+            text-transform: uppercase; color: var(--concrete-dark); margin-bottom: 1rem;
+        }
+        .approach-card p { font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.7; }
+
+        /* Materials & Deliverables */
+        .materials-section { background: var(--off-white); border-top: 1px solid var(--light-gray); }
+        .materials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+        .material-block, .deliverables-block { background: var(--white); border: 1px solid var(--light-gray); }
+        .material-block h4, .deliverables-block h4 {
+            background: var(--concrete-dark); padding: 1rem 1.5rem;
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 600;
+            color: var(--white); text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .material-table { padding: 0.5rem 0; }
+        .material-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.875rem 1.5rem; border-bottom: 1px solid var(--light-gray);
+            transition: background 0.3s ease;
+        }
+        .material-row:last-child { border-bottom: none; }
+        .material-row:hover { background: rgba(61, 90, 115, 0.05); }
+        .mat-label { font-size: 0.8125rem; color: var(--text-secondary); }
+        .mat-value { font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; font-weight: 500; color: var(--text-primary); text-align: right; }
+        .deliverable-list { padding: 1rem 1.5rem; }
+        .deliverable-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.75rem 0; border-bottom: 1px solid var(--light-gray);
+        }
+        .deliverable-item:last-child { border-bottom: none; }
+        .del-icon { width: 20px; height: 20px; color: var(--steel-blue); flex-shrink: 0; }
+        .del-icon svg { width: 100%; height: 100%; }
+        .del-text { font-size: 0.875rem; color: var(--text-primary); }
+
+        /* CTA */
+        .cta-section { background: var(--steel-blue); max-width: 100%; padding: 2.5rem 4rem; position: relative; }
+        .cta-section::before {
+            content: ''; position: absolute; top: 0; right: 0; width: 400px; height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(217, 119, 6, 0.2) 100%);
+        }
+        .cta-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+        .cta-text h2 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.75rem; font-weight: 700;
+            text-transform: uppercase; color: var(--white); margin-bottom: 0.25rem;
+        }
+        .cta-text p { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); }
+        .cta-button {
+            display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.875rem 1.75rem;
+            background: var(--rebar-orange); color: var(--white); text-decoration: none;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8125rem;
+            transition: all 0.4s ease; border: 2px solid var(--rebar-orange);
+            position: relative; overflow: hidden;
+        }
+        .cta-button::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        .cta-button:hover::before { left: 100%; }
+        .cta-button:hover { background: transparent; border-color: var(--white); transform: translateY(-3px); }
+        .cta-button svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .cta-button:hover svg { transform: translateX(5px); }
+
+        /* Footer */
+        footer { background: var(--concrete-dark); padding: 3rem 4rem; position: relative; z-index: 1; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { display: flex; align-items: center; gap: 0.75rem; }
+        .footer-logo-icon { width: 36px; height: 36px; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; }
+        .footer-logo-icon svg { width: 20px; height: 20px; stroke: var(--rebar-orange); }
+        .footer-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 0.05em; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { color: rgba(255, 255, 255, 0.5); text-decoration: none; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--rebar-orange); }
+        .footer-copyright { font-family: 'JetBrains Mono', monospace; color: rgba(255, 255, 255, 0.3); font-size: 0.6875rem; letter-spacing: 0.05em; }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(30, 58, 95, 0.98); z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+        .lightbox.active { opacity: 1; visibility: visible; }
+        .lightbox img { 
+            max-width: 90%; max-height: 85%; object-fit: contain; 
+            border: 2px solid var(--blueprint-line);
+            transform: scale(0.9); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+        }
+        .lightbox.active img { transform: scale(1); opacity: 1; }
+        .lightbox-label {
+            position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--blueprint-line); letter-spacing: 0.1em; text-transform: uppercase;
+        }
+        .lightbox-close {
+            position: absolute; top: 2rem; right: 2rem; width: 48px; height: 48px;
+            background: transparent; border: 1px solid var(--blueprint-line); color: var(--white);
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .lightbox-close:hover { background: var(--rebar-orange); border-color: var(--rebar-orange); }
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%); width: 56px; height: 56px;
+            background: transparent; border: 1px solid var(--blueprint-line); color: var(--white);
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .lightbox-nav:hover { background: var(--rebar-orange); border-color: var(--rebar-orange); }
+        .lightbox-prev { left: 2rem; }
+        .lightbox-next { right: 2rem; }
+
+        /* Animations */
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideInLeft { 
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight { 
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes drawLine {
+            from { stroke-dashoffset: 1000; }
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+        .reveal-scale { opacity: 0; transform: scale(0.95); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal-scale.active { opacity: 1; transform: scale(1); }
+        
+        /* Staggered animations for children */
+        .stagger-children > *:nth-child(1) { transition-delay: 0.05s; }
+        .stagger-children > *:nth-child(2) { transition-delay: 0.1s; }
+        .stagger-children > *:nth-child(3) { transition-delay: 0.15s; }
+        .stagger-children > *:nth-child(4) { transition-delay: 0.2s; }
+        .stagger-children > *:nth-child(5) { transition-delay: 0.25s; }
+        .stagger-children > *:nth-child(6) { transition-delay: 0.3s; }
+        
+        /* Hover animations */
+        .hover-float { transition: transform 0.3s ease; }
+        .hover-float:hover { transform: translateY(-5px); }
+        .hover-glow { transition: box-shadow 0.3s ease; }
+        .hover-glow:hover { box-shadow: 0 0 20px rgba(217, 119, 6, 0.3); }
+        
+        /* Animated border */
+        .animated-border { position: relative; }
+        .animated-border::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, var(--rebar-orange), var(--steel-blue), var(--rebar-orange));
+            background-size: 200% 100%;
+            animation: gradientMove 3s ease infinite;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Parallax effect for hero */
+        .parallax-slow { transition: transform 0.5s ease-out; }
+        
+        /* Number counter animation */
+        .count-up { animation: countUp 0.6s ease forwards; }
+        
+        /* Icon spin on hover */
+        .icon-spin:hover svg { animation: spin 0.5s ease; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-content { grid-template-columns: 1fr; gap: 3rem; }
+            .hero-image-wrapper { order: -1; }
+            .data-strip-inner { grid-template-columns: repeat(3, 1fr); }
+            .data-item:nth-child(3) { border-right: none; }
+            .data-item:nth-child(4), .data-item:nth-child(5) { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .stats-details { grid-template-columns: repeat(2, 1fr); }
+            .coord-grid { grid-template-columns: repeat(2, 1fr); }
+            .viewer-container { grid-template-columns: 1fr; }
+            .viewer-wrapper { height: 400px; }
+            .viewer-info { padding: 1.25rem; }
+            .loads-grid, .approach-grid { grid-template-columns: repeat(2, 1fr); }
+            .analysis-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .hero, section, .gallery-section, .loads-section, .cta-section, .viewer-section { padding: 4rem 1.5rem; }
+            .stats-header, .coord-header { padding: 1rem 1.5rem; }
+            .coord-header { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+            .stats-grid, .stats-details, .coord-grid { padding: 1.5rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-details, .coord-grid { grid-template-columns: 1fr; }
+            .viewer-wrapper { height: 350px; }
+            .viewer-controls { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .scope-grid, .data-strip-inner, .materials-grid { grid-template-columns: 1fr; }
+            .data-item { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+            .data-item:last-child { border-bottom: none; }
+            .gallery-grid, .loads-grid, .approach-grid { grid-template-columns: 1fr; }
+            .cta-content { flex-direction: column; text-align: center; gap: 2rem; }
+            .footer-content { flex-direction: column; gap: 2rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="blueprint-pattern"></div>
+
+    <nav>
+        <a href="#" class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 19h20L12 2z"/>
+                </svg>
+            </div>
+            <div class="logo-text">Delta Engineering<span>Structural Consultants</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="corner-mark top-left"></div>
+        <div class="corner-mark top-right"></div>
+        <div class="corner-mark bottom-left"></div>
+        <div class="corner-mark bottom-right"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="project-code">PROJECT NO. NSP-WTP-2024-001</div>
+                <h1>Electrical Building<br><span class="highlight">Water Treatment Plant</span></h1>
+                <div class="hero-location">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    NEYRIZ STEEL COMPLEX, FARS PROVINCE, IRAN
+                </div>
+                <p class="hero-subtitle">Complete structural design and analysis of a 3-story reinforced concrete moment-resisting frame with integrated mat and isolated footing foundation system. Finite element analysis with soil-structure interaction, designed per ACI 318-19 and Iranian Seismic Code (Standard 2800, 4th Edition) for Seismic Zone II.</p>
+            </div>
+            <div class="hero-image-wrapper">
+                <div class="hero-image-frame">
+                    <img src="./ELECTRICAL_ROOM_WTP_2.jpg" alt="Electrical Building Exterior View" class="hero-image">
+                    <div class="dimension-line horizontal"><span>COMPLETED STRUCTURE</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="data-strip">
+        <div class="data-strip-inner">
+            <div class="data-item">
+                <div class="data-label">Concrete Grade</div>
+                <div class="data-value">C30<span class="unit">/37</span></div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">Rebar Grade</div>
+                <div class="data-value">AIII<span class="unit">400</span></div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">Live Load</div>
+                <div class="data-value">1000<span class="unit">kg/m²</span></div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">Seismic Zone</div>
+                <div class="data-value">II<span class="unit">A=0.25g</span></div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">Soil Type</div>
+                <div class="data-value">Type<span class="unit">III</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Statistics -->
+    <div class="stats-section">
+        <div class="stats-header">
+            <span class="stats-title">Project Quantities & Key Data</span>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-block">
+                <div class="stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value-lg">785<span class="stat-unit">m³</span></span>
+                    <span class="stat-label-lg">Total Concrete Volume</span>
+                </div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16"/><path d="M4 15h16"/><path d="M4 11h16"/><path d="M4 7h16"/></svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value-lg">98.5<span class="stat-unit">ton</span></span>
+                    <span class="stat-label-lg">Total Rebar Weight</span>
+                </div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value-lg">525<span class="stat-unit">m²</span></span>
+                    <span class="stat-label-lg">Total Floor Area</span>
+                </div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value-lg">125<span class="stat-unit">kg/m³</span></span>
+                    <span class="stat-label-lg">Avg. Rebar Ratio</span>
+                </div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value-lg">2,450<span class="stat-unit">ton</span></span>
+                    <span class="stat-label-lg">Total Structure Weight</span>
+                </div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-3"/></svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value-lg">3<span class="stat-unit">floors</span></span>
+                    <span class="stat-label-lg">Building Stories</span>
+                </div>
+            </div>
+        </div>
+        <div class="stats-details">
+            <div class="stats-column">
+                <h5>Concrete Breakdown</h5>
+                <div class="detail-row"><span>Mat Foundation (600mm)</span><span>315 m³</span></div>
+                <div class="detail-row"><span>Isolated Footings</span><span>45 m³</span></div>
+                <div class="detail-row"><span>Columns (all levels)</span><span>85 m³</span></div>
+                <div class="detail-row"><span>Beams (all levels)</span><span>120 m³</span></div>
+                <div class="detail-row"><span>Slabs (t=200mm)</span><span>168 m³</span></div>
+                <div class="detail-row"><span>Walls & Stairs</span><span>52 m³</span></div>
+            </div>
+            <div class="stats-column">
+                <h5>Reinforcement Breakdown</h5>
+                <div class="detail-row"><span>T8 (Stirrups/Ties)</span><span>8.2 ton</span></div>
+                <div class="detail-row"><span>T10 (Stirrups/Dist.)</span><span>12.5 ton</span></div>
+                <div class="detail-row"><span>T12 (Slabs/Walls)</span><span>18.8 ton</span></div>
+                <div class="detail-row"><span>T16 (Beams/Found.)</span><span>28.5 ton</span></div>
+                <div class="detail-row"><span>T20 (Columns/Beams)</span><span>22.3 ton</span></div>
+                <div class="detail-row"><span>T25 (Columns)</span><span>8.2 ton</span></div>
+            </div>
+            <div class="stats-column">
+                <h5>Structural Elements</h5>
+                <div class="detail-row"><span>Total Columns</span><span>28 nos.</span></div>
+                <div class="detail-row"><span>Total Beams</span><span>86 nos.</span></div>
+                <div class="detail-row"><span>Isolated Footings</span><span>12 nos.</span></div>
+                <div class="detail-row"><span>Shear Wall Length</span><span>24 l.m.</span></div>
+                <div class="detail-row"><span>Staircase Flights</span><span>6 nos.</span></div>
+                <div class="detail-row"><span>Construction Joints</span><span>8 nos.</span></div>
+            </div>
+            <div class="stats-column">
+                <h5>Analysis Results</h5>
+                <div class="detail-row"><span>Fundamental Period (X)</span><span>T₁ = 0.42 sec</span></div>
+                <div class="detail-row"><span>Fundamental Period (Y)</span><span>T₂ = 0.38 sec</span></div>
+                <div class="detail-row"><span>Base Shear (X-dir)</span><span>Vx = 294 kN</span></div>
+                <div class="detail-row"><span>Base Shear (Y-dir)</span><span>Vy = 294 kN</span></div>
+                <div class="detail-row"><span>Max Story Drift</span><span>Δ/h = 0.008</span></div>
+                <div class="detail-row"><span>Max Foundation Settlement</span><span>δ = 18 mm</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interdisciplinary Coordination Strip -->
+    <div class="coord-section">
+        <div class="coord-header">
+            <span class="coord-title">Interdisciplinary Coordination Data</span>
+            <span class="coord-note">Information from other disciplines affecting structural design</span>
+        </div>
+        <div class="coord-grid">
+            <div class="coord-block">
+                <div class="coord-icon electrical">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <div class="coord-content">
+                    <h5>Electrical</h5>
+                    <div class="coord-item"><span>Main Transformers (2×1600 kVA)</span><span>2 × 4,250 kg</span></div>
+                    <div class="coord-item"><span>MV Switchgear Panel</span><span>3,800 kg</span></div>
+                    <div class="coord-item"><span>LV Distribution Boards</span><span>6 × 450 kg</span></div>
+                    <div class="coord-item"><span>Cable Trench Depth</span><span>800 mm</span></div>
+                    <div class="coord-item"><span>Total Electrical Load</span><span>2,400 kW</span></div>
+                </div>
+            </div>
+            <div class="coord-block">
+                <div class="coord-icon mechanical">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div class="coord-content">
+                    <h5>Mechanical / HVAC</h5>
+                    <div class="coord-item"><span>Rooftop AHU Units</span><span>2 × 1,200 kg</span></div>
+                    <div class="coord-item"><span>HVAC Duct Openings</span><span>4 × (600×400)</span></div>
+                    <div class="coord-item"><span>Cooling Load</span><span>185 kW</span></div>
+                    <div class="coord-item"><span>Equipment Room Ventilation</span><span>12 ACH</span></div>
+                    <div class="coord-item"><span>Roof Penetrations</span><span>8 nos.</span></div>
+                </div>
+            </div>
+            <div class="coord-block">
+                <div class="coord-icon architectural">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-3"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/></svg>
+                </div>
+                <div class="coord-content">
+                    <h5>Architectural</h5>
+                    <div class="coord-item"><span>Floor to Floor Height</span><span>4.20 m (typ.)</span></div>
+                    <div class="coord-item"><span>Finished Floor Thickness</span><span>100 mm</span></div>
+                    <div class="coord-item"><span>Facade System</span><span>Brick + Curtain Wall</span></div>
+                    <div class="coord-item"><span>Partition Load Allowance</span><span>100 kg/m²</span></div>
+                    <div class="coord-item"><span>Fire Rating Required</span><span>2 hours</span></div>
+                </div>
+            </div>
+            <div class="coord-block">
+                <div class="coord-icon geotech">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="coord-content">
+                    <h5>Geotechnical</h5>
+                    <div class="coord-item"><span>Allowable Bearing</span><span>2.5 kg/cm²</span></div>
+                    <div class="coord-item"><span>Subgrade Modulus (Ks)</span><span>3.5 kg/cm³</span></div>
+                    <div class="coord-item"><span>Ground Water Table</span><span>-6.5 m (seasonal)</span></div>
+                    <div class="coord-item"><span>Soil Classification</span><span>SC (Clayey Sand)</span></div>
+                    <div class="coord-item"><span>Recommended Foundation</span><span>Mat / Isolated</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="scope-section reveal">
+            <div class="section-header">
+                <span class="section-number">SECTION 01</span>
+                <h2 class="section-title">Project <span class="accent">Scope</span></h2>
+            </div>
+            <div class="scope-grid">
+                <div class="scope-text">
+                    <p>The Electrical Building serves as the main power distribution hub for the Neyriz Steel Plant's water treatment facility, housing 20/0.4 kV transformers, MV/LV switchgear, MCC panels, capacitor banks, and the centralized SCADA control room.</p>
+                    <p>Structural system consists of a reinforced concrete intermediate moment-resisting frame (IMRF) with Response Modification Factor R=5. The lateral load-resisting system includes perimeter moment frames in both orthogonal directions with concrete shear walls at the stairwell core for additional torsional stiffness.</p>
+                    <p>Foundation design integrates a 600mm thick mat foundation beneath the transformer bays (to distribute concentrated equipment loads and accommodate future replacement) with 1.2m × 1.2m isolated spread footings at perimeter columns. Soil-structure interaction modeled using Winkler springs with subgrade modulus Ks = 3.5 kg/cm³ based on plate load test results.</p>
+                    <p>All structural elements designed for 50-year service life with exposure class XC2/XC3 per EN 206. Minimum concrete cover of 40mm for foundations and 30mm for superstructure elements.</p>
+                </div>
+                <div class="spec-table">
+                    <div class="spec-table-header">Technical Specifications</div>
+                    <div class="spec-row"><span class="spec-label">Building Dimensions</span><span class="spec-value">42.0m × 12.5m × 11.2m</span></div>
+                    <div class="spec-row"><span class="spec-label">Structural System</span><span class="spec-value">RC IMRF (R=5, Ω₀=3, Cd=4.5)</span></div>
+                    <div class="spec-row"><span class="spec-label">Floor System</span><span class="spec-value">Two-Way Flat Slab, t=200mm</span></div>
+                    <div class="spec-row"><span class="spec-label">Typical Column</span><span class="spec-value">500×500mm, 8T20 longitudinal</span></div>
+                    <div class="spec-row"><span class="spec-label">Mat Foundation</span><span class="spec-value">t=600mm, T16@150 B.W.</span></div>
+                    <div class="spec-row"><span class="spec-label">Allowable Bearing</span><span class="spec-value">q_all = 2.5 kg/cm²</span></div>
+                    <div class="spec-row"><span class="spec-label">Design Codes</span><span class="spec-value">ACI 318-19, Std. 2800-4th</span></div>
+                    <div class="spec-row"><span class="spec-label">Analysis Software</span><span class="spec-value">ETABS 19.1 / SAFE 20.3</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery-section">
+            <div class="section-header reveal">
+                <span class="section-number">SECTION 02</span>
+                <h2 class="section-title">Structural <span class="accent">Documentation</span></h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item reveal" data-label="FIG. 02 — FEM Model Isometric" onclick="openLightbox(0)">
+                    <img src="./ELECTRICAL_ROOM_WTP_1.png" alt="3D Structural Analysis Model">
+                    <div class="gallery-overlay"><span class="gallery-caption">Finite Element Model — Full Assembly</span></div>
+                </div>
+                <div class="gallery-item reveal" data-label="FIG. 03 — FEM Model Elevation" onclick="openLightbox(1)">
+                    <img src="./ELECTRICAL_ROOM_WTP_3.png" alt="3D Structural Model Side">
+                    <div class="gallery-overlay"><span class="gallery-caption">Analysis Model — Longitudinal Section</span></div>
+                </div>
+                <div class="gallery-item reveal" data-label="FIG. 04 — 3D Rendering" onclick="openLightbox(2)">
+                    <img src="./ELECTRICAL_ROOM_WTP_4.png" alt="3D Rendered Model">
+                    <div class="gallery-overlay"><span class="gallery-caption">Structural Rendering — Sectional View</span></div>
+                </div>
+                <div class="gallery-item reveal" data-label="FIG. 05 — Roof Plan View" onclick="openLightbox(3)">
+                    <img src="./ELECTRICAL_ROOM_WTP_5.png" alt="3D Model Top View">
+                    <div class="gallery-overlay"><span class="gallery-caption">Model View — Roof Framing</span></div>
+                </div>
+                <div class="gallery-item reveal" data-label="FIG. 06 — Front Elevation" onclick="openLightbox(4)">
+                    <img src="./ELECTRICAL_ROOM_WTP_6.png" alt="3D Model Front">
+                    <div class="gallery-overlay"><span class="gallery-caption">Elevation View — Main Facade</span></div>
+                </div>
+                <div class="gallery-item reveal" data-label="FIG. 01 — As-Built Photo" onclick="openLightbox(5)">
+                    <img src="./ELECTRICAL_ROOM_WTP_2.jpg" alt="Completed Building">
+                    <div class="gallery-overlay"><span class="gallery-caption">Construction Complete — Site Photo</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3D Model Viewer Section -->
+        <section class="viewer-section">
+            <div class="section-header reveal">
+                <span class="section-number">SECTION 03</span>
+                <h2 class="section-title">Interactive <span class="accent">3D Model</span></h2>
+            </div>
+            <div class="viewer-container reveal">
+                <div class="viewer-wrapper">
+                    <div class="viewer-controls">
+                        <div class="viewer-control-row">
+                            <span class="viewer-control-label">Dark Mode</span>
+                            <label class="viewer-toggle">
+                                <input type="checkbox" id="viewerDarkToggle" onchange="toggleViewerBackground()">
+                                <span class="viewer-slider"></span>
+                            </label>
+                        </div>
+                        <button class="viewer-fullscreen-btn" onclick="toggleViewerFullscreen()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="fullscreenIcon">
+                                <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/>
+                            </svg>
+                            <span id="fullscreenText">Fullscreen</span>
+                        </button>
+                    </div>
+                    <canvas id="modelCanvas"></canvas>
+                    <div class="viewer-instructions">
+                        <div class="instruction-item"><span class="instruction-key">Rotate</span> Left Click + Drag</div>
+                        <div class="instruction-item"><span class="instruction-key">Pan</span> Right Click + Drag</div>
+                        <div class="instruction-item"><span class="instruction-key">Zoom</span> Mouse Scroll</div>
+                    </div>
+                </div>
+                <div class="viewer-info">
+                    <h4>FEM Analysis Model</h4>
+                    <p>Interactive 3D visualization of the structural finite element model exported from ETABS. Rotate, pan, and zoom to inspect all structural components including beams, columns, slabs, and foundation elements.</p>
+                    <div class="viewer-stats">
+                        <div class="viewer-stat">
+                            <span class="viewer-stat-label">Source</span>
+                            <span class="viewer-stat-value">ETABS v19.1</span>
+                        </div>
+                        <div class="viewer-stat">
+                            <span class="viewer-stat-label">Elements</span>
+                            <span class="viewer-stat-value">Frame + Shell</span>
+                        </div>
+                        <div class="viewer-stat">
+                            <span class="viewer-stat-label">Coord. System</span>
+                            <span class="viewer-stat-value">Z-Up (Global)</span>
+                        </div>
+                        <div class="viewer-stat">
+                            <span class="viewer-stat-label">Render Mode</span>
+                            <span class="viewer-stat-value">Real-time WebGL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="loads-section">
+            <div class="section-header reveal">
+                <span class="section-number">SECTION 04</span>
+                <h2 class="section-title">Design <span class="accent">Loads</span></h2>
+            </div>
+            <div class="loads-grid">
+                <div class="load-card reveal">
+                    <div class="load-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
+                        </svg>
+                    </div>
+                    <h4>Dead Loads (DL)</h4>
+                    <p>RC self-weight γ=2500 kg/m³. SDL includes: floor finish 150 kg/m², ceiling/MEP 50 kg/m², masonry partitions 200 kg/m (distributed as 100 kg/m² equivalent), staircase 500 kg/m² on projected area. Roof waterproofing and insulation 120 kg/m².</p>
+                </div>
+                <div class="load-card reveal">
+                    <div class="load-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/>
+                        </svg>
+                    </div>
+                    <h4>Live Loads (LL)</h4>
+                    <p>Transformer bay: 1000 kg/m² (reducible). Switchgear room: 750 kg/m². Cable basement: 500 kg/m². Control room/office: 250 kg/m². Roof: 150 kg/m² (maintenance access). Concentrated loads: transformers 8500 kg each on 4-point supports.</p>
+                </div>
+                <div class="load-card reveal">
+                    <div class="load-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/><path d="M8 16h.01"/><path d="M8 20h.01"/><path d="M12 18h.01"/><path d="M12 22h.01"/>
+                        </svg>
+                    </div>
+                    <h4>Snow Load (S)</h4>
+                    <p>Ground snow load Sg=100 kg/m² per regional data. Flat roof factor Cs=0.8. Exposure factor Ce=1.0 (partially exposed). Thermal factor Ct=1.0. Design roof snow Pf=80 kg/m². Drift loads at parapet: Pd=160 kg/m² over 2.0m width.</p>
+                </div>
+                <div class="load-card reveal">
+                    <div class="load-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 21h18"/><rect x="5" y="4" width="14" height="17" rx="1"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M14 8h1"/><path d="M14 12h1"/>
+                        </svg>
+                    </div>
+                    <h4>Earth Pressure (H)</h4>
+                    <p>Basement walls designed for at-rest condition K₀=0.5. Soil unit weight γ=1800 kg/m³. Surcharge from adjacent traffic: q=1000 kg/m² (equiv. 0.55m soil). Hydrostatic pressure considered with GWT at -2.5m. Resultant: triangular + uniform distribution.</p>
+                </div>
+                <div class="load-card reveal">
+                    <div class="load-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 12h2"/><path d="M20 12h2"/><path d="M6 12h12"/><circle cx="12" cy="12" r="4"/>
+                        </svg>
+                    </div>
+                    <h4>Seismic Forces (E)</h4>
+                    <p>Design per Standard 2800-4th Ed. Zone II, A=0.25g. Soil Type III, B=2.0. Importance I=1.2 (essential facility). R=5.0 (IMRF). Base shear V=0.12W. Modal response spectrum analysis with CQC combination. Accidental eccentricity ±5% Lx, Ly.</p>
+                </div>
+                <div class="load-card reveal">
+                    <div class="load-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 3v18"/><path d="M8 7l4-4 4 4"/><path d="M8 17l4 4 4-4"/><path d="M3 12h18"/>
+                        </svg>
+                    </div>
+                    <h4>Load Combinations</h4>
+                    <p>Strength: 1.4D, 1.2D+1.6L, 1.2D+L+E, 0.9D+E per ACI 318-19 §5.3. Service: D+L, D+0.75L+0.75S. Foundation: D+L+E with allowable stress increase 1.33 for seismic. Equipment anchorage: Ω₀E for non-ductile attachments.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="analysis-section reveal">
+            <div class="section-header">
+                <span class="section-number">SECTION 05</span>
+                <h2 class="section-title">Structural <span class="accent">Verification</span></h2>
+            </div>
+            <div class="analysis-grid">
+                <div class="analysis-image">
+                    <img src="./ELECTRICAL_ROOM_WTP_1.png" alt="Finite Element Model">
+                </div>
+                <div class="analysis-content">
+                    <h3>Design Checks Performed</h3>
+                    <ul class="check-list">
+                        <li class="check-item">
+                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="check-content"><strong>Flexural Capacity (Mu ≤ φMn)</strong><span>Critical beam: Mu=245 kN·m, φMn=312 kN·m (DCR=0.78). Mat foundation: Mu=185 kN·m/m, As_req=1420 mm²/m, As_prov=T16@150=1340 mm²/m + T12@150=754 mm²/m.</span></div>
+                        </li>
+                        <li class="check-item">
+                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="check-content"><strong>One-Way Shear (Vu ≤ φVc + φVs)</strong><span>Beams verified at d from face of support. Critical section: Vu=185 kN, φVc=98 kN, φVs=145 kN (T10@150 stirrups). DCR=0.76. Foundation: Vu=125 kN/m < φVc=156 kN/m.</span></div>
+                        </li>
+                        <li class="check-item">
+                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="check-content"><strong>Two-Way Punching Shear</strong><span>Column C1 (500×500): Vu=890 kN, b₀=3400mm, d=520mm, φVc=1245 kN (DCR=0.71). No shear reinforcement required. γv=0.4 for unbalanced moment transfer verified.</span></div>
+                        </li>
+                        <li class="check-item">
+                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="check-content"><strong>Bearing Pressure (q ≤ qa)</strong><span>Max bearing under mat: q_max=2.18 kg/cm² < q_all=2.5 kg/cm² (DCR=0.87). Isolated footings: q_max=2.25 kg/cm² under seismic combination with 33% allowable increase.</span></div>
+                        </li>
+                        <li class="check-item">
+                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="check-content"><strong>Serviceability (Δ, w)</strong><span>Floor deflection: Δ_LL=8.2mm < L/360=13.9mm. Crack width: w_max=0.22mm < 0.3mm (XC2 exposure). Inter-story drift: Δ/h=0.008 < 0.02 limit for IMRF.</span></div>
+                        </li>
+                        <li class="check-item">
+                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="check-content"><strong>Strong Column-Weak Beam</strong><span>All beam-column joints verified per ACI 318-19 §18.7.3: ΣMnc ≥ 1.2ΣMnb. Min ratio achieved: 1.35. Joint shear: Vj=980 kN < φVn=1150 kN.</span></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="approach-section reveal">
+            <div class="section-header">
+                <span class="section-number">SECTION 06</span>
+                <h2 class="section-title">Engineering <span class="accent">Methodology</span></h2>
+            </div>
+            <div class="approach-grid">
+                <div class="approach-card">
+                    <div class="approach-number">01</div>
+                    <h3>3D Finite Element Modeling</h3>
+                    <p>Full structure modeled in ETABS v19.1 with 4-node shell elements for slabs/walls (mesh size 0.5m) and 2-node frame elements for beams/columns. Rigid diaphragm assumption at each floor level. P-Delta effects included for gravity-lateral interaction.</p>
+                </div>
+                <div class="approach-card">
+                    <div class="approach-number">02</div>
+                    <h3>Soil-Structure Interaction</h3>
+                    <p>SAFE v20.3 foundation model with Winkler springs. Subgrade modulus Ks=3.5 kg/cm³ from plate load tests, adjusted for footing size using Terzaghi's equation: Ks(BxB) = Ks(0.3)×[(B+0.3)/2B]². Spring stiffness validated against settlement calculations.</p>
+                </div>
+                <div class="approach-card">
+                    <div class="approach-number">03</div>
+                    <h3>Modal Response Spectrum</h3>
+                    <p>Dynamic analysis using CQC modal combination with 5% damping. First 15 modes captured >95% mass participation. Fundamental periods: T1=0.42s (X-dir), T2=0.38s (Y-dir), T3=0.28s (torsion). Base shear scaled to minimum static value per code.</p>
+                </div>
+                <div class="approach-card">
+                    <div class="approach-number">04</div>
+                    <h3>Equipment Load Mapping</h3>
+                    <p>Transformer footprints from vendor drawings converted to equivalent pressures or point loads. Dynamic amplification factor 1.2 applied for rotating equipment (pumps, fans). Cable tray routing verified against reflected ceiling plans for coordination.</p>
+                </div>
+                <div class="approach-card">
+                    <div class="approach-number">05</div>
+                    <h3>Foundation Optimization</h3>
+                    <p>Iterative design comparing mat vs. isolated options. Final hybrid: 600mm mat under transformers (settlement sensitive), 1200×1200×400 isolated footings at perimeter (cost efficient). Total concrete volume reduced 18% from initial uniform mat scheme.</p>
+                </div>
+                <div class="approach-card">
+                    <div class="approach-number">06</div>
+                    <h3>Ductile Detailing</h3>
+                    <p>IMRF detailing per ACI 318-19 Ch.18: beam longitudinal bars continuous through joints, column ties T10@100 in plastic hinge zones (2h from face), 135° hooks on all ties, beam-column joint confinement verified. Development lengths increased 25% in joints.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="materials-section reveal">
+            <div class="section-header">
+                <span class="section-number">SECTION 07</span>
+                <h2 class="section-title">Materials & <span class="accent">Deliverables</span></h2>
+            </div>
+            <div class="materials-grid">
+                <div class="material-block">
+                    <h4>Material Specifications</h4>
+                    <div class="material-table">
+                        <div class="material-row">
+                            <span class="mat-label">Concrete - Foundation</span>
+                            <span class="mat-value">C30/37, f'c=30 MPa, Dmax=19mm</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Concrete - Superstructure</span>
+                            <span class="mat-value">C25/30, f'c=25 MPa, Dmax=19mm</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Concrete - Blinding</span>
+                            <span class="mat-value">C12/15, t=100mm under footings</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Rebar - Longitudinal</span>
+                            <span class="mat-value">AIII (A400), fy=400 MPa, fu=600 MPa</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Rebar - Transverse</span>
+                            <span class="mat-value">AII (A300), fy=300 MPa, fu=450 MPa</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Lap Splice Length</span>
+                            <span class="mat-value">50db (tension), 40db (compression)</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Cover - Foundation Bottom</span>
+                            <span class="mat-value">75mm (cast against soil)</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Cover - Foundation Top</span>
+                            <span class="mat-value">50mm</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Cover - Columns</span>
+                            <span class="mat-value">40mm all faces</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Cover - Beams</span>
+                            <span class="mat-value">35mm to stirrups</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Cover - Slabs</span>
+                            <span class="mat-value">25mm top, 30mm bottom</span>
+                        </div>
+                        <div class="material-row">
+                            <span class="mat-label">Exposure Class</span>
+                            <span class="mat-value">XC2/XC3 (EN 206-1)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="deliverables-block">
+                    <h4>Engineering Deliverables</h4>
+                    <div class="deliverable-list">
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Structural Calculation Report (185 pages)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Foundation Layout Plan (Dwg. S-01)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Mat Foundation Details (Dwg. S-02, S-03)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Framing Plans - GF, 1F, 2F, Roof (Dwg. S-04 to S-07)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Column Schedule & Details (Dwg. S-08, S-09)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Beam Schedule & Sections (Dwg. S-10 to S-13)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Slab Reinforcement Plans (Dwg. S-14 to S-17)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Stair & Wall Details (Dwg. S-18, S-19)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Typical Details & Notes (Dwg. S-20)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">ETABS Model File (.EDB) + SAFE Model (.FDB)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Bill of Quantities - Concrete & Rebar (Excel)</span>
+                        </div>
+                        <div class="deliverable-item">
+                            <span class="del-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </span>
+                            <span class="del-text">Bar Bending Schedule (Excel)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-content reveal">
+                <div class="cta-text">
+                    <h2>Start Your Next Project</h2>
+                    <p>Engineering solutions for industrial, commercial, and infrastructure projects.</p>
+                </div>
+                <a href="#" class="cta-button">
+                    Contact Us
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/></svg>
+                </div>
+                <div class="footer-logo-text">Delta Engineering</div>
+            </div>
+            <div class="footer-links">
+                <a href="#">Projects</a><a href="#">Services</a><a href="#">About</a><a href="#">Contact</a>
+            </div>
+            <div class="footer-copyright">© 2024 DELTA ENGINEERING. ALL RIGHTS RESERVED.</div>
+        </div>
+    </footer>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <img src="" alt="" id="lightbox-image">
+        <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="lightbox-label" id="lightbox-label"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/TrackballControls.js"></script>
+    <script>
+        // ============================================
+        // GALLERY & LIGHTBOX
+        // ============================================
+        const galleryImages = [
+            { src: './ELECTRICAL_ROOM_WTP_1.png', label: 'FIG. 02 — FINITE ELEMENT MODEL' },
+            { src: './ELECTRICAL_ROOM_WTP_3.png', label: 'FIG. 03 — LONGITUDINAL SECTION' },
+            { src: './ELECTRICAL_ROOM_WTP_4.png', label: 'FIG. 04 — SECTIONAL RENDERING' },
+            { src: './ELECTRICAL_ROOM_WTP_5.png', label: 'FIG. 05 — ROOF FRAMING PLAN' },
+            { src: './ELECTRICAL_ROOM_WTP_6.png', label: 'FIG. 06 — FRONT ELEVATION' },
+            { src: './ELECTRICAL_ROOM_WTP_2.jpg', label: 'FIG. 01 — AS-BUILT PHOTOGRAPH' }
+        ];
+        let currentImageIndex = 0;
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            document.getElementById('lightbox-image').src = galleryImages[index].src;
+            document.getElementById('lightbox-label').textContent = galleryImages[index].label;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        function navigateLightbox(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = galleryImages.length - 1;
+            if (currentImageIndex >= galleryImages.length) currentImageIndex = 0;
+            document.getElementById('lightbox-image').src = galleryImages[currentImageIndex].src;
+            document.getElementById('lightbox-label').textContent = galleryImages[currentImageIndex].label;
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+        });
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') closeLightbox();
+        });
+
+        // Enhanced reveal animation with multiple types
+        function reveal() {
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+            revealElements.forEach((el, index) => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                const revealPoint = 100;
+                
+                if (elementTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        
+        // Staggered reveal for grid items
+        function revealStaggered() {
+            const grids = document.querySelectorAll('.stagger-children');
+            grids.forEach(grid => {
+                const windowHeight = window.innerHeight;
+                const gridTop = grid.getBoundingClientRect().top;
+                
+                if (gridTop < windowHeight - 100) {
+                    const children = grid.children;
+                    Array.from(children).forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('active');
+                        }, index * 100);
+                    });
+                }
+            });
+        }
+        
+        // Animate numbers counting up
+        function animateNumbers() {
+            const numbers = document.querySelectorAll('.animate-number');
+            numbers.forEach(num => {
+                const windowHeight = window.innerHeight;
+                const numTop = num.getBoundingClientRect().top;
+                
+                if (numTop < windowHeight - 50 && !num.classList.contains('counted')) {
+                    num.classList.add('counted');
+                    const target = parseFloat(num.getAttribute('data-target'));
+                    const duration = 1500;
+                    const start = 0;
+                    const startTime = performance.now();
+                    
+                    function updateNumber(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easeOut = 1 - Math.pow(1 - progress, 3);
+                        const current = start + (target - start) * easeOut;
+                        
+                        if (target % 1 === 0) {
+                            num.textContent = Math.floor(current);
+                        } else {
+                            num.textContent = current.toFixed(1);
+                        }
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(updateNumber);
+                        }
+                    }
+                    requestAnimationFrame(updateNumber);
+                }
+            });
+        }
+        
+        // Parallax effect on scroll
+        function parallaxEffect() {
+            const scrolled = window.pageYOffset;
+            const heroImage = document.querySelector('.hero-image-wrapper');
+            const cornerMarks = document.querySelectorAll('.corner-mark');
+            
+            if (heroImage && scrolled < window.innerHeight) {
+                heroImage.style.transform = `translateY(${scrolled * 0.1}px)`;
+            }
+            
+            cornerMarks.forEach((mark, index) => {
+                const speed = 0.05 * (index + 1);
+                mark.style.transform = `translate(${scrolled * speed}px, ${scrolled * speed}px)`;
+            });
+        }
+        
+        // Smooth scroll progress indicator
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.documentElement.style.setProperty('--scroll-progress', scrollPercent + '%');
+        }
+        
+        // Mouse move parallax for hero section
+        document.addEventListener('mousemove', (e) => {
+            const hero = document.querySelector('.hero');
+            if (!hero) return;
+            
+            const heroRect = hero.getBoundingClientRect();
+            if (e.clientY > heroRect.bottom) return;
+            
+            const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            
+            const gridBg = document.querySelector('.hero::before');
+            const heroFrame = document.querySelector('.hero-image-frame');
+            
+            if (heroFrame) {
+                heroFrame.style.transform = `perspective(1000px) rotateY(${mouseX * 2}deg) rotateX(${-mouseY * 2}deg)`;
+            }
+        });
+        
+        // Initialize
+        window.addEventListener('scroll', () => {
+            reveal();
+            revealStaggered();
+            animateNumbers();
+            parallaxEffect();
+            updateScrollProgress();
+            
+            // Nav shadow
+            document.querySelector('nav').style.boxShadow = window.scrollY > 50 ? '0 2px 20px rgba(0,0,0,0.1)' : 'none';
+        });
+        
+        // Initial calls
+        reveal();
+        revealStaggered();
+        
+        // Add intersection observer for better performance
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Add hover effects to stat blocks
+        document.querySelectorAll('.stat-block, .coord-block, .load-card, .approach-card').forEach(block => {
+            block.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            block.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // ============================================
+        // 3D MODEL VIEWER
+        // ============================================
+        let modelScene, modelCamera, modelRenderer, modelControls, modelClock;
+        let modelStructure, modelGridHelper;
+        let modelGeometryData = null;
+        let modelBuildingBounds = null;
+        let modelBuildingCenter = null;
+        let modelBuildingMaxSize = null;
+        let modelInitialCameraPosition = null;
+        let modelInitialCameraTarget = null;
+        let modelCanvasHasFocus = false;
+        
+        function initModelViewer() {
+            const canvas = document.getElementById('modelCanvas');
+            if (!canvas) return;
+            
+            const container = canvas.parentElement;
+            
+            modelScene = new THREE.Scene();
+            modelScene.background = new THREE.Color(0xf8fafc);
+            
+            modelCamera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 1, 10000);
+            
+            // Set Z as up direction (like in ETABS)
+            modelCamera.up.set(0, 0, 1);
+            modelCamera.position.set(100, 100, 100);
+            
+            modelRenderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+            modelRenderer.setSize(container.clientWidth, container.clientHeight);
+            modelRenderer.setPixelRatio(window.devicePixelRatio);
+            
+            modelClock = new THREE.Clock();
+            
+            modelControls = new THREE.TrackballControls(modelCamera, canvas);
+            modelControls.rotateSpeed = 1.0;
+            modelControls.zoomSpeed = 0.5;
+            modelControls.panSpeed = 0.3;
+            modelControls.noZoom = false;
+            modelControls.noPan = false;
+            modelControls.staticMoving = false;
+            modelControls.dynamicDampingFactor = 0.2;
+            modelControls.target = new THREE.Vector3(0, 0, 0);
+            
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            modelScene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(20, 30, 20);
+            modelScene.add(directionalLight);
+            
+            const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
+            directionalLight2.position.set(-20, 20, -20);
+            modelScene.add(directionalLight2);
+            
+            canvas.addEventListener('mouseenter', () => { modelCanvasHasFocus = true; });
+            canvas.addEventListener('mouseleave', () => { modelCanvasHasFocus = false; });
+            
+            // Load model from model.html file
+            loadModelFromFile();
+            
+            animateModel();
+            
+            // Handle resize
+            window.addEventListener('resize', onModelResize);
+        }
+        
+        async function loadModelFromFile() {
+            try {
+                const response = await fetch('model.html');
+                const htmlText = await response.text();
+                loadModelFromHTML(htmlText);
+            } catch (error) {
+                console.error('Error loading model.html:', error);
+                console.log('Please make sure model.html exists in the same directory.');
+            }
+        }
+        
+        function loadModelFromHTML(htmlText) {
+            // Clear existing
+            if (modelStructure) modelScene.remove(modelStructure);
+            if (modelGridHelper) modelScene.remove(modelGridHelper);
+            
+            // Extract vertex data
+            const vertexMatch = htmlText.match(/var vertices = new Float32Array\(\[([\s\S]*?)\]\);/);
+            const colorMatch = htmlText.match(/var clr1 = new Float32Array\(\[([\s\S]*?)\]\);/);
+            
+            if (!vertexMatch || !colorMatch) {
+                console.log('Could not find geometry data in model.html');
+                return;
+            }
+            
+            // Parse data
+            const vertexString = vertexMatch[1];
+            const vertices = vertexString.split(',').map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
+            
+            const colorString = colorMatch[1];
+            const colors = colorString.split(',').map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
+            
+            modelGeometryData = new Float32Array(vertices);
+            const colorData = new Float32Array(colors);
+            
+            console.log('Loaded', vertices.length / 3, 'vertices');
+            
+            calculateModelBounds();
+            createStructureFromData(colorData);
+            addModelGrid();
+            positionModelCamera();
+        }
+        
+        function calculateModelBounds() {
+            let minX = Infinity, minY = Infinity, minZ = Infinity;
+            let maxX = -Infinity, maxY = -Infinity, maxZ = -Infinity;
+            
+            for (let i = 0; i < modelGeometryData.length; i += 3) {
+                minX = Math.min(minX, modelGeometryData[i]);
+                minY = Math.min(minY, modelGeometryData[i + 1]);
+                minZ = Math.min(minZ, modelGeometryData[i + 2]);
+                maxX = Math.max(maxX, modelGeometryData[i]);
+                maxY = Math.max(maxY, modelGeometryData[i + 1]);
+                maxZ = Math.max(maxZ, modelGeometryData[i + 2]);
+            }
+            
+            modelBuildingCenter = {
+                x: (minX + maxX) / 2,
+                y: (minY + maxY) / 2,
+                z: (minZ + maxZ) / 2
+            };
+            
+            modelBuildingMaxSize = Math.max(maxX - minX, maxY - minY, maxZ - minZ);
+            
+            modelBuildingBounds = {
+                min: { x: minX, y: minY, z: minZ },
+                max: { x: maxX, y: maxY, z: maxZ },
+                center: modelBuildingCenter,
+                maxSize: modelBuildingMaxSize
+            };
+        }
+        
+        function createStructureFromData(colorData) {
+            modelStructure = new THREE.Group();
+            
+            // Center the building at origin
+            const offsetX = -modelBuildingCenter.x;
+            const offsetY = -modelBuildingCenter.y;
+            const offsetZ = -modelBuildingCenter.z;
+            
+            const centeredVertices = new Float32Array(modelGeometryData.length);
+            for (let i = 0; i < modelGeometryData.length; i += 3) {
+                centeredVertices[i] = modelGeometryData[i] + offsetX;
+                centeredVertices[i + 1] = modelGeometryData[i + 1] + offsetY;
+                centeredVertices[i + 2] = modelGeometryData[i + 2] + offsetZ;
+            }
+            
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(centeredVertices, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colorData, 3));
+            geometry.computeVertexNormals();
+            
+            const material = new THREE.MeshLambertMaterial({
+                vertexColors: true,
+                opacity: 0.99,
+                transparent: true,
+                side: THREE.DoubleSide
+            });
+            
+            const mesh = new THREE.Mesh(geometry, material);
+            modelStructure.add(mesh);
+            modelScene.add(modelStructure);
+        }
+        
+        function addModelGrid() {
+            const gridSize = modelBuildingMaxSize * 1.5;
+            const gridDivisions = 20;
+            modelGridHelper = new THREE.GridHelper(gridSize, gridDivisions, 0x444444, 0x888888);
+            modelGridHelper.rotation.x = Math.PI / 2;
+            
+            const gridZ = modelBuildingBounds.min.z - modelBuildingCenter.z;
+            modelGridHelper.position.z = gridZ;
+            
+            modelStructure.add(modelGridHelper);
+        }
+        
+        function positionModelCamera() {
+            const distance = modelBuildingMaxSize * 2;
+            modelCamera.position.set(distance * 0.8, distance * 0.5, distance * 0.4);
+            
+            if (modelControls) {
+                modelControls.target.set(0, 0, 0);
+                modelControls.update();
+            }
+            
+            modelInitialCameraPosition = modelCamera.position.clone();
+            modelInitialCameraTarget = new THREE.Vector3(0, 0, 0);
+        }
+        
+        function toggleViewerBackground() {
+            const wrapper = document.querySelector('.viewer-wrapper');
+            const toggle = document.getElementById('viewerDarkToggle');
+            
+            if (toggle.checked) {
+                wrapper.classList.add('dark-mode');
+                modelScene.background = new THREE.Color(0x1a1a2e);
+            } else {
+                wrapper.classList.remove('dark-mode');
+                modelScene.background = new THREE.Color(0xf8fafc);
+            }
+        }
+        
+        function toggleViewerFullscreen() {
+            const body = document.body;
+            const fullscreenText = document.getElementById('fullscreenText');
+            const fullscreenIcon = document.getElementById('fullscreenIcon');
+            
+            if (body.classList.contains('fullscreen-mode')) {
+                // Exit fullscreen
+                body.classList.remove('fullscreen-mode');
+                fullscreenText.textContent = 'Fullscreen';
+                fullscreenIcon.innerHTML = '<path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/>';
+            } else {
+                // Enter fullscreen
+                body.classList.add('fullscreen-mode');
+                fullscreenText.textContent = 'Exit';
+                fullscreenIcon.innerHTML = '<path d="M8 3v3a2 2 0 01-2 2H3m18 0h-3a2 2 0 01-2-2V3m0 18v-3a2 2 0 012-2h3M3 16h3a2 2 0 012 2v3"/>';
+            }
+            
+            // Resize after transition
+            setTimeout(() => {
+                onModelResize();
+                if (modelControls) modelControls.handleResize();
+            }, 100);
+        }
+        
+        // Exit fullscreen with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (document.body.classList.contains('fullscreen-mode')) {
+                    toggleViewerFullscreen();
+                }
+            }
+        });
+        
+        function resetModelView() {
+            if (!modelInitialCameraPosition || !modelControls) return;
+            
+            modelCamera.position.copy(modelInitialCameraPosition);
+            modelControls.target.copy(modelInitialCameraTarget);
+            modelControls.update();
+            
+            if (modelStructure) {
+                modelStructure.rotation.set(0, 0, 0);
+            }
+        }
+        
+        function onModelResize() {
+            const wrapper = document.querySelector('.viewer-wrapper');
+            if (!wrapper || !modelCamera || !modelRenderer) return;
+            
+            let width, height;
+            
+            if (document.body.classList.contains('fullscreen-mode')) {
+                width = window.innerWidth;
+                height = window.innerHeight;
+            } else {
+                width = wrapper.clientWidth;
+                height = wrapper.clientHeight;
+            }
+            
+            modelCamera.aspect = width / height;
+            modelCamera.updateProjectionMatrix();
+            modelRenderer.setSize(width, height);
+            
+            if (modelControls) {
+                modelControls.handleResize();
+            }
+        }
+        
+        function animateModel() {
+            requestAnimationFrame(animateModel);
+            
+            if (modelControls && modelClock) {
+                const delta = modelClock.getDelta();
+                modelControls.update(delta);
+            }
+            
+            if (modelRenderer && modelScene && modelCamera) {
+                modelRenderer.render(modelScene, modelCamera);
+            }
+        }
+        
+        // Initialize 3D viewer when page loads
+        document.addEventListener('DOMContentLoaded', initModelViewer);
+    </script>
+</body>
+</html>
