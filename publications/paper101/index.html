@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCE 7-22 Key Updates | Structural Engineering Publications</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d97706' stroke-width='2'%3E%3Cpath d='M12 2L2 19h20L12 2z'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --concrete-dark: #2c3038;
+            --concrete-mid: #4a4f5a;
+            --concrete-light: #6b7280;
+            --steel-blue: #3d5a73;
+            --rebar-orange: #d97706;
+            --blueprint-bg: #1e3a5f;
+            --blueprint-line: #4a90c2;
+            --blueprint-grid: rgba(74, 144, 194, 0.15);
+            --white: #ffffff;
+            --off-white: #f8f9fa;
+            --light-gray: #e5e7eb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        body {
+            font-family: 'Barlow', sans-serif;
+            background-color: var(--off-white);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Blueprint Background Pattern */
+        .blueprint-pattern {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; opacity: 0.4;
+            background-image: 
+                linear-gradient(rgba(45, 65, 85, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 65, 85, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(45, 65, 85, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 65, 85, 0.02) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1rem 4rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); border-bottom: 3px solid var(--concrete-dark);
+            transition: all 0.3s ease;
+        }
+        nav::after {
+            content: ''; position: absolute; bottom: 0; left: 0; height: 3px;
+            width: var(--scroll-progress, 0%);
+            background: linear-gradient(90deg, var(--rebar-orange), var(--steel-blue));
+            transition: width 0.1s ease-out;
+        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon {
+            width: 40px; height: 40px; background: var(--concrete-dark);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-icon svg { width: 24px; height: 24px; stroke: var(--rebar-orange); }
+        .logo-text {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 700; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; line-height: 1.1;
+        }
+        .logo-text span { display: block; font-size: 0.7rem; font-weight: 500; color: var(--concrete-light); letter-spacing: 0.15em; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--concrete-mid); font-size: 0.8125rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+            transition: color 0.3s ease; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -6px; left: 0; width: 0;
+            height: 2px; background: var(--rebar-orange); transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--concrete-dark); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--rebar-orange); }
+        .nav-links a.active::after { width: 100%; }
+        .mobile-menu-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            color: var(--rebar-orange); padding: 0.5rem;
+        }
+        .mobile-menu {
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--concrete-dark); flex-direction: column;
+            padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            color: rgba(255, 255, 255, 0.7); text-decoration: none;
+            padding: 0.75rem 2rem; font-size: 0.875rem; text-transform: uppercase;
+            letter-spacing: 0.05em; transition: all 0.3s ease;
+        }
+        .mobile-menu a:hover { color: var(--rebar-orange); background: rgba(255,255,255,0.05); }
+
+        /* Hero Section */
+        .hero {
+            position: relative; min-height: 50vh;
+            background: linear-gradient(135deg, var(--blueprint-bg) 0%, #152a45 100%);
+            display: flex; align-items: center; padding: 10rem 4rem 4rem; z-index: 1;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+        .corner-mark {
+            position: absolute; width: 60px; height: 60px;
+            border: 2px solid var(--blueprint-line); opacity: 0.4;
+            animation: floatCorner 6s ease-in-out infinite;
+        }
+        .corner-mark.top-left { top: 100px; left: 40px; border-right: none; border-bottom: none; }
+        .corner-mark.top-right { top: 100px; right: 40px; border-left: none; border-bottom: none; }
+        .corner-mark.bottom-left { bottom: 40px; left: 40px; border-right: none; border-top: none; }
+        .corner-mark.bottom-right { bottom: 40px; right: 40px; border-left: none; border-top: none; }
+        @keyframes floatCorner {
+            0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+            50% { transform: translate(var(--move-x), var(--move-y)); opacity: 0.6; }
+        }
+        .corner-mark.top-left { --move-x: 5px; --move-y: 5px; }
+        .corner-mark.top-right { --move-x: -5px; --move-y: 5px; }
+        .corner-mark.bottom-left { --move-x: 5px; --move-y: -5px; }
+        .corner-mark.bottom-right { --move-x: -5px; --move-y: -5px; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; text-align: center; color: var(--white); }
+        .pub-meta {
+            display: inline-flex; align-items: center; gap: 1.5rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--blueprint-line); margin-bottom: 1.5rem;
+        }
+        .pub-meta span { display: flex; align-items: center; gap: 0.5rem; }
+        .pub-meta svg { width: 14px; height: 14px; }
+        .pub-tag {
+            background: var(--rebar-orange); color: var(--white); padding: 0.25rem 0.75rem;
+            font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+        }
+        .hero h1 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.02em;
+            margin-bottom: 1rem;
+        }
+        .hero h1 .highlight { color: var(--rebar-orange); }
+        .hero-subtitle {
+            font-size: 1rem; color: rgba(255, 255, 255, 0.75);
+            max-width: 700px; margin: 0 auto; line-height: 1.7;
+        }
+
+        /* Article Content */
+        .article-container {
+            position: relative; z-index: 1; max-width: 900px;
+            margin: 0 auto; padding: 4rem 2rem;
+        }
+
+        /* Section Styling */
+        .content-section { margin-bottom: 3rem; }
+        .section-label {
+            display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+        }
+        .section-number {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--rebar-orange); padding: 0.25rem 0.5rem;
+            border: 1px solid var(--rebar-orange); background: rgba(217, 119, 6, 0.05);
+        }
+        .section-line { flex: 1; height: 1px; background: var(--light-gray); }
+        .section-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; margin-bottom: 1rem;
+        }
+        .content-text {
+            font-size: 1rem; color: var(--text-secondary); line-height: 1.8;
+            text-align: justify; margin-bottom: 1.5rem;
+        }
+        .content-text strong { color: var(--concrete-dark); font-weight: 600; }
+
+        /* Key Changes List */
+        .changes-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .change-card {
+            background: var(--white); border: 1px solid var(--light-gray);
+            padding: 1.5rem; position: relative; transition: all 0.3s ease;
+        }
+        .change-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 3px; height: 100%; background: var(--steel-blue);
+            transition: background 0.3s ease;
+        }
+        .change-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .change-card:hover::before { background: var(--rebar-orange); }
+        .change-icon {
+            width: 40px; height: 40px; background: rgba(61, 90, 115, 0.1);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .change-icon svg { width: 20px; height: 20px; stroke: var(--steel-blue); }
+        .change-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.03em; margin-bottom: 0.5rem;
+        }
+        .change-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* Code Reference Box */
+        .code-reference {
+            background: var(--concrete-dark); padding: 1.5rem 2rem;
+            margin: 2rem 0; position: relative; overflow: hidden;
+        }
+        .code-reference::before {
+            content: 'REF'; position: absolute; top: 0.5rem; right: 1rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+            color: var(--rebar-orange); letter-spacing: 0.1em;
+        }
+        .code-reference p {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.85); line-height: 1.8;
+        }
+        .code-reference code {
+            color: var(--rebar-orange); background: rgba(217, 119, 6, 0.15);
+            padding: 0.125rem 0.375rem;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%; border-collapse: collapse; margin: 2rem 0;
+            font-size: 0.875rem;
+        }
+        .comparison-table th {
+            background: var(--concrete-dark); color: var(--white);
+            padding: 1rem; text-align: left; font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .comparison-table td {
+            padding: 1rem; border-bottom: 1px solid var(--light-gray);
+            color: var(--text-secondary);
+        }
+        .comparison-table tr:hover td { background: rgba(61, 90, 115, 0.03); }
+        .comparison-table .param { font-weight: 600; color: var(--concrete-dark); }
+        .comparison-table .old { color: var(--concrete-light); }
+        .comparison-table .new { color: var(--steel-blue); font-weight: 500; }
+
+        /* Image Figure */
+        .figure {
+            margin: 2rem 0; background: var(--white); border: 1px solid var(--light-gray);
+            padding: 1rem;
+        }
+        .figure img { width: 100%; height: auto; display: block; }
+        .figure-caption {
+            display: flex; align-items: center; gap: 1rem; margin-top: 1rem;
+            padding-top: 1rem; border-top: 1px solid var(--light-gray);
+        }
+        .figure-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            color: var(--rebar-orange); padding: 0.25rem 0.5rem;
+            border: 1px solid var(--rebar-orange);
+        }
+        .figure-text { font-size: 0.8rem; color: var(--text-secondary); font-style: italic; }
+
+        /* Author Box */
+        .author-box {
+            display: flex; align-items: center; gap: 1.5rem;
+            background: var(--white); border: 1px solid var(--light-gray);
+            padding: 1.5rem; margin-top: 3rem;
+        }
+        .author-avatar {
+            width: 60px; height: 60px; background: var(--steel-blue);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 700; color: var(--white);
+        }
+        .author-info h4 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+        }
+        .author-info p { font-size: 0.8rem; color: var(--text-secondary); }
+
+        /* CTA Section */
+        .cta-section { background: var(--steel-blue); max-width: 100%; padding: 0.625rem 4rem; position: relative; }
+        .cta-section::before {
+            content: ''; position: absolute; top: 0; right: 0; width: 400px; height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(217, 119, 6, 0.2) 100%);
+        }
+        .cta-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+        .cta-text h2 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.75rem; font-weight: 700;
+            text-transform: uppercase; color: var(--white); margin-bottom: 0.25rem;
+        }
+        .cta-text p { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); }
+        .cta-button {
+            display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.875rem 1.75rem;
+            background: var(--rebar-orange); color: var(--white); text-decoration: none;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8125rem;
+            transition: all 0.4s ease; border: 2px solid var(--rebar-orange);
+            position: relative; overflow: hidden;
+        }
+        .cta-button::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        .cta-button:hover::before { left: 100%; }
+        .cta-button:hover { background: transparent; border-color: var(--white); transform: translateY(-3px); }
+        .cta-button svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .cta-button:hover svg { transform: translateX(5px); }
+
+        /* Footer */
+        footer { background: var(--concrete-dark); padding: 1rem 4rem; position: relative; z-index: 1; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { display: flex; align-items: center; gap: 0.75rem; }
+        .footer-logo-icon { width: 36px; height: 36px; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; }
+        .footer-logo-icon svg { width: 20px; height: 20px; stroke: var(--rebar-orange); }
+        .footer-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 0.05em; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { color: rgba(255, 255, 255, 0.5); text-decoration: none; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--rebar-orange); }
+        .footer-copyright { font-family: 'JetBrains Mono', monospace; color: rgba(255, 255, 255, 0.3); font-size: 0.6875rem; letter-spacing: 0.05em; }
+
+        /* Example Box */
+        .example-box {
+            background: linear-gradient(135deg, rgba(61, 90, 115, 0.05) 0%, rgba(217, 119, 6, 0.03) 100%);
+            border: 1px solid var(--light-gray); border-left: 4px solid var(--rebar-orange);
+            padding: 1.5rem 2rem; margin: 2rem 0;
+        }
+        .example-header {
+            display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;
+        }
+        .example-tag {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+            background: var(--rebar-orange); color: var(--white);
+            padding: 0.25rem 0.5rem; text-transform: uppercase; letter-spacing: 0.1em;
+        }
+        .example-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+        }
+        .example-content { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+        .example-content p { margin-bottom: 0.75rem; }
+        .example-calc {
+            background: var(--white); padding: 1rem; margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+            border: 1px dashed var(--light-gray);
+        }
+        .example-calc .label { color: var(--concrete-light); font-size: 0.7rem; margin-bottom: 0.5rem; }
+        .example-calc .formula { color: var(--concrete-dark); margin: 0.25rem 0; }
+        .example-calc .result { color: var(--rebar-orange); font-weight: 500; margin-top: 0.5rem; }
+
+        /* Data Chart Container */
+        .chart-container {
+            background: var(--white); border: 1px solid var(--light-gray);
+            padding: 1.5rem; margin: 2rem 0;
+        }
+        .chart-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--light-gray);
+        }
+        .chart-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+        }
+        .chart-legend { display: flex; gap: 1.5rem; }
+        .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--text-secondary); }
+        .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+        .legend-dot.old { background: var(--concrete-light); }
+        .legend-dot.new { background: var(--rebar-orange); }
+        .bar-chart { display: flex; flex-direction: column; gap: 1rem; }
+        .bar-row { display: flex; align-items: center; gap: 1rem; }
+        .bar-label { width: 120px; font-size: 0.75rem; color: var(--concrete-dark); font-weight: 500; }
+        .bar-group { flex: 1; display: flex; flex-direction: column; gap: 0.25rem; }
+        .bar {
+            height: 20px; display: flex; align-items: center; padding-left: 0.5rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--white);
+            transition: width 0.8s ease;
+        }
+        .bar.old { background: var(--concrete-light); }
+        .bar.new { background: var(--rebar-orange); }
+
+        /* References Section */
+        .references-section {
+            background: var(--white); border: 1px solid var(--light-gray);
+            padding: 2rem; margin: 3rem 0;
+        }
+        .references-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem; border-bottom: 2px solid var(--rebar-orange);
+        }
+        .reference-list { list-style: none; }
+        .reference-item {
+            display: flex; gap: 1rem; padding: 0.75rem 0;
+            border-bottom: 1px solid var(--light-gray); font-size: 0.875rem;
+        }
+        .reference-item:last-child { border-bottom: none; }
+        .ref-number {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            color: var(--rebar-orange); font-weight: 500; min-width: 24px;
+        }
+        .ref-text { color: var(--text-secondary); line-height: 1.6; }
+        .ref-text strong { color: var(--concrete-dark); }
+        .ref-text em { color: var(--steel-blue); font-style: normal; }
+
+        /* Key Point Callout */
+        .key-point {
+            display: flex; gap: 1rem; background: rgba(217, 119, 6, 0.08);
+            border: 1px solid rgba(217, 119, 6, 0.2); padding: 1rem 1.5rem; margin: 1.5rem 0;
+        }
+        .key-point-icon {
+            width: 24px; height: 24px; background: var(--rebar-orange);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .key-point-icon svg { width: 14px; height: 14px; stroke: var(--white); }
+        .key-point-text { font-size: 0.875rem; color: var(--concrete-dark); line-height: 1.6; }
+
+        /* Site Class Table */
+        .site-class-table {
+            width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.8rem;
+        }
+        .site-class-table th {
+            background: var(--steel-blue); color: var(--white);
+            padding: 0.75rem; text-align: left; font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+        }
+        .site-class-table td {
+            padding: 0.75rem; border-bottom: 1px solid var(--light-gray);
+            color: var(--text-secondary); vertical-align: top;
+        }
+        .site-class-table tr:hover td { background: rgba(61, 90, 115, 0.03); }
+        .site-class-table .class-name { font-weight: 600; color: var(--concrete-dark); }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeInUp 0.6s ease forwards; }
+
+        /* Other Publications Section */
+        .other-publications-section {
+            position: relative; z-index: 1; background: var(--concrete-dark);
+            padding: 5rem 4rem;
+        }
+        .other-publications-section .section-header {
+            max-width: 1400px; margin: 0 auto 3rem;
+            display: flex; align-items: flex-end; gap: 1.5rem;
+            padding-bottom: 1.5rem; border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        .other-publications-section .section-number { 
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6); background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.75rem; letter-spacing: 0.05em;
+        }
+        .other-publications-section .section-title { 
+            font-family: 'Barlow Condensed', sans-serif; font-size: 2rem;
+            font-weight: 700; color: var(--white); text-transform: uppercase;
+            letter-spacing: 0.02em; position: relative;
+        }
+        .other-publications-section .section-title .accent { 
+            color: var(--rebar-orange); 
+            position: relative;
+        }
+        .other-publications-section .section-title .accent::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+            background: var(--rebar-orange);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .other-publications-section .section-header:hover .section-title .accent::after { width: 100%; }
+        
+        .publications-carousel-wrapper {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; gap: 1.5rem;
+        }
+        .carousel-arrow {
+            width: 50px; height: 50px; flex-shrink: 0;
+            background: transparent; border: 2px solid var(--blueprint-line);
+            color: var(--white); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .carousel-arrow:hover {
+            background: var(--rebar-orange); border-color: var(--rebar-orange);
+        }
+        .carousel-arrow svg { width: 24px; height: 24px; }
+        .carousel-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+        .carousel-arrow:disabled:hover { background: transparent; border-color: var(--blueprint-line); }
+        
+        .publications-carousel { flex: 1; overflow: hidden; }
+        .publications-track {
+            display: flex; gap: 1.5rem;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .publication-card {
+            flex: 0 0 calc(33.333% - 1rem);
+            background: var(--concrete-mid);
+            text-decoration: none; overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .publication-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .publication-header {
+            background: var(--blueprint-bg); padding: 1.5rem;
+            position: relative; overflow: hidden;
+        }
+        .publication-header::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.5;
+        }
+        .publication-icon {
+            position: relative; z-index: 1;
+            width: 50px; height: 50px; background: rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .publication-icon svg { width: 24px; height: 24px; stroke: var(--rebar-orange); }
+        .publication-tag {
+            position: relative; z-index: 1;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: var(--blueprint-line); text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        .publication-info { padding: 1.25rem; }
+        .publication-date {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: var(--rebar-orange); text-transform: uppercase;
+            letter-spacing: 0.1em; margin-bottom: 0.5rem; display: block;
+        }
+        .publication-info h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem;
+            font-weight: 600; color: var(--white); text-transform: uppercase;
+            letter-spacing: 0.02em; margin-bottom: 0.5rem; line-height: 1.2;
+        }
+        .publication-info p {
+            font-size: 0.75rem; color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5; margin-bottom: 1rem;
+        }
+        .publication-link {
+            font-family: 'Barlow', sans-serif; font-size: 0.75rem;
+            font-weight: 600; color: var(--blueprint-line); text-transform: uppercase;
+            letter-spacing: 0.1em; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        .publication-link svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+        .publication-card:hover .publication-link { color: var(--rebar-orange); }
+        .publication-card:hover .publication-link svg { transform: translateX(4px); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .changes-grid { grid-template-columns: 1fr; }
+            .publication-card { flex: 0 0 calc(50% - 0.75rem); }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero { padding: 5rem 1.5rem 3rem; min-height: 40vh; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero-subtitle { font-size: 0.9375rem; }
+            .corner-mark { width: 50px; height: 50px; }
+            .corner-mark.top-left { left: 15px; }
+            .corner-mark.top-right { right: 15px; }
+            .corner-mark.bottom-left { left: 15px; }
+            .corner-mark.bottom-right { right: 15px; }
+            .article-container { padding: 3rem 1.5rem; }
+            .comparison-table { font-size: 0.75rem; }
+            .comparison-table th, .comparison-table td { padding: 0.75rem 0.5rem; }
+            .site-class-table { font-size: 0.7rem; }
+            .site-class-table th, .site-class-table td { padding: 0.5rem; }
+            .author-box { flex-direction: column; text-align: center; }
+            .example-box { padding: 1rem; }
+            .example-calc { padding: 0.75rem; font-size: 0.7rem; }
+            .bar-label { width: 80px; font-size: 0.65rem; }
+            .bar { font-size: 0.55rem; height: 18px; }
+            .references-section { padding: 1.5rem 1rem; }
+            .reference-item { flex-direction: column; gap: 0.25rem; }
+            .key-point { flex-direction: column; }
+            .other-publications-section { padding: 3rem 1.5rem; }
+            .other-publications-section .section-header { margin-bottom: 2rem; }
+            .other-publications-section .section-title { font-size: 1.5rem; }
+            .other-publications-section .section-number { font-size: 0.625rem; }
+            .publication-card { flex: 0 0 100%; }
+            .carousel-arrow { width: 36px; height: 36px; }
+            .carousel-arrow svg { width: 18px; height: 18px; }
+            .publications-carousel-wrapper { gap: 0.5rem; }
+            .cta-section { padding: 3rem 1.5rem; }
+            .cta-content { flex-direction: column; text-align: center; gap: 2rem; }
+            footer { padding: 1rem 1.5rem; }
+            .footer-content { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+            .pub-meta { flex-direction: column; gap: 0.75rem; }
+        }
+        @media (max-width: 480px) {
+            nav { padding: 1rem; }
+            .hero { padding: 4.5rem 1rem 2rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .corner-mark { width: 40px; height: 40px; }
+            .corner-mark.top-left { left: 10px; top: 70px; }
+            .corner-mark.top-right { right: 10px; top: 70px; }
+            .corner-mark.bottom-left { left: 10px; bottom: 20px; }
+            .corner-mark.bottom-right { right: 10px; bottom: 20px; }
+            .article-container { padding: 2.5rem 1rem; }
+            .section-title { font-size: 1.25rem; }
+            .other-publications-section { padding: 2.5rem 1rem; }
+            .other-publications-section .section-title { font-size: 1.25rem; }
+            .carousel-arrow { width: 32px; height: 32px; }
+            .carousel-arrow svg { width: 16px; height: 16px; }
+            .publication-info h3 { font-size: 1rem; }
+            .publication-info p { font-size: 0.6875rem; }
+            .cta-section { padding: 2.5rem 1rem; }
+            .cta-text h2 { font-size: 1.5rem; }
+            footer { padding: 0.7rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="blueprint-pattern"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="../../index.html" class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2L2 19h20L12 2z"/>
+                    <path d="M12 8v6"/>
+                </svg>
+            </div>
+            <div class="logo-text">
+                Delta Engineering
+                <span>Structural Solutions</span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../projects.html">Projects</a></li>
+            <li><a href="../../services.html">Services</a></li>
+            <li><a href="../../tools.html">Tools</a></li>
+            <li><a href="../index.html">Publications</a></li>
+            <li><a href="../../about.html">About</a></li>
+            <li><a href="../../contact.html">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M3 6h18M3 18h18"/>
+            </svg>
+        </button>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="../../index.html">Home</a>
+            <a href="../../projects.html">Projects</a>
+            <a href="../../services.html">Services</a>
+            <a href="../../tools.html">Tools</a>
+            <a href="../index.html">Publications</a>
+            <a href="../../about.html">About</a>
+            <a href="../../contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="corner-mark top-left"></div>
+        <div class="corner-mark top-right"></div>
+        <div class="corner-mark bottom-left"></div>
+        <div class="corner-mark bottom-right"></div>
+        <div class="hero-content">
+            <div class="pub-meta">
+                <span class="pub-tag">Technical Brief</span>
+                <span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2"/>
+                        <path d="M16 2v4M8 2v4M3 10h18"/>
+                    </svg>
+                    December 2024
+                </span>
+                <span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                    12 min read
+                </span>
+            </div>
+            <h1>ASCE 7-22: <span class="highlight">Key Updates</span> for Structural Engineers</h1>
+            <p class="hero-subtitle">An overview of significant changes in the latest edition of Minimum Design Loads and Associated Criteria for Buildings and Other Structures.</p>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <article class="article-container">
+        
+        <!-- Introduction -->
+        <section class="content-section fade-in">
+            <div class="section-label">
+                <span class="section-number">01</span>
+                <span class="section-line"></span>
+            </div>
+            <h2 class="section-title">Introduction</h2>
+            <p class="content-text">
+                The release of <strong>ASCE 7-22</strong> marks a significant evolution in structural design standards, introducing refined methodologies for determining design loads and improving overall building performance. This edition incorporates lessons learned from recent natural disasters, advances in research, and feedback from practicing engineers. Understanding these changes is essential for compliance and optimal structural design.
+            </p>
+        </section>
+
+        <!-- Key Changes -->
+        <section class="content-section fade-in">
+            <div class="section-label">
+                <span class="section-number">02</span>
+                <span class="section-line"></span>
+            </div>
+            <h2 class="section-title">Major Updates Overview</h2>
+            <div class="changes-grid">
+                <div class="change-card">
+                    <div class="change-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                            <path d="M12 22V8M5 12l7-7 7 7"/>
+                            <path d="M20 22H4"/>
+                        </svg>
+                    </div>
+                    <h3 class="change-title">Multi-Period Response Spectrum</h3>
+                    <p class="change-desc">Transition from two-period (Ss, S1) to multi-period response spectrum for more accurate site-specific seismic hazard characterization.</p>
+                </div>
+                <div class="change-card">
+                    <div class="change-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <h3 class="change-title">Updated Wind Speed Maps</h3>
+                    <p class="change-desc">Revised basic wind speed maps incorporating latest meteorological data and improved hurricane modeling along coastal regions.</p>
+                </div>
+                <div class="change-card">
+                    <div class="change-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                            <path d="M12 2v20M2 12h20"/>
+                            <circle cx="12" cy="12" r="4"/>
+                        </svg>
+                    </div>
+                    <h3 class="change-title">Risk-Targeted Ground Motions</h3>
+                    <p class="change-desc">Enhanced MCER ground motion values providing uniform collapse risk across different seismic regions of the country.</p>
+                </div>
+                <div class="change-card">
+                    <div class="change-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M9 3v18M3 9h18"/>
+                        </svg>
+                    </div>
+                    <h3 class="change-title">Diaphragm Design Forces</h3>
+                    <p class="change-desc">New alternative diaphragm design provisions (Section 12.10.3) for improved force distribution in floor and roof systems.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seismic Changes Detail -->
+        <section class="content-section fade-in">
+            <div class="section-label">
+                <span class="section-number">03</span>
+                <span class="section-line"></span>
+            </div>
+            <h2 class="section-title">Seismic Design Changes</h2>
+            <p class="content-text">
+                The most significant update in ASCE 7-22 is the transition to <strong>multi-period response spectra (MPRS)</strong>. Unlike the previous two-period approach using Ss and S1 values, the new method provides spectral accelerations at 22 periods ranging from 0 to 10 seconds. This allows engineers to capture site-specific ground motion characteristics more accurately, particularly for sites with deep soil profiles or unique geological conditions.
+            </p>
+            <div class="code-reference">
+                <p>
+                    <code>Section 11.4.4</code> — Multi-period design response spectrum shall be developed using spectral response acceleration parameters at periods of 0.0, 0.01, 0.02, 0.03, 0.05, 0.075, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 7.5, and 10.0 seconds.
+                </p>
+            </div>
+            <p class="content-text">
+                Additionally, site class definitions have been updated. <strong>Site Class D</strong> now serves as the default when soil properties are unknown, replacing the previous default of Site Class D only for certain conditions. This conservative approach ensures adequate design considerations for structures where detailed geotechnical data is unavailable.
+            </p>
+
+            <h3 style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; color: var(--concrete-dark); text-transform: uppercase; margin: 2rem 0 1rem;">Updated Site Class Definitions</h3>
+            <table class="site-class-table">
+                <thead>
+                    <tr>
+                        <th>Site Class</th>
+                        <th>Soil Profile Name</th>
+                        <th>Average Shear Wave Velocity, V̄s (m/s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="class-name">A</td>
+                        <td>Hard Rock</td>
+                        <td>V̄s > 1,500</td>
+                    </tr>
+                    <tr>
+                        <td class="class-name">B</td>
+                        <td>Medium Hard Rock</td>
+                        <td>750 < V̄s ≤ 1,500</td>
+                    </tr>
+                    <tr>
+                        <td class="class-name">BC</td>
+                        <td>Soft Rock (New)</td>
+                        <td>440 < V̄s ≤ 750</td>
+                    </tr>
+                    <tr>
+                        <td class="class-name">C</td>
+                        <td>Very Dense Soil</td>
+                        <td>270 < V̄s ≤ 440</td>
+                    </tr>
+                    <tr>
+                        <td class="class-name">CD</td>
+                        <td>Dense Soil (New)</td>
+                        <td>220 < V̄s ≤ 270</td>
+                    </tr>
+                    <tr>
+                        <td class="class-name">D</td>
+                        <td>Medium Dense Soil (Default)</td>
+                        <td>150 < V̄s ≤ 220</td>
+                    </tr>
+                    <tr>
+                        <td class="class-name">DE</td>
+                        <td>Soft Soil (New)</td>
+                        <td>100 < V̄s ≤ 150</td>
+                    </tr>
+                    <tr>
+                        <td class="class-name">E</td>
+                        <td>Very Soft Soil</td>
+                        <td>V̄s ≤ 100</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="key-point">
+                <div class="key-point-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+                        <path d="M12 9v4M12 17h.01"/>
+                        <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                </div>
+                <p class="key-point-text"><strong>Key Change:</strong> ASCE 7-22 introduces three new intermediate site classes (BC, CD, DE) to provide better granularity in characterizing site conditions. This results in more accurate spectral values for sites that previously fell between traditional classifications.</p>
+            </div>
+        </section>
+
+        <!-- Design Example -->
+        <section class="content-section fade-in">
+            <div class="section-label">
+                <span class="section-number">04</span>
+                <span class="section-line"></span>
+            </div>
+            <h2 class="section-title">Design Example: Base Shear Calculation</h2>
+            <p class="content-text">
+                The following example demonstrates the impact of ASCE 7-22 changes on seismic base shear calculation for a typical 5-story office building located in Los Angeles, California. This comparison highlights how the multi-period response spectrum approach may affect design forces.
+            </p>
+            <div class="example-box">
+                <div class="example-header">
+                    <span class="example-tag">Example</span>
+                    <span class="example-title">5-Story Steel Moment Frame — Los Angeles, CA</span>
+                </div>
+                <div class="example-content">
+                    <p><strong>Building Parameters:</strong></p>
+                    <p>• Building Height: 20 m (65.6 ft) | Stories: 5 | Seismic Weight (W): 15,000 kN</p>
+                    <p>• System: Steel Special Moment Frame (R = 8, Cd = 5.5, Ω₀ = 3)</p>
+                    <p>• Fundamental Period: T = 0.85 sec (calculated per Section 12.8.2)</p>
+                    <p>• Site Class: D | Risk Category: II (Ie = 1.0)</p>
+                    
+                    <div class="example-calc">
+                        <div class="label">ASCE 7-16 APPROACH (Two-Period)</div>
+                        <div class="formula">Ss = 2.35g, S1 = 0.85g → SDS = 1.57g, SD1 = 0.85g</div>
+                        <div class="formula">Cs = SD1 / (T × R/Ie) = 0.85 / (0.85 × 8/1.0) = 0.125</div>
+                        <div class="result">V = Cs × W = 0.125 × 15,000 = 1,875 kN</div>
+                    </div>
+                    
+                    <div class="example-calc">
+                        <div class="label">ASCE 7-22 APPROACH (Multi-Period)</div>
+                        <div class="formula">Sa(T=0.85s) from MPRS = 1.02g (site-specific value)</div>
+                        <div class="formula">Cs = Sa / (R/Ie) = 1.02 / (8/1.0) = 0.128</div>
+                        <div class="result">V = Cs × W = 0.128 × 15,000 = 1,920 kN (+2.4%)</div>
+                    </div>
+                    
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--concrete-light);"><em>Note: Results vary significantly by location and site conditions. Some regions may see increases while others may see decreases in design forces.</em></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section class="content-section fade-in">
+            <div class="section-label">
+                <span class="section-number">05</span>
+                <span class="section-line"></span>
+            </div>
+            <h2 class="section-title">ASCE 7-16 vs ASCE 7-22 Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>ASCE 7-16</th>
+                        <th>ASCE 7-22</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="param">Seismic Hazard Definition</td>
+                        <td class="old">Two-period (Ss, S1)</td>
+                        <td class="new">Multi-period (22 periods)</td>
+                    </tr>
+                    <tr>
+                        <td class="param">Site Classifications</td>
+                        <td class="old">5 classes (A, B, C, D, E)</td>
+                        <td class="new">8 classes (A, B, BC, C, CD, D, DE, E)</td>
+                    </tr>
+                    <tr>
+                        <td class="param">Default Site Class</td>
+                        <td class="old">Site Class D (conditional)</td>
+                        <td class="new">Site Class D (always)</td>
+                    </tr>
+                    <tr>
+                        <td class="param">Diaphragm Design</td>
+                        <td class="old">Traditional approach only</td>
+                        <td class="new">Alternative method (12.10.3)</td>
+                    </tr>
+                    <tr>
+                        <td class="param">Wind Speed Maps</td>
+                        <td class="old">2010 hurricane data</td>
+                        <td class="new">Updated 2020 hurricane data</td>
+                    </tr>
+                    <tr>
+                        <td class="param">Tsunami Loads</td>
+                        <td class="old">Chapter 6 provisions</td>
+                        <td class="new">Enhanced Ch. 6 with new maps</td>
+                    </tr>
+                    <tr>
+                        <td class="param">Ground Motion Data</td>
+                        <td class="old">2014 USGS NSHM</td>
+                        <td class="new">2018 USGS NSHM (conterminous US)</td>
+                    </tr>
+                    <tr>
+                        <td class="param">Nonstructural Components</td>
+                        <td class="old">Section 13.3 provisions</td>
+                        <td class="new">Revised with new Fp equations</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Visual Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <span class="chart-title">Typical Design Force Changes by Region</span>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="legend-dot old"></span>ASCE 7-16</span>
+                        <span class="legend-item"><span class="legend-dot new"></span>ASCE 7-22</span>
+                    </div>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-row">
+                        <span class="bar-label">Los Angeles, CA</span>
+                        <div class="bar-group">
+                            <div class="bar old" style="width: 85%;">Cs = 0.125</div>
+                            <div class="bar new" style="width: 88%;">Cs = 0.128 (+2%)</div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Seattle, WA</span>
+                        <div class="bar-group">
+                            <div class="bar old" style="width: 70%;">Cs = 0.098</div>
+                            <div class="bar new" style="width: 78%;">Cs = 0.112 (+14%)</div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Memphis, TN</span>
+                        <div class="bar-group">
+                            <div class="bar old" style="width: 60%;">Cs = 0.082</div>
+                            <div class="bar new" style="width: 55%;">Cs = 0.075 (-9%)</div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Charleston, SC</span>
+                        <div class="bar-group">
+                            <div class="bar old" style="width: 55%;">Cs = 0.076</div>
+                            <div class="bar new" style="width: 62%;">Cs = 0.088 (+16%)</div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Salt Lake City, UT</span>
+                        <div class="bar-group">
+                            <div class="bar old" style="width: 75%;">Cs = 0.105</div>
+                            <div class="bar new" style="width: 72%;">Cs = 0.101 (-4%)</div>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.7rem; color: var(--concrete-light); margin-top: 1rem; font-style: italic;">* Based on typical 5-story steel moment frame, Site Class D, Risk Category II. Actual values vary by specific location and building parameters.</p>
+            </div>
+        </section>
+
+        <!-- Practical Implications -->
+        <section class="content-section fade-in">
+            <div class="section-label">
+                <span class="section-number">06</span>
+                <span class="section-line"></span>
+            </div>
+            <h2 class="section-title">Practical Implications</h2>
+            <p class="content-text">
+                For practicing engineers, these updates require adjustments in workflow and software tools. Most commercial structural analysis software now supports MPRS input, but engineers should verify their tools are updated to handle the new spectral format. The USGS Seismic Design Web Services have been updated to provide multi-period spectral values directly.
+            </p>
+            <p class="content-text">
+                Projects in <strong>high seismic regions</strong> may see changes in base shear calculations, particularly for structures with longer fundamental periods. In some cases, the multi-period approach may result in lower design forces compared to the conservative two-period method, while in others—especially sites with amplification at specific periods—forces may increase.
+            </p>
+            <div class="key-point">
+                <div class="key-point-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+                        <path d="M12 9v4M12 17h.01"/>
+                        <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                </div>
+                <p class="key-point-text"><strong>Software Update Required:</strong> Engineers should ensure analysis software is updated to version supporting ASCE 7-22. Major packages like ETABS, SAP2000, RISA-3D, and RAM have released updates. The USGS Seismic Design Tool (https://earthquake.usgs.gov/ws/designmaps/) now provides MPRS data.</p>
+            </div>
+        </section>
+
+        <!-- Wind Load Changes -->
+        <section class="content-section fade-in">
+            <div class="section-label">
+                <span class="section-number">07</span>
+                <span class="section-line"></span>
+            </div>
+            <h2 class="section-title">Wind Load Updates</h2>
+            <p class="content-text">
+                ASCE 7-22 incorporates updated wind speed maps based on improved hurricane modeling and additional meteorological data. The revisions are particularly significant for coastal regions along the Gulf of Mexico and Atlantic seaboard, where some areas see wind speed increases of 5-15%.
+            </p>
+            <div class="code-reference">
+                <p>
+                    <code>Section 26.5</code> — Basic wind speeds shall be determined from Figures 26.5-1 through 26.5-4 based on Risk Category. Wind speeds represent 3-second gust speeds at 10 m above ground in Exposure C.
+                </p>
+            </div>
+            <p class="content-text">
+                Key changes include: refined tornado wind speed provisions for Risk Category III and IV buildings in tornado-prone regions, updated wind-borne debris region definitions, and revised exposure category transition zone requirements. The new tornado provisions in <strong>Section 32</strong> provide explicit design criteria for tornado shelters and critical facilities.
+            </p>
+        </section>
+
+        <!-- Alternative Diaphragm Design -->
+        <section class="content-section fade-in">
+            <div class="section-label">
+                <span class="section-number">08</span>
+                <span class="section-line"></span>
+            </div>
+            <h2 class="section-title">Alternative Diaphragm Design Method</h2>
+            <p class="content-text">
+                Section 12.10.3 introduces an alternative diaphragm design method that more accurately captures diaphragm force distribution, particularly for buildings with vertical irregularities or those where higher mode effects are significant. This method is <strong>mandatory</strong> for precast concrete diaphragms in SDC C through F and optional for other systems.
+            </p>
+            <div class="example-box">
+                <div class="example-header">
+                    <span class="example-tag">Formula</span>
+                    <span class="example-title">Alternative Diaphragm Design Force (Section 12.10.3)</span>
+                </div>
+                <div class="example-content">
+                    <div class="example-calc">
+                        <div class="label">DIAPHRAGM DESIGN FORCE</div>
+                        <div class="formula">Fpx = Cpx × Σ(wi) / Rs</div>
+                        <div class="formula" style="margin-top: 0.75rem;">Where:</div>
+                        <div class="formula">Cpx = Cp0 + (CpN - Cp0)(hx / hn)^k × Cs1 / Cs</div>
+                        <div class="formula">Cp0 = 0.4 × SDS × Ie (at base)</div>
+                        <div class="formula">CpN = 0.9 × Γm1 × Ω0 × SDS × Ie (at roof)</div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.85rem;"><strong>Rs</strong> = Diaphragm design force reduction factor (Table 12.10-1)<br>
+                    <strong>Γm1</strong> = First mode contribution factor (Table 12.10-3)<br>
+                    <strong>k</strong> = Distribution exponent based on building period</p>
+                </div>
+            </div>
+            <p class="content-text">
+                The alternative method typically results in higher diaphragm forces at upper levels and lower forces at mid-height compared to the traditional approach. This better reflects actual dynamic behavior observed in instrumented buildings during earthquakes.
+            </p>
+        </section>
+
+        <!-- References Section -->
+        <section class="references-section fade-in">
+            <h3 class="references-title">References</h3>
+            <ol class="reference-list">
+                <li class="reference-item">
+                    <span class="ref-number">[1]</span>
+                    <span class="ref-text"><strong>ASCE/SEI 7-22</strong>, <em>Minimum Design Loads and Associated Criteria for Buildings and Other Structures</em>, American Society of Civil Engineers, Reston, Virginia, 2022.</span>
+                </li>
+                <li class="reference-item">
+                    <span class="ref-number">[2]</span>
+                    <span class="ref-text"><strong>ASCE/SEI 7-16</strong>, <em>Minimum Design Loads and Associated Criteria for Buildings and Other Structures</em>, American Society of Civil Engineers, Reston, Virginia, 2016.</span>
+                </li>
+                <li class="reference-item">
+                    <span class="ref-number">[3]</span>
+                    <span class="ref-text">Petersen, M.D., et al., <strong>"The 2018 Update of the US National Seismic Hazard Model"</strong>, <em>Earthquake Spectra</em>, Vol. 36, No. S1, pp. 333-368, 2020.</span>
+                </li>
+                <li class="reference-item">
+                    <span class="ref-number">[4]</span>
+                    <span class="ref-text">Luco, N., et al., <strong>"Updates to Building-Code Maps for the 2020 NEHRP Provisions"</strong>, <em>Earthquake Spectra</em>, Vol. 38, No. 2, pp. 1455-1479, 2022.</span>
+                </li>
+                <li class="reference-item">
+                    <span class="ref-number">[5]</span>
+                    <span class="ref-text">Ghosh, S.K., <strong>"Significant Changes from ASCE 7-16 to ASCE 7-22"</strong>, <em>Structure Magazine</em>, February 2023.</span>
+                </li>
+                <li class="reference-item">
+                    <span class="ref-number">[6]</span>
+                    <span class="ref-text">USGS, <strong>"Seismic Design Web Services"</strong>, U.S. Geological Survey, Available at: <em>https://earthquake.usgs.gov/ws/designmaps/</em>, Accessed December 2024.</span>
+                </li>
+                <li class="reference-item">
+                    <span class="ref-number">[7]</span>
+                    <span class="ref-text">Koliou, M., et al., <strong>"Alternative Seismic Design Force for Diaphragms"</strong>, <em>ASCE Journal of Structural Engineering</em>, Vol. 148, No. 4, 2022.</span>
+                </li>
+                <li class="reference-item">
+                    <span class="ref-number">[8]</span>
+                    <span class="ref-text">FEMA P-2082, <strong>"NEHRP Recommended Seismic Provisions for New Buildings and Other Structures"</strong>, Volume I: Part 1 Provisions, Part 2 Commentary, FEMA, Washington D.C., 2020.</span>
+                </li>
+            </ol>
+        </section>
+
+        <!-- Author Box -->
+        <div class="author-box fade-in">
+            <div class="author-avatar">SE</div>
+            <div class="author-info">
+                <h4>Structural Engineering Team</h4>
+                <p>Technical publications team providing insights on code updates, design methodologies, and industry best practices for structural engineers.</p>
+            </div>
+        </div>
+
+    </article>
+
+    <!-- Other Publications Section -->
+    <section class="other-publications-section">
+        <div class="section-header">
+            <span class="section-number">MORE READING</span>
+            <h2 class="section-title">Other <span class="accent">Publications</span></h2>
+        </div>
+        <div class="publications-carousel-wrapper">
+            <button class="carousel-arrow carousel-prev" onclick="movePublicationsCarousel(-1)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="publications-carousel">
+                <div class="publications-track">
+                    <a href="#" class="publication-card">
+                        <div class="publication-header">
+                            <div class="publication-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            </div>
+                            <span class="publication-tag">Technical Brief</span>
+                        </div>
+                        <div class="publication-info">
+                            <span class="publication-date">November 2024</span>
+                            <h3>ACI 318-19 Changes for PT Design</h3>
+                            <p>Key updates affecting post-tensioned concrete design and detailing requirements.</p>
+                            <span class="publication-link">Read Article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="#" class="publication-card">
+                        <div class="publication-header">
+                            <div class="publication-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22V8M5 12l7-7 7 7"/><path d="M20 22H4"/></svg>
+                            </div>
+                            <span class="publication-tag">Code Update</span>
+                        </div>
+                        <div class="publication-info">
+                            <span class="publication-date">October 2024</span>
+                            <h3>IBC 2024 Structural Provisions</h3>
+                            <p>Overview of significant structural changes in the 2024 International Building Code.</p>
+                            <span class="publication-link">Read Article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="#" class="publication-card">
+                        <div class="publication-header">
+                            <div class="publication-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                            </div>
+                            <span class="publication-tag">Design Guide</span>
+                        </div>
+                        <div class="publication-info">
+                            <span class="publication-date">September 2024</span>
+                            <h3>SSI Analysis Best Practices</h3>
+                            <p>Practical guidance for soil-structure interaction modeling in seismic design.</p>
+                            <span class="publication-link">Read Article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="#" class="publication-card">
+                        <div class="publication-header">
+                            <div class="publication-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                            </div>
+                            <span class="publication-tag">Case Study</span>
+                        </div>
+                        <div class="publication-info">
+                            <span class="publication-date">August 2024</span>
+                            <h3>Performance-Based Design Case Study</h3>
+                            <p>Nonlinear analysis approach for a 40-story tower in high seismic zone.</p>
+                            <span class="publication-link">Read Article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="#" class="publication-card">
+                        <div class="publication-header">
+                            <div class="publication-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            </div>
+                            <span class="publication-tag">Technical Brief</span>
+                        </div>
+                        <div class="publication-info">
+                            <span class="publication-date">July 2024</span>
+                            <h3>AISC 360-22 Connection Design</h3>
+                            <p>Updated provisions for steel connection design and prequalified joints.</p>
+                            <span class="publication-link">Read Article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="#" class="publication-card">
+                        <div class="publication-header">
+                            <div class="publication-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M2 20h20"/><path d="M5 20V8l7-5 7 5v12"/><path d="M9 20v-6h6v6"/></svg>
+                            </div>
+                            <span class="publication-tag">Research</span>
+                        </div>
+                        <div class="publication-info">
+                            <span class="publication-date">June 2024</span>
+                            <h3>Mass Timber Lateral Systems</h3>
+                            <p>Emerging research on CLT shear walls and hybrid timber-steel structures.</p>
+                            <span class="publication-link">Read Article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <button class="carousel-arrow carousel-next" onclick="movePublicationsCarousel(1)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <div class="cta-text">
+                <h2>Need Help with Code Compliance?</h2>
+                <p>Our team stays current with the latest standards to ensure your projects meet all requirements.</p>
+            </div>
+            <a href="#" class="cta-button">
+                Contact Us
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/></svg>
+                </div>
+                <div class="footer-logo-text">Delta Engineering</div>
+            </div>
+            <div class="footer-links">
+                <a href="../../projects.html">Projects</a><a href="../../services.html">Services</a><a href="../../tools.html">Tools</a><a href="../index.html">Publications</a><a href="../../about.html">About</a><a href="../../contact.html">Contact</a>
+            </div>
+            <div class="footer-copyright">© 2024 DELTA ENGINEERING. ALL RIGHTS RESERVED.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.querySelector('nav').style.setProperty('--scroll-progress', scrollPercent + '%');
+        });
+
+        // Publications Carousel
+        let publicationsPosition = 0;
+        const publicationsVisible = window.innerWidth <= 768 ? 1 : (window.innerWidth <= 1024 ? 2 : 3);
+        
+        function movePublicationsCarousel(direction) {
+            const track = document.querySelector('.publications-track');
+            const cards = document.querySelectorAll('.publication-card');
+            if (!track || cards.length === 0) return;
+            
+            const cardWidth = cards[0].offsetWidth + 24; // card width + gap
+            const visible = window.innerWidth <= 768 ? 1 : (window.innerWidth <= 1024 ? 2 : 3);
+            const maxPosition = cards.length - visible;
+            
+            publicationsPosition += direction;
+            
+            // Clamp position
+            if (publicationsPosition < 0) publicationsPosition = 0;
+            if (publicationsPosition > maxPosition) publicationsPosition = maxPosition;
+            
+            // Move track
+            track.style.transform = `translateX(-${publicationsPosition * cardWidth}px)`;
+            
+            // Update arrow states
+            updatePublicationsArrows();
+        }
+        
+        function updatePublicationsArrows() {
+            const prevBtn = document.querySelector('.other-publications-section .carousel-prev');
+            const nextBtn = document.querySelector('.other-publications-section .carousel-next');
+            const cards = document.querySelectorAll('.publication-card');
+            const visible = window.innerWidth <= 768 ? 1 : (window.innerWidth <= 1024 ? 2 : 3);
+            const maxPosition = cards.length - visible;
+            
+            if (prevBtn) prevBtn.disabled = publicationsPosition <= 0;
+            if (nextBtn) nextBtn.disabled = publicationsPosition >= maxPosition;
+        }
+        
+        // Initialize carousel arrows on load
+        document.addEventListener('DOMContentLoaded', updatePublicationsArrows);
+        window.addEventListener('resize', () => {
+            publicationsPosition = 0;
+            const track = document.querySelector('.publications-track');
+            if (track) track.style.transform = 'translateX(0)';
+            updatePublicationsArrows();
+        });
+
+        // Scroll animations
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
