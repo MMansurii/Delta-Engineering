@@ -160,12 +160,7 @@
         .hero-image-frame:hover {
             transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.02);
         }
-        .hero-image-frame::before {
-            content: 'EXTERIOR VIEW'; position: absolute; top: -25px; left: 10px;
-            font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem;
-            color: var(--blueprint-line); letter-spacing: 0.1em;
-        }
-        .hero-image { width: 100%; height: 450px; object-fit: cover; display: block; }
+        .hero-image { width: 100%; height: 450px; object-fit: cover; display: block; image-rendering: auto; }
         .dimension-line {
             position: absolute; display: flex; align-items: center;
             font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; color: var(--blueprint-line);
@@ -522,18 +517,14 @@
         body.fullscreen-mode { overflow: hidden !important; }
         body.fullscreen-mode nav { display: none !important; }
         body.fullscreen-mode .hero { display: none !important; }
+        body.fullscreen-mode .scope-section { display: none !important; }
         body.fullscreen-mode .gallery-section { display: none !important; }
         body.fullscreen-mode .loads-section { display: none !important; }
-        body.fullscreen-mode .quantities-section { display: none !important; }
-        body.fullscreen-mode .analysis-section { display: none !important; }
         body.fullscreen-mode .approach-section { display: none !important; }
-        body.fullscreen-mode .coord-section { display: none !important; }
-        body.fullscreen-mode .materials-section { display: none !important; }
         body.fullscreen-mode .other-projects-section { display: none !important; }
         body.fullscreen-mode .cta-section { display: none !important; }
         body.fullscreen-mode footer { display: none !important; }
         body.fullscreen-mode .blueprint-pattern { display: none !important; }
-        body.fullscreen-mode .scope-section { display: none !important; }
         
         body.fullscreen-mode .viewer-section {
             position: fixed !important;
@@ -769,7 +760,7 @@
         .del-text { font-size: 0.875rem; color: var(--text-primary); }
 
         /* CTA */
-        .cta-section { background: var(--steel-blue); max-width: 100%; padding: 2.5rem 4rem; position: relative; }
+        .cta-section { background: var(--steel-blue); max-width: 100%; padding: 0.625rem 4rem; position: relative; }
         .cta-section::before {
             content: ''; position: absolute; top: 0; right: 0; width: 400px; height: 100%;
             background: linear-gradient(135deg, transparent 0%, rgba(217, 119, 6, 0.2) 100%);
@@ -798,7 +789,7 @@
         .cta-button:hover svg { transform: translateX(5px); }
 
         /* Footer */
-        footer { background: var(--concrete-dark); padding: 3rem 4rem; position: relative; z-index: 1; }
+        footer { background: var(--concrete-dark); padding: 1rem 4rem; position: relative; z-index: 1; }
         .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .footer-logo { display: flex; align-items: center; gap: 0.75rem; }
         .footer-logo-icon { width: 36px; height: 36px; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; }
@@ -1044,15 +1035,16 @@
             .hero-subtitle { font-size: 0.9375rem; }
             .hero-image { height: 280px; }
             .project-code { font-size: 0.625rem; padding: 0.4rem 0.75rem; }
-            section, .gallery-section, .loads-section, .cta-section, .viewer-section, .coord-section, .other-projects-section, .approach-section, .materials-section { padding: 3rem 1.5rem; }
+            .corner-mark.top-left { left: 15px; }
+            .corner-mark.top-right { right: 15px; }
+            .corner-mark.bottom-left { left: 15px; }
+            .corner-mark.bottom-right { right: 15px; }
+            section, .gallery-section, .loads-section, .cta-section, .viewer-section, .other-projects-section, .approach-section { padding: 3rem 1.5rem; }
             .section-header { margin-bottom: 2rem; }
             .section-title { font-size: 1.5rem; }
             .section-number { font-size: 0.625rem; }
-            .quantities-grid { grid-template-columns: 1fr; }
-            .coord-grid-inner { grid-template-columns: 1fr; }
             .project-card { flex: 0 0 100%; }
             .gallery-item { flex: 0 0 100%; }
-            .materials-grid-three { grid-template-columns: 1fr; }
             .carousel-arrow { width: 36px; height: 36px; }
             .carousel-arrow svg { width: 18px; height: 18px; }
             .gallery-carousel-wrapper, .projects-carousel-wrapper { gap: 0.5rem; }
@@ -1076,7 +1068,12 @@
             .hero { padding: 4.5rem 1rem 2rem; }
             .hero h1 { font-size: 1.75rem; }
             .hero-image { height: 220px; }
-            section, .gallery-section, .loads-section, .cta-section, .viewer-section, .coord-section, .other-projects-section, .approach-section, .materials-section { padding: 2.5rem 1rem; }
+            .corner-mark { width: 40px; height: 40px; }
+            .corner-mark.top-left { left: 10px; top: 70px; }
+            .corner-mark.top-right { right: 10px; top: 70px; }
+            .corner-mark.bottom-left { left: 10px; bottom: 20px; }
+            .corner-mark.bottom-right { right: 10px; bottom: 20px; }
+            section, .gallery-section, .loads-section, .cta-section, .viewer-section, .other-projects-section, .approach-section { padding: 2.5rem 1rem; }
             .section-title { font-size: 1.25rem; }
             .viewer-wrapper { height: 250px; }
             .carousel-arrow { width: 32px; height: 32px; }
@@ -1084,17 +1081,13 @@
             .spec-row { padding: 0.75rem 1rem; font-size: 0.75rem; }
             .spec-label { font-size: 0.6875rem; }
             .spec-value { font-size: 0.75rem; }
-            .materials-grid-three .material-row { padding: 0.5rem 1rem; }
-            .materials-grid-three .mat-label, .materials-grid-three .mat-value { font-size: 0.625rem; }
             .project-info h3 { font-size: 1rem; }
             .project-info p { font-size: 0.6875rem; }
             .gallery-caption { font-size: 0.6875rem; }
             .approach-number { font-size: 1.25rem; width: 40px; height: 40px; }
             .approach-card h3 { font-size: 1rem; }
             .approach-card p { font-size: 0.8125rem; }
-            .coord-item { font-size: 0.6875rem; }
-            .coord-item span:last-child { font-size: 0.625rem; }
-            footer { padding: 2rem 1rem; }
+            footer { padding: 0.7rem 1rem; }
         }
     </style>
 </head>
@@ -1114,6 +1107,8 @@
             <li><a href="#">Home</a></li>
             <li><a href="#">Projects</a></li>
             <li><a href="#">Services</a></li>
+            <li><a href="#">Tools</a></li>
+            <li><a href="#">Publications</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
@@ -1133,8 +1128,7 @@
             </div>
             <div class="hero-image-wrapper">
                 <div class="hero-image-frame">
-                    <img src="./assets/ELECTRICAL_ROOM_WTP_2.jpg" alt="Electrical Building Exterior View" class="hero-image">
-                    <div class="dimension-line horizontal"><span>COMPLETED STRUCTURE</span></div>
+                    <img src="./assets/ELECTRICAL_ROOM_WTP_2.jpg" alt="" class="hero-image">
                 </div>
             </div>
         </div>
@@ -1298,11 +1292,11 @@
                 <div class="load-card reveal">
                     <div class="load-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/><path d="M8 16h.01"/><path d="M8 20h.01"/><path d="M12 18h.01"/><path d="M12 22h.01"/>
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                         </svg>
                     </div>
-                    <h4>Snow Load (S)</h4>
-                    <p>Ground snow load Sg=100 kg/m² per regional data. Flat roof factor Cs=0.8. Exposure factor Ce=1.0 (partially exposed). Thermal factor Ct=1.0. Design roof snow Pf=80 kg/m². Drift loads at parapet: Pd=160 kg/m² over 2.0m width.</p>
+                    <h4>Equipment Loads</h4>
+                    <p>Main Transformers 2×1600 kVA (2×4,250 kg). MV Switchgear Panel 3,800 kg. LV Distribution Boards 6×450 kg. Rooftop AHU Units 2×1,200 kg. Cable trench depth 800mm. Total electrical load 2,400 kW. Cooling load 185 kW.</p>
                 </div>
                 <div class="load-card reveal">
                     <div class="load-icon">
@@ -1348,145 +1342,27 @@
                 <div class="approach-card">
                     <div class="approach-number">02</div>
                     <h3>Soil-Structure Interaction</h3>
-                    <p>Foundation model with Winkler springs for soil-structure interaction. Subgrade modulus Ks=3.5 kg/cm³ from plate load tests, adjusted for footing size using Terzaghi's equation: Ks(BxB) = Ks(0.3)×[(B+0.3)/2B]². Spring stiffness validated against settlement calculations.</p>
+                    <p>Foundation model with Winkler springs. Subgrade modulus Ks=3.5 kg/cm³ from plate load tests, adjusted for footing size using Terzaghi's equation. Allowable bearing 2.5 kg/cm². Soil classification: SC (Clayey Sand). GWT at -6.5m seasonal.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-number">03</div>
                     <h3>Modal Response Spectrum</h3>
-                    <p>Dynamic analysis using CQC modal combination with 5% damping. First 15 modes captured >95% mass participation. Fundamental periods: T1=0.42s (X-dir), T2=0.38s (Y-dir), T3=0.28s (torsion). Base shear scaled to minimum static value per code.</p>
+                    <p>Dynamic analysis using CQC modal combination with 5% damping. First 15 modes captured >95% mass participation. Fundamental periods: T1=0.42s (X-dir), T2=0.38s (Y-dir), T3=0.28s (torsion). Base shear Vx=Vy=294 kN.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-number">04</div>
-                    <h3>Equipment Load Mapping</h3>
-                    <p>Transformer footprints from vendor drawings converted to equivalent pressures or point loads. Dynamic amplification factor 1.2 applied for rotating equipment (pumps, fans). Cable tray routing verified against reflected ceiling plans for coordination.</p>
+                    <h3>Foundation Optimization</h3>
+                    <p>Hybrid foundation: 600mm mat under transformers (settlement sensitive), 1200×1200×400 isolated footings at perimeter. Total concrete volume reduced 18% from initial uniform mat scheme. Mat foundation 315 m³, isolated footings 45 m³.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-number">05</div>
-                    <h3>Foundation Optimization</h3>
-                    <p>Iterative design comparing mat vs. isolated options. Final hybrid: 600mm mat under transformers (settlement sensitive), 1200×1200×400 isolated footings at perimeter (cost efficient). Total concrete volume reduced 18% from initial uniform mat scheme.</p>
+                    <h3>Ductile Detailing</h3>
+                    <p>IMRF detailing per ACI 318-19 Ch.18: beam longitudinal bars continuous through joints, column ties T10@100 in plastic hinge zones (2h from face), 135° hooks on all ties, beam-column joint confinement verified. Development lengths increased 25%.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-number">06</div>
-                    <h3>Ductile Detailing</h3>
-                    <p>IMRF detailing per ACI 318-19 Ch.18: beam longitudinal bars continuous through joints, column ties T10@100 in plastic hinge zones (2h from face), 135° hooks on all ties, beam-column joint confinement verified. Development lengths increased 25% in joints.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Interdisciplinary Coordination (moved here after Engineering Methodology) -->
-        <section class="coord-section reveal">
-            <div class="section-header">
-                <span class="section-number">SECTION 06</span>
-                <h2 class="section-title">Interdisciplinary <span class="accent">Coordination</span></h2>
-            </div>
-            <div class="coord-grid-inner">
-                <div class="coord-block">
-                    <div class="coord-icon electrical">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                    </div>
-                    <div class="coord-content">
-                        <h5>Electrical</h5>
-                        <div class="coord-item"><span>Main Transformers (2×1600 kVA)</span><span>2 × 4,250 kg</span></div>
-                        <div class="coord-item"><span>MV Switchgear Panel</span><span>3,800 kg</span></div>
-                        <div class="coord-item"><span>LV Distribution Boards</span><span>6 × 450 kg</span></div>
-                        <div class="coord-item"><span>Cable Trench Depth</span><span>800 mm</span></div>
-                        <div class="coord-item"><span>Total Electrical Load</span><span>2,400 kW</span></div>
-                    </div>
-                </div>
-                <div class="coord-block">
-                    <div class="coord-icon mechanical">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-                    </div>
-                    <div class="coord-content">
-                        <h5>Mechanical / HVAC</h5>
-                        <div class="coord-item"><span>Rooftop AHU Units</span><span>2 × 1,200 kg</span></div>
-                        <div class="coord-item"><span>HVAC Duct Openings</span><span>4 × (600×400)</span></div>
-                        <div class="coord-item"><span>Cooling Load</span><span>185 kW</span></div>
-                        <div class="coord-item"><span>Equipment Room Ventilation</span><span>12 ACH</span></div>
-                        <div class="coord-item"><span>Roof Penetrations</span><span>8 nos.</span></div>
-                    </div>
-                </div>
-                <div class="coord-block">
-                    <div class="coord-icon architectural">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-3"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/></svg>
-                    </div>
-                    <div class="coord-content">
-                        <h5>Architectural</h5>
-                        <div class="coord-item"><span>Floor to Floor Height</span><span>4.20 m (typ.)</span></div>
-                        <div class="coord-item"><span>Finished Floor Thickness</span><span>100 mm</span></div>
-                        <div class="coord-item"><span>Facade System</span><span>Brick + Curtain Wall</span></div>
-                        <div class="coord-item"><span>Partition Load Allowance</span><span>100 kg/m²</span></div>
-                        <div class="coord-item"><span>Fire Rating Required</span><span>2 hours</span></div>
-                    </div>
-                </div>
-                <div class="coord-block">
-                    <div class="coord-icon geotech">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    </div>
-                    <div class="coord-content">
-                        <h5>Geotechnical</h5>
-                        <div class="coord-item"><span>Allowable Bearing</span><span>2.5 kg/cm²</span></div>
-                        <div class="coord-item"><span>Subgrade Modulus (Ks)</span><span>3.5 kg/cm³</span></div>
-                        <div class="coord-item"><span>Ground Water Table</span><span>-6.5 m (seasonal)</span></div>
-                        <div class="coord-item"><span>Soil Classification</span><span>SC (Clayey Sand)</span></div>
-                        <div class="coord-item"><span>Recommended Foundation</span><span>Mat / Isolated</span></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="materials-section reveal">
-            <div class="section-header">
-                <span class="section-number">SECTION 07</span>
-                <h2 class="section-title">Materials & <span class="accent">Deliverables</span></h2>
-            </div>
-            <div class="materials-grid-three">
-                <div class="material-block">
-                    <h4>Quantities & Analysis</h4>
-                    <div class="material-table">
-                        <div class="material-row"><span class="mat-label">Fundamental Period (X)</span><span class="mat-value">T₁ = 0.42 sec</span></div>
-                        <div class="material-row"><span class="mat-label">Fundamental Period (Y)</span><span class="mat-value">T₂ = 0.38 sec</span></div>
-                        <div class="material-row"><span class="mat-label">Base Shear (X-dir)</span><span class="mat-value">Vx = 294 kN</span></div>
-                        <div class="material-row"><span class="mat-label">Base Shear (Y-dir)</span><span class="mat-value">Vy = 294 kN</span></div>
-                        <div class="material-row"><span class="mat-label">Mat Foundation (600mm)</span><span class="mat-value">315 m³</span></div>
-                        <div class="material-row"><span class="mat-label">Isolated Footings</span><span class="mat-value">45 m³</span></div>
-                        <div class="material-row"><span class="mat-label">Columns (all levels)</span><span class="mat-value">85 m³</span></div>
-                        <div class="material-row"><span class="mat-label">Beams (all levels)</span><span class="mat-value">120 m³</span></div>
-                        <div class="material-row"><span class="mat-label">Slabs (t=200mm)</span><span class="mat-value">168 m³</span></div>
-                        <div class="material-row"><span class="mat-label">Walls & Stairs</span><span class="mat-value">52 m³</span></div>
-                    </div>
-                </div>
-                <div class="material-block">
-                    <h4>Material Specifications</h4>
-                    <div class="material-table">
-                        <div class="material-row"><span class="mat-label">Concrete - Foundation</span><span class="mat-value">C30/37, f'c=30 MPa</span></div>
-                        <div class="material-row"><span class="mat-label">Concrete - Superstructure</span><span class="mat-value">C25/30, f'c=25 MPa</span></div>
-                        <div class="material-row"><span class="mat-label">Concrete - Blinding</span><span class="mat-value">C12/15, t=100mm</span></div>
-                        <div class="material-row"><span class="mat-label">Rebar - Longitudinal</span><span class="mat-value">Grade 60, fy=420 MPa</span></div>
-                        <div class="material-row"><span class="mat-label">Rebar - Transverse</span><span class="mat-value">Grade 40, fy=280 MPa</span></div>
-                        <div class="material-row"><span class="mat-label">Lap Splice Length</span><span class="mat-value">50db / 40db</span></div>
-                        <div class="material-row"><span class="mat-label">Cover - Foundation</span><span class="mat-value">75mm / 50mm</span></div>
-                        <div class="material-row"><span class="mat-label">Cover - Columns</span><span class="mat-value">40mm all faces</span></div>
-                        <div class="material-row"><span class="mat-label">Cover - Beams</span><span class="mat-value">35mm to stirrups</span></div>
-                        <div class="material-row"><span class="mat-label">Cover - Slabs</span><span class="mat-value">25mm / 30mm</span></div>
-                        <div class="material-row"><span class="mat-label">Exposure Class</span><span class="mat-value">XC2/XC3</span></div>
-                    </div>
-                </div>
-                <div class="material-block">
-                    <h4>Engineering Deliverables</h4>
-                    <div class="material-table deliverable-table">
-                        <div class="material-row"><span class="mat-label">Calculation Report</span><span class="mat-value">185 pages</span></div>
-                        <div class="material-row"><span class="mat-label">Foundation Layout</span><span class="mat-value">Dwg. S-01</span></div>
-                        <div class="material-row"><span class="mat-label">Mat Foundation Details</span><span class="mat-value">Dwg. S-02, S-03</span></div>
-                        <div class="material-row"><span class="mat-label">Framing Plans</span><span class="mat-value">Dwg. S-04 to S-07</span></div>
-                        <div class="material-row"><span class="mat-label">Column Schedule</span><span class="mat-value">Dwg. S-08, S-09</span></div>
-                        <div class="material-row"><span class="mat-label">Beam Sections</span><span class="mat-value">Dwg. S-10 to S-13</span></div>
-                        <div class="material-row"><span class="mat-label">Slab Reinforcement</span><span class="mat-value">Dwg. S-14 to S-17</span></div>
-                        <div class="material-row"><span class="mat-label">Stair & Wall Details</span><span class="mat-value">Dwg. S-18, S-19</span></div>
-                        <div class="material-row"><span class="mat-label">Typical Details</span><span class="mat-value">Dwg. S-20</span></div>
-                        <div class="material-row"><span class="mat-label">Analysis Models</span><span class="mat-value">FEM Files</span></div>
-                        <div class="material-row"><span class="mat-label">Bill of Quantities</span><span class="mat-value">Excel</span></div>
-                    </div>
+                    <h3>Deliverables</h3>
+                    <p>Calculation Report (185 pages), Foundation Layout (S-01), Mat Details (S-02, S-03), Framing Plans (S-04 to S-07), Column Schedule (S-08, S-09), Beam Sections (S-10 to S-13), Slab Reinforcement (S-14 to S-17), Details (S-18 to S-20).</p>
                 </div>
             </div>
         </section>
@@ -1606,7 +1482,7 @@
                 <div class="footer-logo-text">Delta Engineering</div>
             </div>
             <div class="footer-links">
-                <a href="#">Projects</a><a href="#">Services</a><a href="#">About</a><a href="#">Contact</a>
+                <a href="#">Projects</a><a href="#">Services</a><a href="#">Tools</a><a href="#">Publications</a><a href="#">About</a><a href="#">Contact</a>
             </div>
             <div class="footer-copyright">© 2024 DELTA ENGINEERING. ALL RIGHTS RESERVED.</div>
         </div>
@@ -2009,8 +1885,8 @@
         }
         
         function positionModelCamera() {
-            const distance = modelBuildingMaxSize * 2;
-            modelCamera.position.set(distance * 0.8, distance * 0.5, distance * 0.4);
+            const distance = modelBuildingMaxSize * 1.5;
+            modelCamera.position.set(distance * 0.7, distance * 0.45, distance * 0.35);
             
             if (modelControls) {
                 modelControls.target.set(0, 0, 0);
@@ -2038,12 +1914,18 @@
             const body = document.body;
             const fullscreenText = document.getElementById('fullscreenText');
             const fullscreenIcon = document.getElementById('fullscreenIcon');
+            const viewerSection = document.querySelector('.viewer-section');
             
             if (body.classList.contains('fullscreen-mode')) {
                 // Exit fullscreen
                 body.classList.remove('fullscreen-mode');
                 fullscreenText.textContent = 'Fullscreen';
                 fullscreenIcon.innerHTML = '<path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/>';
+                
+                // Scroll back to viewer section after exiting fullscreen
+                setTimeout(() => {
+                    viewerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 150);
             } else {
                 // Enter fullscreen
                 body.classList.add('fullscreen-mode');
