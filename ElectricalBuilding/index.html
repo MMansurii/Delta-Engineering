@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electrical Building - Neyriz Steel Plant | Structural Engineering Project</title>
+    <title>Electrical Building - Water Treatment Plant | Structural Engineering Project</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d97706' stroke-width='2'%3E%3Cpath d='M12 2L2 19h20L12 2z'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -24,13 +25,15 @@
             --text-secondary: #6b7280;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
         body {
             font-family: 'Barlow', sans-serif;
             background-color: var(--off-white);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
         }
         .blueprint-pattern {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -87,7 +90,13 @@
         .hero {
             position: relative; min-height: 100vh;
             background: linear-gradient(135deg, var(--blueprint-bg) 0%, #152a45 100%);
-            display: flex; align-items: center; padding: 8rem 4rem 4rem; z-index: 1;
+            display: flex; align-items: center; 
+            padding: 8rem 4rem 4rem 4rem;
+            margin: 0;
+            z-index: 1;
+            width: 100vw;
+            max-width: 100vw;
+            box-sizing: border-box;
         }
         .hero::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -135,17 +144,10 @@
             animation: slideUp 0.8s ease 0.1s forwards; opacity: 0; transform: translateY(30px);
         }
         .hero h1 .highlight { color: var(--rebar-orange); }
-        .hero-location {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.875rem;
-            color: var(--blueprint-line); margin-bottom: 1.5rem;
-            display: flex; align-items: center; gap: 0.5rem;
-            animation: slideUp 0.8s ease 0.2s forwards; opacity: 0; transform: translateY(30px);
-        }
-        .hero-location svg { width: 16px; height: 16px; }
         .hero-subtitle {
             font-size: 1.0625rem; color: rgba(255, 255, 255, 0.75);
             max-width: 500px; line-height: 1.7;
-            animation: slideUp 0.8s ease 0.3s forwards; opacity: 0; transform: translateY(30px);
+            animation: slideUp 0.8s ease 0.2s forwards; opacity: 0; transform: translateY(30px);
         }
         .hero-image-wrapper {
             position: relative;
@@ -159,7 +161,7 @@
             transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.02);
         }
         .hero-image-frame::before {
-            content: 'FIG. 01 — EXTERIOR VIEW'; position: absolute; top: -25px; left: 10px;
+            content: 'EXTERIOR VIEW'; position: absolute; top: -25px; left: 10px;
             font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem;
             color: var(--blueprint-line); letter-spacing: 0.1em;
         }
@@ -260,23 +262,14 @@
         /* Interdisciplinary Coordination */
         .coord-section {
             position: relative; z-index: 1; background: var(--off-white);
-            border-bottom: 1px solid var(--light-gray);
+            padding: 5rem 4rem;
         }
-        .coord-header {
-            background: var(--concrete-mid); padding: 1rem 4rem;
-            display: flex; justify-content: space-between; align-items: center;
+        .coord-section .section-header {
+            max-width: 1400px; margin: 0 auto 2rem;
         }
-        .coord-title {
-            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem;
-            font-weight: 600; color: var(--white); text-transform: uppercase; letter-spacing: 0.1em;
-        }
-        .coord-note {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
-            color: rgba(255,255,255,0.7); letter-spacing: 0.05em;
-        }
-        .coord-grid {
+        .coord-grid-inner {
             display: grid; grid-template-columns: repeat(4, 1fr);
-            max-width: 1400px; margin: 0 auto; padding: 1.5rem 4rem; gap: 1.5rem;
+            max-width: 1400px; margin: 0 auto; gap: 1.5rem;
         }
         .coord-block {
             background: var(--white); border: 1px solid var(--light-gray);
@@ -310,6 +303,32 @@
         }
         .coord-item span:first-child { color: var(--text-secondary); }
         .coord-item span:last-child { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: var(--text-primary); font-size: 0.6875rem; }
+
+        /* Quantities Section */
+        .quantities-section {
+            position: relative; z-index: 1; background: var(--white);
+            padding: 5rem 4rem; border-bottom: 1px solid var(--light-gray);
+        }
+        .quantities-section .section-header {
+            max-width: 1400px; margin: 0 auto 2rem;
+        }
+        .quantities-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            max-width: 1400px; margin: 0 auto; gap: 2rem;
+        }
+        .quantities-column h5 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 0.875rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; padding-bottom: 0.75rem; margin-bottom: 0.75rem;
+            border-bottom: 2px solid var(--rebar-orange);
+        }
+        .quantities-column .detail-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.5rem 0; border-bottom: 1px solid var(--light-gray); font-size: 0.8125rem;
+        }
+        .quantities-column .detail-row:last-child { border-bottom: none; }
+        .quantities-column .detail-row span:first-child { color: var(--text-secondary); }
+        .quantities-column .detail-row span:last-child { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: var(--text-primary); }
 
         /* Section Styles */
         section { position: relative; z-index: 1; padding: 6rem 4rem; max-width: 1400px; margin: 0 auto; }
@@ -357,9 +376,23 @@
             padding: 1rem 1.5rem; border-bottom: 1px solid var(--light-gray); transition: background 0.3s ease;
         }
         .spec-row:last-child { border-bottom: none; }
+        .spec-row.last { border-bottom: none; }
+        .spec-table { border-bottom: 2px solid var(--steel-blue); }
         .spec-row:hover { background: rgba(61, 90, 115, 0.05); }
         .spec-label { font-size: 0.8125rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
-        .spec-value { font-weight: 600; color: var(--text-primary); text-align: right; }
+        .spec-value { font-weight: 600; color: var(--text-primary); text-align: right; font-family: 'JetBrains Mono', monospace; }
+        .spec-row.highlight { background: rgba(217, 119, 6, 0.08); }
+        .spec-row.highlight .spec-value { color: var(--rebar-orange); }
+        
+        .challenges-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; margin: 1.5rem 0 0.75rem;
+            padding-top: 1.5rem; border-top: 1px solid var(--light-gray);
+        }
+        .challenges-text {
+            font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.7;
+        }
 
         /* Gallery */
         .gallery-section {
@@ -367,8 +400,32 @@
             border-top: 1px solid var(--light-gray); border-bottom: 1px solid var(--light-gray);
         }
         .gallery-section .section-header { max-width: 1400px; margin: 0 auto 3rem; }
+        
+        .gallery-carousel-wrapper {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; gap: 1.5rem;
+        }
+        .gallery-carousel-wrapper .carousel-arrow {
+            background: var(--concrete-dark); border-color: var(--concrete-dark);
+        }
+        .gallery-carousel-wrapper .carousel-arrow:hover {
+            background: var(--rebar-orange); border-color: var(--rebar-orange);
+        }
+        .gallery-carousel-wrapper .carousel-arrow:disabled {
+            background: var(--light-gray); border-color: var(--light-gray);
+            opacity: 0.5;
+        }
+        .gallery-carousel {
+            flex: 1; overflow: hidden;
+        }
+        .gallery-track {
+            display: flex; gap: 1.5rem;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1400px; margin: 0 auto; }
         .gallery-item {
+            flex: 0 0 calc(33.333% - 1rem);
             position: relative; overflow: hidden; cursor: pointer;
             border: 1px solid var(--light-gray); background: var(--off-white);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -378,13 +435,12 @@
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(44, 48, 56, 0.15);
         }
-        .gallery-item::before {
-            content: attr(data-label); position: absolute; top: 0; left: 0; right: 0;
-            padding: 0.75rem 1rem; background: var(--concrete-dark);
-            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
-            color: rgba(255, 255, 255, 0.7); letter-spacing: 0.1em; text-transform: uppercase; z-index: 2;
+        .gallery-item img { 
+            width: 100%; height: 280px; object-fit: cover;
+            transition: transform 0.6s ease;
+            backface-visibility: hidden;
+            transform: translateZ(0);
         }
-        .gallery-item img { width: 100%; height: 280px; object-fit: cover; margin-top: 36px; transition: transform 0.6s ease; }
         .gallery-item:hover img { transform: scale(1.05); }
         .gallery-overlay {
             position: absolute; inset: 36px 0 0 0;
@@ -417,6 +473,7 @@
             position: relative; background: #f8fafc; border: 2px solid var(--steel-blue);
             height: 450px; overflow: hidden;
         }
+        .viewer-wrapper.dark-mode { background: #1a1a2e; }
         .viewer-wrapper.dark-mode { background: #1a1a2e; }
         .viewer-controls {
             position: absolute; top: 12px; left: 12px; z-index: 10;
@@ -465,17 +522,18 @@
         body.fullscreen-mode { overflow: hidden !important; }
         body.fullscreen-mode nav { display: none !important; }
         body.fullscreen-mode .hero { display: none !important; }
-        body.fullscreen-mode .data-strip { display: none !important; }
-        body.fullscreen-mode .stats-section { display: none !important; }
-        body.fullscreen-mode .coord-section { display: none !important; }
         body.fullscreen-mode .gallery-section { display: none !important; }
         body.fullscreen-mode .loads-section { display: none !important; }
+        body.fullscreen-mode .quantities-section { display: none !important; }
         body.fullscreen-mode .analysis-section { display: none !important; }
         body.fullscreen-mode .approach-section { display: none !important; }
+        body.fullscreen-mode .coord-section { display: none !important; }
         body.fullscreen-mode .materials-section { display: none !important; }
+        body.fullscreen-mode .other-projects-section { display: none !important; }
         body.fullscreen-mode .cta-section { display: none !important; }
         body.fullscreen-mode footer { display: none !important; }
         body.fullscreen-mode .blueprint-pattern { display: none !important; }
+        body.fullscreen-mode .scope-section { display: none !important; }
         
         body.fullscreen-mode .viewer-section {
             position: fixed !important;
@@ -622,6 +680,31 @@
         }
         .approach-card:hover { border-color: var(--steel-blue); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(44, 48, 56, 0.1); }
         .approach-card:hover::after { transform: scaleX(1); }
+        
+        .verification-summary {
+            max-width: 1400px; margin: 3rem auto 0; padding-top: 3rem;
+            border-top: 1px solid var(--light-gray);
+        }
+        .verification-summary h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; margin-bottom: 1.5rem;
+        }
+        .verification-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+        }
+        .verification-item {
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            padding: 1rem; background: var(--off-white); border: 1px solid var(--light-gray);
+        }
+        .check-icon-small {
+            flex-shrink: 0; width: 24px; height: 24px;
+            background: var(--rebar-orange); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .check-icon-small svg { width: 14px; height: 14px; stroke: var(--white); }
+        .verification-item div { font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5; }
+        .verification-item strong { color: var(--concrete-dark); }
         .approach-number { font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: var(--concrete-light); margin-bottom: 1rem; }
         .approach-card h3 {
             font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 600;
@@ -632,6 +715,33 @@
         /* Materials & Deliverables */
         .materials-section { background: var(--off-white); border-top: 1px solid var(--light-gray); }
         .materials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+        .materials-grid-three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .materials-grid-three .material-block {
+            background: var(--off-white); border: 1px solid var(--light-gray); padding: 0;
+        }
+        .materials-grid-three .material-block h4 {
+            background: var(--steel-blue); color: var(--white); padding: 1rem 1.25rem;
+            font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin: 0;
+        }
+        .materials-grid-three .material-table { padding: 0; }
+        .materials-grid-three .material-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.6rem 1.25rem; border-bottom: 1px solid var(--light-gray);
+            font-size: 0.75rem;
+        }
+        .materials-grid-three .material-row:last-child { border-bottom: none; }
+        .materials-grid-three .material-row.section-header-row {
+            background: rgba(61, 90, 115, 0.1); font-weight: 600;
+        }
+        .materials-grid-three .material-row.section-header-row .mat-label {
+            color: var(--steel-blue); font-size: 0.7rem;
+        }
+        .materials-grid-three .mat-label { color: var(--text-secondary); }
+        .materials-grid-three .mat-value { 
+            font-family: 'JetBrains Mono', monospace; font-weight: 500; 
+            color: var(--text-primary); font-size: 0.7rem; text-align: right;
+        }
         .material-block, .deliverables-block { background: var(--white); border: 1px solid var(--light-gray); }
         .material-block h4, .deliverables-block h4 {
             background: var(--concrete-dark); padding: 1rem 1.5rem;
@@ -699,6 +809,98 @@
         .footer-links a:hover { color: var(--rebar-orange); }
         .footer-copyright { font-family: 'JetBrains Mono', monospace; color: rgba(255, 255, 255, 0.3); font-size: 0.6875rem; letter-spacing: 0.05em; }
 
+        /* Other Projects Section */
+        .other-projects-section {
+            position: relative; z-index: 1; background: var(--concrete-dark);
+            padding: 5rem 4rem;
+        }
+        .other-projects-section .section-header {
+            max-width: 1400px; margin: 0 auto 3rem;
+        }
+        .other-projects-section .section-number { color: var(--rebar-orange); }
+        .other-projects-section .section-title { color: var(--white); }
+        .other-projects-section .section-title .accent { color: var(--rebar-orange); }
+        
+        .projects-carousel-wrapper {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; gap: 1.5rem;
+        }
+        .carousel-arrow {
+            width: 50px; height: 50px; flex-shrink: 0;
+            background: transparent; border: 2px solid var(--blueprint-line);
+            color: var(--white); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .carousel-arrow:hover {
+            background: var(--rebar-orange); border-color: var(--rebar-orange);
+        }
+        .carousel-arrow svg { width: 24px; height: 24px; }
+        .carousel-arrow:disabled {
+            opacity: 0.3; cursor: not-allowed;
+        }
+        .carousel-arrow:disabled:hover {
+            background: transparent; border-color: var(--blueprint-line);
+        }
+        
+        .projects-carousel {
+            flex: 1; overflow: hidden;
+        }
+        .projects-track {
+            display: flex; gap: 1.5rem;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .project-card {
+            flex: 0 0 calc(33.333% - 1rem);
+            background: var(--concrete-mid);
+            text-decoration: none; overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .project-image {
+            position: relative; height: 200px; overflow: hidden;
+        }
+        .project-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+        .project-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 40%, rgba(44, 48, 56, 0.9) 100%);
+        }
+        .project-info {
+            padding: 1.25rem;
+        }
+        .project-type {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: var(--rebar-orange); text-transform: uppercase;
+            letter-spacing: 0.15em; margin-bottom: 0.5rem; display: block;
+        }
+        .project-info h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem;
+            font-weight: 600; color: var(--white); text-transform: uppercase;
+            letter-spacing: 0.02em; margin-bottom: 0.5rem; line-height: 1.2;
+        }
+        .project-info p {
+            font-size: 0.75rem; color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5; margin-bottom: 1rem;
+        }
+        .project-link {
+            font-family: 'Barlow', sans-serif; font-size: 0.75rem;
+            font-weight: 600; color: var(--blueprint-line); text-transform: uppercase;
+            letter-spacing: 0.1em; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        .project-link svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+        .project-card:hover .project-link { color: var(--rebar-orange); }
+        .project-card:hover .project-link svg { transform: translateX(4px); }
+
         /* Lightbox */
         .lightbox {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -716,9 +918,7 @@
         }
         .lightbox.active img { transform: scale(1); opacity: 1; }
         .lightbox-label {
-            position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%);
-            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
-            color: var(--blueprint-line); letter-spacing: 0.1em; text-transform: uppercase;
+            display: none;
         }
         .lightbox-close {
             position: absolute; top: 2rem; right: 2rem; width: 48px; height: 48px;
@@ -818,35 +1018,83 @@
         @media (max-width: 1200px) {
             .hero-content { grid-template-columns: 1fr; gap: 3rem; }
             .hero-image-wrapper { order: -1; }
-            .data-strip-inner { grid-template-columns: repeat(3, 1fr); }
-            .data-item:nth-child(3) { border-right: none; }
-            .data-item:nth-child(4), .data-item:nth-child(5) { border-top: 1px solid rgba(255, 255, 255, 0.1); }
-            .stats-grid { grid-template-columns: repeat(3, 1fr); }
-            .stats-details { grid-template-columns: repeat(2, 1fr); }
-            .coord-grid { grid-template-columns: repeat(2, 1fr); }
+            .quantities-grid { grid-template-columns: repeat(2, 1fr); }
+            .coord-grid-inner { grid-template-columns: repeat(2, 1fr); }
+            .project-card { flex: 0 0 calc(50% - 0.75rem); }
+            .gallery-item { flex: 0 0 calc(50% - 0.75rem); }
+            .materials-grid-three { grid-template-columns: 1fr 1fr; }
             .viewer-container { grid-template-columns: 1fr; }
             .viewer-wrapper { height: 400px; }
             .viewer-info { padding: 1.25rem; }
             .loads-grid, .approach-grid { grid-template-columns: repeat(2, 1fr); }
             .analysis-grid { grid-template-columns: 1fr; }
         }
+        @media (max-width: 992px) {
+            .gallery-carousel-wrapper, .projects-carousel-wrapper { gap: 1rem; }
+            .gallery-item { flex: 0 0 calc(50% - 0.75rem); }
+            .materials-grid-three { grid-template-columns: 1fr; gap: 1.5rem; }
+            .hero-image { height: 350px; }
+            .section-title { font-size: 1.75rem; }
+        }
         @media (max-width: 768px) {
             nav { padding: 1rem 1.5rem; }
             .nav-links { display: none; }
-            .hero, section, .gallery-section, .loads-section, .cta-section, .viewer-section { padding: 4rem 1.5rem; }
-            .stats-header, .coord-header { padding: 1rem 1.5rem; }
-            .coord-header { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
-            .stats-grid, .stats-details, .coord-grid { padding: 1.5rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .stats-details, .coord-grid { grid-template-columns: 1fr; }
-            .viewer-wrapper { height: 350px; }
+            .hero { padding: 5rem 1.5rem 3rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero-subtitle { font-size: 0.9375rem; }
+            .hero-image { height: 280px; }
+            .project-code { font-size: 0.625rem; padding: 0.4rem 0.75rem; }
+            section, .gallery-section, .loads-section, .cta-section, .viewer-section, .coord-section, .other-projects-section, .approach-section, .materials-section { padding: 3rem 1.5rem; }
+            .section-header { margin-bottom: 2rem; }
+            .section-title { font-size: 1.5rem; }
+            .section-number { font-size: 0.625rem; }
+            .quantities-grid { grid-template-columns: 1fr; }
+            .coord-grid-inner { grid-template-columns: 1fr; }
+            .project-card { flex: 0 0 100%; }
+            .gallery-item { flex: 0 0 100%; }
+            .materials-grid-three { grid-template-columns: 1fr; }
+            .carousel-arrow { width: 36px; height: 36px; }
+            .carousel-arrow svg { width: 18px; height: 18px; }
+            .gallery-carousel-wrapper, .projects-carousel-wrapper { gap: 0.5rem; }
+            .viewer-wrapper { height: 300px; }
             .viewer-controls { flex-direction: column; align-items: flex-start; gap: 8px; }
-            .scope-grid, .data-strip-inner, .materials-grid { grid-template-columns: 1fr; }
-            .data-item { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-            .data-item:last-child { border-bottom: none; }
+            .viewer-instructions { flex-direction: column; gap: 0.5rem; padding: 0.75rem; }
+            .scope-grid, .materials-grid { grid-template-columns: 1fr; }
+            .scope-text { margin-bottom: 2rem; }
+            .spec-table { margin-top: 0; }
+            .challenges-text { font-size: 0.875rem; }
             .gallery-grid, .loads-grid, .approach-grid { grid-template-columns: 1fr; }
+            .load-card, .approach-card { padding: 1.25rem; }
             .cta-content { flex-direction: column; text-align: center; gap: 2rem; }
-            .footer-content { flex-direction: column; gap: 2rem; text-align: center; }
+            .footer-content { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+            .lightbox-nav { width: 44px; height: 44px; }
+            .lightbox-prev { left: 1rem; }
+            .lightbox-next { right: 1rem; }
+        }
+        @media (max-width: 480px) {
+            .hero { padding: 4.5rem 1rem 2rem; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero-image { height: 220px; }
+            section, .gallery-section, .loads-section, .cta-section, .viewer-section, .coord-section, .other-projects-section, .approach-section, .materials-section { padding: 2.5rem 1rem; }
+            .section-title { font-size: 1.25rem; }
+            .viewer-wrapper { height: 250px; }
+            .carousel-arrow { width: 32px; height: 32px; }
+            .carousel-arrow svg { width: 16px; height: 16px; }
+            .spec-row { padding: 0.75rem 1rem; font-size: 0.75rem; }
+            .spec-label { font-size: 0.6875rem; }
+            .spec-value { font-size: 0.75rem; }
+            .materials-grid-three .material-row { padding: 0.5rem 1rem; }
+            .materials-grid-three .mat-label, .materials-grid-three .mat-value { font-size: 0.625rem; }
+            .project-info h3 { font-size: 1rem; }
+            .project-info p { font-size: 0.6875rem; }
+            .gallery-caption { font-size: 0.6875rem; }
+            .approach-number { font-size: 1.25rem; width: 40px; height: 40px; }
+            .approach-card h3 { font-size: 1rem; }
+            .approach-card p { font-size: 0.8125rem; }
+            .coord-item { font-size: 0.6875rem; }
+            .coord-item span:last-child { font-size: 0.625rem; }
+            footer { padding: 2rem 1rem; }
         }
     </style>
 </head>
@@ -876,214 +1124,21 @@
         <div class="corner-mark top-right"></div>
         <div class="corner-mark bottom-left"></div>
         <div class="corner-mark bottom-right"></div>
+        
         <div class="hero-content">
             <div class="hero-text">
                 <div class="project-code">PROJECT NO. NSP-WTP-2024-001</div>
                 <h1>Electrical Building<br><span class="highlight">Water Treatment Plant</span></h1>
-                <div class="hero-location">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
-                    </svg>
-                    NEYRIZ STEEL COMPLEX, FARS PROVINCE, IRAN
-                </div>
-                <p class="hero-subtitle">Complete structural design and analysis of a 3-story reinforced concrete moment-resisting frame with integrated mat and isolated footing foundation system. Finite element analysis with soil-structure interaction, designed per ACI 318-19 and Iranian Seismic Code (Standard 2800, 4th Edition) for Seismic Zone II.</p>
+                <p class="hero-subtitle">Complete structural design and analysis of a 3-story reinforced concrete moment-resisting frame with integrated mat and isolated footing foundation system. Finite element analysis with soil-structure interaction, designed per ACI 318-19 and ASCE 7-22 for Seismic Design Category D.</p>
             </div>
             <div class="hero-image-wrapper">
                 <div class="hero-image-frame">
-                    <img src="./ELECTRICAL_ROOM_WTP_2.jpg" alt="Electrical Building Exterior View" class="hero-image">
+                    <img src="./assets/ELECTRICAL_ROOM_WTP_2.jpg" alt="Electrical Building Exterior View" class="hero-image">
                     <div class="dimension-line horizontal"><span>COMPLETED STRUCTURE</span></div>
                 </div>
             </div>
         </div>
     </section>
-
-    <div class="data-strip">
-        <div class="data-strip-inner">
-            <div class="data-item">
-                <div class="data-label">Concrete Grade</div>
-                <div class="data-value">C30<span class="unit">/37</span></div>
-            </div>
-            <div class="data-item">
-                <div class="data-label">Rebar Grade</div>
-                <div class="data-value">AIII<span class="unit">400</span></div>
-            </div>
-            <div class="data-item">
-                <div class="data-label">Live Load</div>
-                <div class="data-value">1000<span class="unit">kg/m²</span></div>
-            </div>
-            <div class="data-item">
-                <div class="data-label">Seismic Zone</div>
-                <div class="data-value">II<span class="unit">A=0.25g</span></div>
-            </div>
-            <div class="data-item">
-                <div class="data-label">Soil Type</div>
-                <div class="data-value">Type<span class="unit">III</span></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Project Statistics -->
-    <div class="stats-section">
-        <div class="stats-header">
-            <span class="stats-title">Project Quantities & Key Data</span>
-        </div>
-        <div class="stats-grid">
-            <div class="stat-block">
-                <div class="stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                </div>
-                <div class="stat-info">
-                    <span class="stat-value-lg">785<span class="stat-unit">m³</span></span>
-                    <span class="stat-label-lg">Total Concrete Volume</span>
-                </div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16"/><path d="M4 15h16"/><path d="M4 11h16"/><path d="M4 7h16"/></svg>
-                </div>
-                <div class="stat-info">
-                    <span class="stat-value-lg">98.5<span class="stat-unit">ton</span></span>
-                    <span class="stat-label-lg">Total Rebar Weight</span>
-                </div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-                </div>
-                <div class="stat-info">
-                    <span class="stat-value-lg">525<span class="stat-unit">m²</span></span>
-                    <span class="stat-label-lg">Total Floor Area</span>
-                </div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-                </div>
-                <div class="stat-info">
-                    <span class="stat-value-lg">125<span class="stat-unit">kg/m³</span></span>
-                    <span class="stat-label-lg">Avg. Rebar Ratio</span>
-                </div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                </div>
-                <div class="stat-info">
-                    <span class="stat-value-lg">2,450<span class="stat-unit">ton</span></span>
-                    <span class="stat-label-lg">Total Structure Weight</span>
-                </div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-3"/></svg>
-                </div>
-                <div class="stat-info">
-                    <span class="stat-value-lg">3<span class="stat-unit">floors</span></span>
-                    <span class="stat-label-lg">Building Stories</span>
-                </div>
-            </div>
-        </div>
-        <div class="stats-details">
-            <div class="stats-column">
-                <h5>Concrete Breakdown</h5>
-                <div class="detail-row"><span>Mat Foundation (600mm)</span><span>315 m³</span></div>
-                <div class="detail-row"><span>Isolated Footings</span><span>45 m³</span></div>
-                <div class="detail-row"><span>Columns (all levels)</span><span>85 m³</span></div>
-                <div class="detail-row"><span>Beams (all levels)</span><span>120 m³</span></div>
-                <div class="detail-row"><span>Slabs (t=200mm)</span><span>168 m³</span></div>
-                <div class="detail-row"><span>Walls & Stairs</span><span>52 m³</span></div>
-            </div>
-            <div class="stats-column">
-                <h5>Reinforcement Breakdown</h5>
-                <div class="detail-row"><span>T8 (Stirrups/Ties)</span><span>8.2 ton</span></div>
-                <div class="detail-row"><span>T10 (Stirrups/Dist.)</span><span>12.5 ton</span></div>
-                <div class="detail-row"><span>T12 (Slabs/Walls)</span><span>18.8 ton</span></div>
-                <div class="detail-row"><span>T16 (Beams/Found.)</span><span>28.5 ton</span></div>
-                <div class="detail-row"><span>T20 (Columns/Beams)</span><span>22.3 ton</span></div>
-                <div class="detail-row"><span>T25 (Columns)</span><span>8.2 ton</span></div>
-            </div>
-            <div class="stats-column">
-                <h5>Structural Elements</h5>
-                <div class="detail-row"><span>Total Columns</span><span>28 nos.</span></div>
-                <div class="detail-row"><span>Total Beams</span><span>86 nos.</span></div>
-                <div class="detail-row"><span>Isolated Footings</span><span>12 nos.</span></div>
-                <div class="detail-row"><span>Shear Wall Length</span><span>24 l.m.</span></div>
-                <div class="detail-row"><span>Staircase Flights</span><span>6 nos.</span></div>
-                <div class="detail-row"><span>Construction Joints</span><span>8 nos.</span></div>
-            </div>
-            <div class="stats-column">
-                <h5>Analysis Results</h5>
-                <div class="detail-row"><span>Fundamental Period (X)</span><span>T₁ = 0.42 sec</span></div>
-                <div class="detail-row"><span>Fundamental Period (Y)</span><span>T₂ = 0.38 sec</span></div>
-                <div class="detail-row"><span>Base Shear (X-dir)</span><span>Vx = 294 kN</span></div>
-                <div class="detail-row"><span>Base Shear (Y-dir)</span><span>Vy = 294 kN</span></div>
-                <div class="detail-row"><span>Max Story Drift</span><span>Δ/h = 0.008</span></div>
-                <div class="detail-row"><span>Max Foundation Settlement</span><span>δ = 18 mm</span></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Interdisciplinary Coordination Strip -->
-    <div class="coord-section">
-        <div class="coord-header">
-            <span class="coord-title">Interdisciplinary Coordination Data</span>
-            <span class="coord-note">Information from other disciplines affecting structural design</span>
-        </div>
-        <div class="coord-grid">
-            <div class="coord-block">
-                <div class="coord-icon electrical">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                </div>
-                <div class="coord-content">
-                    <h5>Electrical</h5>
-                    <div class="coord-item"><span>Main Transformers (2×1600 kVA)</span><span>2 × 4,250 kg</span></div>
-                    <div class="coord-item"><span>MV Switchgear Panel</span><span>3,800 kg</span></div>
-                    <div class="coord-item"><span>LV Distribution Boards</span><span>6 × 450 kg</span></div>
-                    <div class="coord-item"><span>Cable Trench Depth</span><span>800 mm</span></div>
-                    <div class="coord-item"><span>Total Electrical Load</span><span>2,400 kW</span></div>
-                </div>
-            </div>
-            <div class="coord-block">
-                <div class="coord-icon mechanical">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-                </div>
-                <div class="coord-content">
-                    <h5>Mechanical / HVAC</h5>
-                    <div class="coord-item"><span>Rooftop AHU Units</span><span>2 × 1,200 kg</span></div>
-                    <div class="coord-item"><span>HVAC Duct Openings</span><span>4 × (600×400)</span></div>
-                    <div class="coord-item"><span>Cooling Load</span><span>185 kW</span></div>
-                    <div class="coord-item"><span>Equipment Room Ventilation</span><span>12 ACH</span></div>
-                    <div class="coord-item"><span>Roof Penetrations</span><span>8 nos.</span></div>
-                </div>
-            </div>
-            <div class="coord-block">
-                <div class="coord-icon architectural">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-3"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/></svg>
-                </div>
-                <div class="coord-content">
-                    <h5>Architectural</h5>
-                    <div class="coord-item"><span>Floor to Floor Height</span><span>4.20 m (typ.)</span></div>
-                    <div class="coord-item"><span>Finished Floor Thickness</span><span>100 mm</span></div>
-                    <div class="coord-item"><span>Facade System</span><span>Brick + Curtain Wall</span></div>
-                    <div class="coord-item"><span>Partition Load Allowance</span><span>100 kg/m²</span></div>
-                    <div class="coord-item"><span>Fire Rating Required</span><span>2 hours</span></div>
-                </div>
-            </div>
-            <div class="coord-block">
-                <div class="coord-icon geotech">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                </div>
-                <div class="coord-content">
-                    <h5>Geotechnical</h5>
-                    <div class="coord-item"><span>Allowable Bearing</span><span>2.5 kg/cm²</span></div>
-                    <div class="coord-item"><span>Subgrade Modulus (Ks)</span><span>3.5 kg/cm³</span></div>
-                    <div class="coord-item"><span>Ground Water Table</span><span>-6.5 m (seasonal)</span></div>
-                    <div class="coord-item"><span>Soil Classification</span><span>SC (Clayey Sand)</span></div>
-                    <div class="coord-item"><span>Recommended Foundation</span><span>Mat / Isolated</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <main>
         <section class="scope-section reveal">
@@ -1093,21 +1148,27 @@
             </div>
             <div class="scope-grid">
                 <div class="scope-text">
-                    <p>The Electrical Building serves as the main power distribution hub for the Neyriz Steel Plant's water treatment facility, housing 20/0.4 kV transformers, MV/LV switchgear, MCC panels, capacitor banks, and the centralized SCADA control room.</p>
+                    <p>The Electrical Building serves as the main power distribution hub for the water treatment facility, housing 20/0.4 kV transformers, MV/LV switchgear, MCC panels, capacitor banks, and the centralized SCADA control room.</p>
                     <p>Structural system consists of a reinforced concrete intermediate moment-resisting frame (IMRF) with Response Modification Factor R=5. The lateral load-resisting system includes perimeter moment frames in both orthogonal directions with concrete shear walls at the stairwell core for additional torsional stiffness.</p>
                     <p>Foundation design integrates a 600mm thick mat foundation beneath the transformer bays (to distribute concentrated equipment loads and accommodate future replacement) with 1.2m × 1.2m isolated spread footings at perimeter columns. Soil-structure interaction modeled using Winkler springs with subgrade modulus Ks = 3.5 kg/cm³ based on plate load test results.</p>
-                    <p>All structural elements designed for 50-year service life with exposure class XC2/XC3 per EN 206. Minimum concrete cover of 40mm for foundations and 30mm for superstructure elements.</p>
+                    
+                    <h4 class="challenges-title">Challenges</h4>
+                    <p class="challenges-text">Heavy concentrated loads from dual 1600 kVA transformers (8,500 kg each) required localized mat foundation design with punching shear verification. Strict vibration criteria for sensitive electrical equipment limited floor accelerations to 0.005g under seismic conditions. Coordination of 800mm deep cable trenches with foundation layout while maintaining structural integrity posed significant design constraints. Future equipment replacement access required removable roof sections with temporary shoring provisions. Aggressive exposure conditions demanded enhanced concrete durability and increased cover requirements.</p>
                 </div>
                 <div class="spec-table">
                     <div class="spec-table-header">Technical Specifications</div>
-                    <div class="spec-row"><span class="spec-label">Building Dimensions</span><span class="spec-value">42.0m × 12.5m × 11.2m</span></div>
+                    <div class="spec-row highlight"><span class="spec-label">Total Concrete</span><span class="spec-value">785 m³</span></div>
+                    <div class="spec-row highlight"><span class="spec-label">Total Rebar</span><span class="spec-value">98.5 ton</span></div>
+                    <div class="spec-row"><span class="spec-label">Structure Weight</span><span class="spec-value">2,450 ton</span></div>
+                    <div class="spec-row"><span class="spec-label">Total Floor Area</span><span class="spec-value">525 m²</span></div>
+                    <div class="spec-row"><span class="spec-label">Building Stories</span><span class="spec-value">3 floors</span></div>
+                    <div class="spec-row"><span class="spec-label">Avg. Rebar Ratio</span><span class="spec-value">125 kg/m³</span></div>
                     <div class="spec-row"><span class="spec-label">Structural System</span><span class="spec-value">RC IMRF (R=5, Ω₀=3, Cd=4.5)</span></div>
                     <div class="spec-row"><span class="spec-label">Floor System</span><span class="spec-value">Two-Way Flat Slab, t=200mm</span></div>
-                    <div class="spec-row"><span class="spec-label">Typical Column</span><span class="spec-value">500×500mm, 8T20 longitudinal</span></div>
-                    <div class="spec-row"><span class="spec-label">Mat Foundation</span><span class="spec-value">t=600mm, T16@150 B.W.</span></div>
-                    <div class="spec-row"><span class="spec-label">Allowable Bearing</span><span class="spec-value">q_all = 2.5 kg/cm²</span></div>
-                    <div class="spec-row"><span class="spec-label">Design Codes</span><span class="spec-value">ACI 318-19, Std. 2800-4th</span></div>
-                    <div class="spec-row"><span class="spec-label">Analysis Software</span><span class="spec-value">ETABS 19.1 / SAFE 20.3</span></div>
+                    <div class="spec-row"><span class="spec-label">Design Codes</span><span class="spec-value">ACI 318-19, ASCE 7-22</span></div>
+                    <div class="spec-row"><span class="spec-label">Seismic Category</span><span class="spec-value">SDC D (Ss=1.0g, S1=0.4g)</span></div>
+                    <div class="spec-row"><span class="spec-label">Foundation Type</span><span class="spec-value">Mat + Isolated Footings</span></div>
+                    <div class="spec-row last"><span class="spec-label">Service Life</span><span class="spec-value">50 years</span></div>
                 </div>
             </div>
         </section>
@@ -1117,31 +1178,41 @@
                 <span class="section-number">SECTION 02</span>
                 <h2 class="section-title">Structural <span class="accent">Documentation</span></h2>
             </div>
-            <div class="gallery-grid">
-                <div class="gallery-item reveal" data-label="FIG. 02 — FEM Model Isometric" onclick="openLightbox(0)">
-                    <img src="./ELECTRICAL_ROOM_WTP_1.png" alt="3D Structural Analysis Model">
-                    <div class="gallery-overlay"><span class="gallery-caption">Finite Element Model — Full Assembly</span></div>
+            <div class="gallery-carousel-wrapper">
+                <button class="carousel-arrow gallery-prev" onclick="moveGalleryCarousel(-1)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <div class="gallery-carousel">
+                    <div class="gallery-track">
+                        <div class="gallery-item" onclick="openLightbox(0)">
+                            <img src="./assets/ELECTRICAL_ROOM_WTP_1.png" alt="3D Structural Analysis Model">
+                            <div class="gallery-overlay"><span class="gallery-caption">FEM Model — Full Assembly</span></div>
+                        </div>
+                        <div class="gallery-item" onclick="openLightbox(1)">
+                            <img src="./assets/ELECTRICAL_ROOM_WTP_3.png" alt="3D Structural Model Side">
+                            <div class="gallery-overlay"><span class="gallery-caption">Analysis Model — Longitudinal Section</span></div>
+                        </div>
+                        <div class="gallery-item" onclick="openLightbox(2)">
+                            <img src="./assets/ELECTRICAL_ROOM_WTP_4.png" alt="3D Rendered Model">
+                            <div class="gallery-overlay"><span class="gallery-caption">Structural Rendering — Sectional View</span></div>
+                        </div>
+                        <div class="gallery-item" onclick="openLightbox(3)">
+                            <img src="./assets/ELECTRICAL_ROOM_WTP_5.png" alt="3D Model Top View">
+                            <div class="gallery-overlay"><span class="gallery-caption">Model View — Roof Framing</span></div>
+                        </div>
+                        <div class="gallery-item" onclick="openLightbox(4)">
+                            <img src="./assets/ELECTRICAL_ROOM_WTP_6.png" alt="3D Model Front">
+                            <div class="gallery-overlay"><span class="gallery-caption">Elevation View — Main Facade</span></div>
+                        </div>
+                        <div class="gallery-item" onclick="openLightbox(5)">
+                            <img src="./assets/ELECTRICAL_ROOM_WTP_2.jpg" alt="Completed Building">
+                            <div class="gallery-overlay"><span class="gallery-caption">Construction Complete — Site Photo</span></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="gallery-item reveal" data-label="FIG. 03 — FEM Model Elevation" onclick="openLightbox(1)">
-                    <img src="./ELECTRICAL_ROOM_WTP_3.png" alt="3D Structural Model Side">
-                    <div class="gallery-overlay"><span class="gallery-caption">Analysis Model — Longitudinal Section</span></div>
-                </div>
-                <div class="gallery-item reveal" data-label="FIG. 04 — 3D Rendering" onclick="openLightbox(2)">
-                    <img src="./ELECTRICAL_ROOM_WTP_4.png" alt="3D Rendered Model">
-                    <div class="gallery-overlay"><span class="gallery-caption">Structural Rendering — Sectional View</span></div>
-                </div>
-                <div class="gallery-item reveal" data-label="FIG. 05 — Roof Plan View" onclick="openLightbox(3)">
-                    <img src="./ELECTRICAL_ROOM_WTP_5.png" alt="3D Model Top View">
-                    <div class="gallery-overlay"><span class="gallery-caption">Model View — Roof Framing</span></div>
-                </div>
-                <div class="gallery-item reveal" data-label="FIG. 06 — Front Elevation" onclick="openLightbox(4)">
-                    <img src="./ELECTRICAL_ROOM_WTP_6.png" alt="3D Model Front">
-                    <div class="gallery-overlay"><span class="gallery-caption">Elevation View — Main Facade</span></div>
-                </div>
-                <div class="gallery-item reveal" data-label="FIG. 01 — As-Built Photo" onclick="openLightbox(5)">
-                    <img src="./ELECTRICAL_ROOM_WTP_2.jpg" alt="Completed Building">
-                    <div class="gallery-overlay"><span class="gallery-caption">Construction Complete — Site Photo</span></div>
-                </div>
+                <button class="carousel-arrow gallery-next" onclick="moveGalleryCarousel(1)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
             </div>
         </section>
 
@@ -1152,12 +1223,12 @@
                 <h2 class="section-title">Interactive <span class="accent">3D Model</span></h2>
             </div>
             <div class="viewer-container reveal">
-                <div class="viewer-wrapper">
+                <div class="viewer-wrapper dark-mode">
                     <div class="viewer-controls">
                         <div class="viewer-control-row">
                             <span class="viewer-control-label">Dark Mode</span>
                             <label class="viewer-toggle">
-                                <input type="checkbox" id="viewerDarkToggle" onchange="toggleViewerBackground()">
+                                <input type="checkbox" id="viewerDarkToggle" checked onchange="toggleViewerBackground()">
                                 <span class="viewer-slider"></span>
                             </label>
                         </div>
@@ -1177,11 +1248,11 @@
                 </div>
                 <div class="viewer-info">
                     <h4>FEM Analysis Model</h4>
-                    <p>Interactive 3D visualization of the structural finite element model exported from ETABS. Rotate, pan, and zoom to inspect all structural components including beams, columns, slabs, and foundation elements.</p>
+                    <p>Interactive 3D visualization of the structural finite element model. Rotate, pan, and zoom to inspect all structural components including beams, columns, slabs, and foundation elements.</p>
                     <div class="viewer-stats">
                         <div class="viewer-stat">
-                            <span class="viewer-stat-label">Source</span>
-                            <span class="viewer-stat-value">ETABS v19.1</span>
+                            <span class="viewer-stat-label">Model Type</span>
+                            <span class="viewer-stat-value">3D FEM</span>
                         </div>
                         <div class="viewer-stat">
                             <span class="viewer-stat-label">Elements</span>
@@ -1249,7 +1320,7 @@
                         </svg>
                     </div>
                     <h4>Seismic Forces (E)</h4>
-                    <p>Design per Standard 2800-4th Ed. Zone II, A=0.25g. Soil Type III, B=2.0. Importance I=1.2 (essential facility). R=5.0 (IMRF). Base shear V=0.12W. Modal response spectrum analysis with CQC combination. Accidental eccentricity ±5% Lx, Ly.</p>
+                    <p>Design per ASCE 7-22, SDC D, Ss=1.0g, S1=0.4g. Site Class D. Importance Ie=1.25 (essential facility). R=5.0 (IMRF). Base shear V=0.12W. Modal response spectrum analysis with CQC combination. Accidental eccentricity ±5% Lx, Ly.</p>
                 </div>
                 <div class="load-card reveal">
                     <div class="load-icon">
@@ -1263,62 +1334,21 @@
             </div>
         </section>
 
-        <section class="analysis-section reveal">
-            <div class="section-header">
-                <span class="section-number">SECTION 05</span>
-                <h2 class="section-title">Structural <span class="accent">Verification</span></h2>
-            </div>
-            <div class="analysis-grid">
-                <div class="analysis-image">
-                    <img src="./ELECTRICAL_ROOM_WTP_1.png" alt="Finite Element Model">
-                </div>
-                <div class="analysis-content">
-                    <h3>Design Checks Performed</h3>
-                    <ul class="check-list">
-                        <li class="check-item">
-                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
-                            <div class="check-content"><strong>Flexural Capacity (Mu ≤ φMn)</strong><span>Critical beam: Mu=245 kN·m, φMn=312 kN·m (DCR=0.78). Mat foundation: Mu=185 kN·m/m, As_req=1420 mm²/m, As_prov=T16@150=1340 mm²/m + T12@150=754 mm²/m.</span></div>
-                        </li>
-                        <li class="check-item">
-                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
-                            <div class="check-content"><strong>One-Way Shear (Vu ≤ φVc + φVs)</strong><span>Beams verified at d from face of support. Critical section: Vu=185 kN, φVc=98 kN, φVs=145 kN (T10@150 stirrups). DCR=0.76. Foundation: Vu=125 kN/m < φVc=156 kN/m.</span></div>
-                        </li>
-                        <li class="check-item">
-                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
-                            <div class="check-content"><strong>Two-Way Punching Shear</strong><span>Column C1 (500×500): Vu=890 kN, b₀=3400mm, d=520mm, φVc=1245 kN (DCR=0.71). No shear reinforcement required. γv=0.4 for unbalanced moment transfer verified.</span></div>
-                        </li>
-                        <li class="check-item">
-                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
-                            <div class="check-content"><strong>Bearing Pressure (q ≤ qa)</strong><span>Max bearing under mat: q_max=2.18 kg/cm² < q_all=2.5 kg/cm² (DCR=0.87). Isolated footings: q_max=2.25 kg/cm² under seismic combination with 33% allowable increase.</span></div>
-                        </li>
-                        <li class="check-item">
-                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
-                            <div class="check-content"><strong>Serviceability (Δ, w)</strong><span>Floor deflection: Δ_LL=8.2mm < L/360=13.9mm. Crack width: w_max=0.22mm < 0.3mm (XC2 exposure). Inter-story drift: Δ/h=0.008 < 0.02 limit for IMRF.</span></div>
-                        </li>
-                        <li class="check-item">
-                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
-                            <div class="check-content"><strong>Strong Column-Weak Beam</strong><span>All beam-column joints verified per ACI 318-19 §18.7.3: ΣMnc ≥ 1.2ΣMnb. Min ratio achieved: 1.35. Joint shear: Vj=980 kN < φVn=1150 kN.</span></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
         <section class="approach-section reveal">
             <div class="section-header">
-                <span class="section-number">SECTION 06</span>
+                <span class="section-number">SECTION 05</span>
                 <h2 class="section-title">Engineering <span class="accent">Methodology</span></h2>
             </div>
             <div class="approach-grid">
                 <div class="approach-card">
                     <div class="approach-number">01</div>
                     <h3>3D Finite Element Modeling</h3>
-                    <p>Full structure modeled in ETABS v19.1 with 4-node shell elements for slabs/walls (mesh size 0.5m) and 2-node frame elements for beams/columns. Rigid diaphragm assumption at each floor level. P-Delta effects included for gravity-lateral interaction.</p>
+                    <p>Full 3D finite element model with 4-node shell elements for slabs/walls (mesh size 0.5m) and 2-node frame elements for beams/columns. Rigid diaphragm assumption at each floor level. P-Delta effects included for gravity-lateral interaction.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-number">02</div>
                     <h3>Soil-Structure Interaction</h3>
-                    <p>SAFE v20.3 foundation model with Winkler springs. Subgrade modulus Ks=3.5 kg/cm³ from plate load tests, adjusted for footing size using Terzaghi's equation: Ks(BxB) = Ks(0.3)×[(B+0.3)/2B]². Spring stiffness validated against settlement calculations.</p>
+                    <p>Foundation model with Winkler springs for soil-structure interaction. Subgrade modulus Ks=3.5 kg/cm³ from plate load tests, adjusted for footing size using Terzaghi's equation: Ks(BxB) = Ks(0.3)×[(B+0.3)/2B]². Spring stiffness validated against settlement calculations.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-number">03</div>
@@ -1343,142 +1373,213 @@
             </div>
         </section>
 
+        <!-- Interdisciplinary Coordination (moved here after Engineering Methodology) -->
+        <section class="coord-section reveal">
+            <div class="section-header">
+                <span class="section-number">SECTION 06</span>
+                <h2 class="section-title">Interdisciplinary <span class="accent">Coordination</span></h2>
+            </div>
+            <div class="coord-grid-inner">
+                <div class="coord-block">
+                    <div class="coord-icon electrical">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <div class="coord-content">
+                        <h5>Electrical</h5>
+                        <div class="coord-item"><span>Main Transformers (2×1600 kVA)</span><span>2 × 4,250 kg</span></div>
+                        <div class="coord-item"><span>MV Switchgear Panel</span><span>3,800 kg</span></div>
+                        <div class="coord-item"><span>LV Distribution Boards</span><span>6 × 450 kg</span></div>
+                        <div class="coord-item"><span>Cable Trench Depth</span><span>800 mm</span></div>
+                        <div class="coord-item"><span>Total Electrical Load</span><span>2,400 kW</span></div>
+                    </div>
+                </div>
+                <div class="coord-block">
+                    <div class="coord-icon mechanical">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+                    </div>
+                    <div class="coord-content">
+                        <h5>Mechanical / HVAC</h5>
+                        <div class="coord-item"><span>Rooftop AHU Units</span><span>2 × 1,200 kg</span></div>
+                        <div class="coord-item"><span>HVAC Duct Openings</span><span>4 × (600×400)</span></div>
+                        <div class="coord-item"><span>Cooling Load</span><span>185 kW</span></div>
+                        <div class="coord-item"><span>Equipment Room Ventilation</span><span>12 ACH</span></div>
+                        <div class="coord-item"><span>Roof Penetrations</span><span>8 nos.</span></div>
+                    </div>
+                </div>
+                <div class="coord-block">
+                    <div class="coord-icon architectural">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-3"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/></svg>
+                    </div>
+                    <div class="coord-content">
+                        <h5>Architectural</h5>
+                        <div class="coord-item"><span>Floor to Floor Height</span><span>4.20 m (typ.)</span></div>
+                        <div class="coord-item"><span>Finished Floor Thickness</span><span>100 mm</span></div>
+                        <div class="coord-item"><span>Facade System</span><span>Brick + Curtain Wall</span></div>
+                        <div class="coord-item"><span>Partition Load Allowance</span><span>100 kg/m²</span></div>
+                        <div class="coord-item"><span>Fire Rating Required</span><span>2 hours</span></div>
+                    </div>
+                </div>
+                <div class="coord-block">
+                    <div class="coord-icon geotech">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div class="coord-content">
+                        <h5>Geotechnical</h5>
+                        <div class="coord-item"><span>Allowable Bearing</span><span>2.5 kg/cm²</span></div>
+                        <div class="coord-item"><span>Subgrade Modulus (Ks)</span><span>3.5 kg/cm³</span></div>
+                        <div class="coord-item"><span>Ground Water Table</span><span>-6.5 m (seasonal)</span></div>
+                        <div class="coord-item"><span>Soil Classification</span><span>SC (Clayey Sand)</span></div>
+                        <div class="coord-item"><span>Recommended Foundation</span><span>Mat / Isolated</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="materials-section reveal">
             <div class="section-header">
                 <span class="section-number">SECTION 07</span>
                 <h2 class="section-title">Materials & <span class="accent">Deliverables</span></h2>
             </div>
-            <div class="materials-grid">
+            <div class="materials-grid-three">
+                <div class="material-block">
+                    <h4>Quantities & Analysis</h4>
+                    <div class="material-table">
+                        <div class="material-row"><span class="mat-label">Fundamental Period (X)</span><span class="mat-value">T₁ = 0.42 sec</span></div>
+                        <div class="material-row"><span class="mat-label">Fundamental Period (Y)</span><span class="mat-value">T₂ = 0.38 sec</span></div>
+                        <div class="material-row"><span class="mat-label">Base Shear (X-dir)</span><span class="mat-value">Vx = 294 kN</span></div>
+                        <div class="material-row"><span class="mat-label">Base Shear (Y-dir)</span><span class="mat-value">Vy = 294 kN</span></div>
+                        <div class="material-row"><span class="mat-label">Mat Foundation (600mm)</span><span class="mat-value">315 m³</span></div>
+                        <div class="material-row"><span class="mat-label">Isolated Footings</span><span class="mat-value">45 m³</span></div>
+                        <div class="material-row"><span class="mat-label">Columns (all levels)</span><span class="mat-value">85 m³</span></div>
+                        <div class="material-row"><span class="mat-label">Beams (all levels)</span><span class="mat-value">120 m³</span></div>
+                        <div class="material-row"><span class="mat-label">Slabs (t=200mm)</span><span class="mat-value">168 m³</span></div>
+                        <div class="material-row"><span class="mat-label">Walls & Stairs</span><span class="mat-value">52 m³</span></div>
+                    </div>
+                </div>
                 <div class="material-block">
                     <h4>Material Specifications</h4>
                     <div class="material-table">
-                        <div class="material-row">
-                            <span class="mat-label">Concrete - Foundation</span>
-                            <span class="mat-value">C30/37, f'c=30 MPa, Dmax=19mm</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Concrete - Superstructure</span>
-                            <span class="mat-value">C25/30, f'c=25 MPa, Dmax=19mm</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Concrete - Blinding</span>
-                            <span class="mat-value">C12/15, t=100mm under footings</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Rebar - Longitudinal</span>
-                            <span class="mat-value">AIII (A400), fy=400 MPa, fu=600 MPa</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Rebar - Transverse</span>
-                            <span class="mat-value">AII (A300), fy=300 MPa, fu=450 MPa</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Lap Splice Length</span>
-                            <span class="mat-value">50db (tension), 40db (compression)</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Cover - Foundation Bottom</span>
-                            <span class="mat-value">75mm (cast against soil)</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Cover - Foundation Top</span>
-                            <span class="mat-value">50mm</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Cover - Columns</span>
-                            <span class="mat-value">40mm all faces</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Cover - Beams</span>
-                            <span class="mat-value">35mm to stirrups</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Cover - Slabs</span>
-                            <span class="mat-value">25mm top, 30mm bottom</span>
-                        </div>
-                        <div class="material-row">
-                            <span class="mat-label">Exposure Class</span>
-                            <span class="mat-value">XC2/XC3 (EN 206-1)</span>
-                        </div>
+                        <div class="material-row"><span class="mat-label">Concrete - Foundation</span><span class="mat-value">C30/37, f'c=30 MPa</span></div>
+                        <div class="material-row"><span class="mat-label">Concrete - Superstructure</span><span class="mat-value">C25/30, f'c=25 MPa</span></div>
+                        <div class="material-row"><span class="mat-label">Concrete - Blinding</span><span class="mat-value">C12/15, t=100mm</span></div>
+                        <div class="material-row"><span class="mat-label">Rebar - Longitudinal</span><span class="mat-value">Grade 60, fy=420 MPa</span></div>
+                        <div class="material-row"><span class="mat-label">Rebar - Transverse</span><span class="mat-value">Grade 40, fy=280 MPa</span></div>
+                        <div class="material-row"><span class="mat-label">Lap Splice Length</span><span class="mat-value">50db / 40db</span></div>
+                        <div class="material-row"><span class="mat-label">Cover - Foundation</span><span class="mat-value">75mm / 50mm</span></div>
+                        <div class="material-row"><span class="mat-label">Cover - Columns</span><span class="mat-value">40mm all faces</span></div>
+                        <div class="material-row"><span class="mat-label">Cover - Beams</span><span class="mat-value">35mm to stirrups</span></div>
+                        <div class="material-row"><span class="mat-label">Cover - Slabs</span><span class="mat-value">25mm / 30mm</span></div>
+                        <div class="material-row"><span class="mat-label">Exposure Class</span><span class="mat-value">XC2/XC3</span></div>
                     </div>
                 </div>
-                <div class="deliverables-block">
+                <div class="material-block">
                     <h4>Engineering Deliverables</h4>
-                    <div class="deliverable-list">
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Structural Calculation Report (185 pages)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Foundation Layout Plan (Dwg. S-01)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Mat Foundation Details (Dwg. S-02, S-03)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Framing Plans - GF, 1F, 2F, Roof (Dwg. S-04 to S-07)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Column Schedule & Details (Dwg. S-08, S-09)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Beam Schedule & Sections (Dwg. S-10 to S-13)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Slab Reinforcement Plans (Dwg. S-14 to S-17)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Stair & Wall Details (Dwg. S-18, S-19)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Typical Details & Notes (Dwg. S-20)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">ETABS Model File (.EDB) + SAFE Model (.FDB)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Bill of Quantities - Concrete & Rebar (Excel)</span>
-                        </div>
-                        <div class="deliverable-item">
-                            <span class="del-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            </span>
-                            <span class="del-text">Bar Bending Schedule (Excel)</span>
-                        </div>
+                    <div class="material-table deliverable-table">
+                        <div class="material-row"><span class="mat-label">Calculation Report</span><span class="mat-value">185 pages</span></div>
+                        <div class="material-row"><span class="mat-label">Foundation Layout</span><span class="mat-value">Dwg. S-01</span></div>
+                        <div class="material-row"><span class="mat-label">Mat Foundation Details</span><span class="mat-value">Dwg. S-02, S-03</span></div>
+                        <div class="material-row"><span class="mat-label">Framing Plans</span><span class="mat-value">Dwg. S-04 to S-07</span></div>
+                        <div class="material-row"><span class="mat-label">Column Schedule</span><span class="mat-value">Dwg. S-08, S-09</span></div>
+                        <div class="material-row"><span class="mat-label">Beam Sections</span><span class="mat-value">Dwg. S-10 to S-13</span></div>
+                        <div class="material-row"><span class="mat-label">Slab Reinforcement</span><span class="mat-value">Dwg. S-14 to S-17</span></div>
+                        <div class="material-row"><span class="mat-label">Stair & Wall Details</span><span class="mat-value">Dwg. S-18, S-19</span></div>
+                        <div class="material-row"><span class="mat-label">Typical Details</span><span class="mat-value">Dwg. S-20</span></div>
+                        <div class="material-row"><span class="mat-label">Analysis Models</span><span class="mat-value">FEM Files</span></div>
+                        <div class="material-row"><span class="mat-label">Bill of Quantities</span><span class="mat-value">Excel</span></div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Other Projects Section -->
+        <section class="other-projects-section">
+            <div class="section-header reveal">
+                <span class="section-number">MORE WORK</span>
+                <h2 class="section-title">Other <span class="accent">Projects</span></h2>
+            </div>
+            <div class="projects-carousel-wrapper">
+                <button class="carousel-arrow carousel-prev" onclick="moveCarousel(-1)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <div class="projects-carousel">
+                    <div class="projects-track">
+                        <a href="#" class="project-card">
+                            <div class="project-image">
+                                <img src="./assets/ELECTRICAL_ROOM_WTP_1.png" alt="Industrial Facility">
+                                <div class="project-overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <span class="project-type">Industrial</span>
+                                <h3>Steel Warehouse Complex</h3>
+                                <p>Heavy industrial storage facility with crane systems</p>
+                                <span class="project-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                            </div>
+                        </a>
+                        <a href="#" class="project-card">
+                            <div class="project-image">
+                                <img src="./assets/ELECTRICAL_ROOM_WTP_3.png" alt="Office Building">
+                                <div class="project-overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <span class="project-type">Commercial</span>
+                                <h3>Corporate Office Tower</h3>
+                                <p>12-story RC frame with post-tensioned slabs</p>
+                                <span class="project-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                            </div>
+                        </a>
+                        <a href="#" class="project-card">
+                            <div class="project-image">
+                                <img src="./assets/ELECTRICAL_ROOM_WTP_4.png" alt="Bridge Structure">
+                                <div class="project-overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <span class="project-type">Infrastructure</span>
+                                <h3>Highway Bridge Retrofit</h3>
+                                <p>Seismic strengthening of existing prestressed bridge</p>
+                                <span class="project-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                            </div>
+                        </a>
+                        <a href="#" class="project-card">
+                            <div class="project-image">
+                                <img src="./assets/ELECTRICAL_ROOM_WTP_5.png" alt="Residential Complex">
+                                <div class="project-overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <span class="project-type">Residential</span>
+                                <h3>Luxury Apartment Complex</h3>
+                                <p>High-rise residential with transfer slabs</p>
+                                <span class="project-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                            </div>
+                        </a>
+                        <a href="#" class="project-card">
+                            <div class="project-image">
+                                <img src="./assets/ELECTRICAL_ROOM_WTP_6.png" alt="Industrial Plant">
+                                <div class="project-overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <span class="project-type">Industrial</span>
+                                <h3>Manufacturing Plant</h3>
+                                <p>Heavy equipment foundations and crane rails</p>
+                                <span class="project-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                            </div>
+                        </a>
+                        <a href="#" class="project-card">
+                            <div class="project-image">
+                                <img src="./assets/ELECTRICAL_ROOM_WTP_2.jpg" alt="Commercial Building">
+                                <div class="project-overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <span class="project-type">Commercial</span>
+                                <h3>Shopping Center</h3>
+                                <p>Large-span retail structure with basement parking</p>
+                                <span class="project-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <button class="carousel-arrow carousel-next" onclick="moveCarousel(1)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
             </div>
         </section>
 
@@ -1532,12 +1633,12 @@
         // GALLERY & LIGHTBOX
         // ============================================
         const galleryImages = [
-            { src: './ELECTRICAL_ROOM_WTP_1.png', label: 'FIG. 02 — FINITE ELEMENT MODEL' },
-            { src: './ELECTRICAL_ROOM_WTP_3.png', label: 'FIG. 03 — LONGITUDINAL SECTION' },
-            { src: './ELECTRICAL_ROOM_WTP_4.png', label: 'FIG. 04 — SECTIONAL RENDERING' },
-            { src: './ELECTRICAL_ROOM_WTP_5.png', label: 'FIG. 05 — ROOF FRAMING PLAN' },
-            { src: './ELECTRICAL_ROOM_WTP_6.png', label: 'FIG. 06 — FRONT ELEVATION' },
-            { src: './ELECTRICAL_ROOM_WTP_2.jpg', label: 'FIG. 01 — AS-BUILT PHOTOGRAPH' }
+            { src: './assets/ELECTRICAL_ROOM_WTP_1.png', label: 'FEM Model — Full Assembly' },
+            { src: './assets/ELECTRICAL_ROOM_WTP_3.png', label: 'Analysis Model — Longitudinal Section' },
+            { src: './assets/ELECTRICAL_ROOM_WTP_4.png', label: 'Structural Rendering — Sectional View' },
+            { src: './assets/ELECTRICAL_ROOM_WTP_5.png', label: 'Model View — Roof Framing' },
+            { src: './assets/ELECTRICAL_ROOM_WTP_6.png', label: 'Elevation View — Main Facade' },
+            { src: './assets/ELECTRICAL_ROOM_WTP_2.jpg', label: 'Construction Complete — Site Photo' }
         ];
         let currentImageIndex = 0;
 
@@ -1743,11 +1844,11 @@
             const container = canvas.parentElement;
             
             modelScene = new THREE.Scene();
-            modelScene.background = new THREE.Color(0xf8fafc);
+            modelScene.background = new THREE.Color(0x1a1a2e); // Dark mode default
             
             modelCamera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 1, 10000);
             
-            // Set Z as up direction (like in ETABS)
+            // Set Z as up direction (standard structural convention)
             modelCamera.up.set(0, 0, 1);
             modelCamera.position.set(100, 100, 100);
             
@@ -1793,12 +1894,12 @@
         
         async function loadModelFromFile() {
             try {
-                const response = await fetch('model.html');
+                const response = await fetch('assets/model.html');
                 const htmlText = await response.text();
                 loadModelFromHTML(htmlText);
             } catch (error) {
                 console.error('Error loading model.html:', error);
-                console.log('Please make sure model.html exists in the same directory.');
+                console.log('Please make sure model.html exists in the assets directory.');
             }
         }
         
@@ -2016,6 +2117,95 @@
         
         // Initialize 3D viewer when page loads
         document.addEventListener('DOMContentLoaded', initModelViewer);
+        
+        // ============================================
+        // PROJECTS CAROUSEL
+        // ============================================
+        let carouselPosition = 0;
+        const carouselCards = 6; // Total number of project cards
+        const carouselVisible = 3; // Cards visible at once
+        
+        function moveCarousel(direction) {
+            const track = document.querySelector('.projects-track');
+            const cards = document.querySelectorAll('.project-card');
+            if (!track || cards.length === 0) return;
+            
+            const cardWidth = cards[0].offsetWidth + 24; // card width + gap
+            const maxPosition = cards.length - carouselVisible;
+            
+            carouselPosition += direction;
+            
+            // Clamp position
+            if (carouselPosition < 0) carouselPosition = 0;
+            if (carouselPosition > maxPosition) carouselPosition = maxPosition;
+            
+            // Move track
+            track.style.transform = `translateX(-${carouselPosition * cardWidth}px)`;
+            
+            // Update arrow states
+            updateCarouselArrows();
+        }
+        
+        function updateCarouselArrows() {
+            const prevBtn = document.querySelector('.carousel-prev');
+            const nextBtn = document.querySelector('.carousel-next');
+            const cards = document.querySelectorAll('.project-card');
+            const maxPosition = cards.length - carouselVisible;
+            
+            if (prevBtn) {
+                prevBtn.disabled = carouselPosition <= 0;
+            }
+            if (nextBtn) {
+                nextBtn.disabled = carouselPosition >= maxPosition;
+            }
+        }
+        
+        // Initialize carousel arrows on load
+        document.addEventListener('DOMContentLoaded', updateCarouselArrows);
+        
+        // ============================================
+        // GALLERY CAROUSEL
+        // ============================================
+        let galleryCarouselPosition = 0;
+        const galleryCarouselVisible = 3;
+        
+        function moveGalleryCarousel(direction) {
+            const track = document.querySelector('.gallery-track');
+            const cards = document.querySelectorAll('.gallery-item');
+            if (!track || cards.length === 0) return;
+            
+            const cardWidth = cards[0].offsetWidth + 24; // card width + gap
+            const maxPosition = cards.length - galleryCarouselVisible;
+            
+            galleryCarouselPosition += direction;
+            
+            // Clamp position
+            if (galleryCarouselPosition < 0) galleryCarouselPosition = 0;
+            if (galleryCarouselPosition > maxPosition) galleryCarouselPosition = maxPosition;
+            
+            // Move track
+            track.style.transform = `translateX(-${galleryCarouselPosition * cardWidth}px)`;
+            
+            // Update arrow states
+            updateGalleryCarouselArrows();
+        }
+        
+        function updateGalleryCarouselArrows() {
+            const prevBtn = document.querySelector('.gallery-prev');
+            const nextBtn = document.querySelector('.gallery-next');
+            const cards = document.querySelectorAll('.gallery-item');
+            const maxPosition = cards.length - galleryCarouselVisible;
+            
+            if (prevBtn) {
+                prevBtn.disabled = galleryCarouselPosition <= 0;
+            }
+            if (nextBtn) {
+                nextBtn.disabled = galleryCarouselPosition >= maxPosition;
+            }
+        }
+        
+        // Initialize gallery carousel arrows on load
+        document.addEventListener('DOMContentLoaded', updateGalleryCarouselArrows);
     </script>
 </body>
 </html>
