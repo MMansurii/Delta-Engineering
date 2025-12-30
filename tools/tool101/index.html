@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steel Connection Designer | Delta Engineering Tools</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d97706' stroke-width='2'%3E%3Cpath d='M12 2L2 19h20L12 2z'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --concrete-dark: #2c3038;
+            --concrete-mid: #4a4f5a;
+            --concrete-light: #6b7280;
+            --steel-blue: #3d5a73;
+            --rebar-orange: #d97706;
+            --blueprint-bg: #1e3a5f;
+            --blueprint-line: #4a90c2;
+            --blueprint-grid: rgba(74, 144, 194, 0.15);
+            --white: #ffffff;
+            --off-white: #f8f9fa;
+            --light-gray: #e5e7eb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        body {
+            font-family: 'Barlow', sans-serif;
+            background-color: var(--off-white);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Blueprint Background Pattern */
+        .blueprint-pattern {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; opacity: 0.4;
+            background-image: 
+                linear-gradient(rgba(45, 65, 85, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 65, 85, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(45, 65, 85, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 65, 85, 0.02) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1rem 4rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); border-bottom: 3px solid var(--concrete-dark);
+            transition: all 0.3s ease;
+        }
+        nav::after {
+            content: ''; position: absolute; bottom: 0; left: 0; height: 3px;
+            width: var(--scroll-progress, 0%);
+            background: linear-gradient(90deg, var(--rebar-orange), var(--steel-blue));
+            transition: width 0.1s ease-out;
+        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon {
+            width: 40px; height: 40px; background: var(--concrete-dark);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-icon svg { width: 24px; height: 24px; stroke: var(--rebar-orange); }
+        .logo-text {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 700; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; line-height: 1.1;
+        }
+        .logo-text span { display: block; font-size: 0.7rem; font-weight: 500; color: var(--concrete-light); letter-spacing: 0.15em; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--concrete-mid); font-size: 0.8125rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+            transition: color 0.3s ease; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -6px; left: 0; width: 0;
+            height: 2px; background: var(--rebar-orange); transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--concrete-dark); }
+        .nav-links a:hover::after { width: 100%; }
+        .mobile-menu-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            color: var(--rebar-orange); padding: 0.5rem;
+        }
+        .mobile-menu {
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--concrete-dark); flex-direction: column;
+            padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            color: rgba(255, 255, 255, 0.7); text-decoration: none;
+            padding: 0.75rem 2rem; font-size: 0.875rem; text-transform: uppercase;
+            letter-spacing: 0.05em; transition: all 0.3s ease;
+        }
+        .mobile-menu a:hover { color: var(--rebar-orange); background: rgba(255,255,255,0.05); }
+
+        /* Hero Section */
+        .hero {
+            position: relative; min-height: 50vh;
+            background: linear-gradient(135deg, var(--blueprint-bg) 0%, #152a45 100%);
+            display: flex; align-items: center; padding: 10rem 4rem 4rem; z-index: 1;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+        .corner-mark {
+            position: absolute; width: 60px; height: 60px;
+            border: 2px solid var(--blueprint-line); opacity: 0.4;
+            animation: floatCorner 6s ease-in-out infinite;
+        }
+        .corner-mark.top-left { top: 100px; left: 40px; border-right: none; border-bottom: none; }
+        .corner-mark.top-right { top: 100px; right: 40px; border-left: none; border-bottom: none; }
+        .corner-mark.bottom-left { bottom: 40px; left: 40px; border-right: none; border-top: none; }
+        .corner-mark.bottom-right { bottom: 40px; right: 40px; border-left: none; border-top: none; }
+        @keyframes floatCorner {
+            0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+            50% { transform: translate(var(--move-x), var(--move-y)); opacity: 0.6; }
+        }
+        .corner-mark.top-left { --move-x: 5px; --move-y: 5px; }
+        .corner-mark.top-right { --move-x: -5px; --move-y: 5px; }
+        .corner-mark.bottom-left { --move-x: 5px; --move-y: -5px; }
+        .corner-mark.bottom-right { --move-x: -5px; --move-y: -5px; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; text-align: center; color: var(--white); }
+        .tool-meta {
+            display: inline-flex; align-items: center; gap: 1.5rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--blueprint-line); margin-bottom: 1.5rem;
+        }
+        .tool-meta span { display: flex; align-items: center; gap: 0.5rem; }
+        .tool-meta svg { width: 14px; height: 14px; }
+        .tool-tag {
+            background: var(--rebar-orange); color: var(--white); padding: 0.25rem 0.75rem;
+            font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+        }
+        .hero h1 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.02em;
+            margin-bottom: 1rem;
+        }
+        .hero h1 .highlight { color: var(--rebar-orange); }
+        .hero-subtitle {
+            font-size: 1rem; color: rgba(255, 255, 255, 0.75);
+            max-width: 700px; margin: 0 auto; line-height: 1.7;
+        }
+
+        /* Main Tool Container */
+        .tool-container {
+            position: relative; z-index: 1; max-width: 1400px;
+            margin: 0 auto; padding: 4rem 2rem;
+        }
+
+        /* Code Selection Section */
+        .code-selection {
+            background: var(--white); border: 1px solid var(--light-gray);
+            padding: 2rem; margin-bottom: 2rem;
+        }
+        .code-selection-header {
+            display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+            padding-bottom: 1rem; border-bottom: 1px solid var(--light-gray);
+        }
+        .code-selection-header h2 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+        }
+        .code-selection-header .step-number {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            background: var(--rebar-orange); color: var(--white);
+            padding: 0.25rem 0.5rem;
+        }
+        .code-cards {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+        }
+        .code-card {
+            background: var(--off-white); border: 2px solid var(--light-gray);
+            padding: 1.5rem; cursor: pointer; transition: all 0.3s ease;
+            text-align: center; position: relative;
+        }
+        .code-card:hover { border-color: var(--steel-blue); transform: translateY(-3px); }
+        .code-card.selected { border-color: var(--rebar-orange); background: rgba(217, 119, 6, 0.05); }
+        .code-card.selected::after {
+            content: '✓'; position: absolute; top: 0.5rem; right: 0.5rem;
+            background: var(--rebar-orange); color: var(--white);
+            width: 20px; height: 20px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; font-weight: bold;
+        }
+        .code-flag {
+            font-size: 2rem; margin-bottom: 0.75rem;
+        }
+        .code-name {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        .code-standard {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            color: var(--concrete-light);
+        }
+
+        /* Connection Type Section */
+        .connection-types {
+            background: var(--white); border: 1px solid var(--light-gray);
+            padding: 2rem; margin-bottom: 2rem;
+        }
+        .connection-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+        }
+        .connection-card {
+            background: var(--off-white); border: 2px solid var(--light-gray);
+            padding: 1.5rem; cursor: pointer; transition: all 0.3s ease;
+            position: relative;
+        }
+        .connection-card:hover { border-color: var(--steel-blue); }
+        .connection-card.selected { border-color: var(--rebar-orange); background: rgba(217, 119, 6, 0.05); }
+        .connection-card.selected::after {
+            content: '✓'; position: absolute; top: 0.5rem; right: 0.5rem;
+            background: var(--rebar-orange); color: var(--white);
+            width: 20px; height: 20px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; font-weight: bold;
+        }
+        .connection-icon {
+            width: 50px; height: 50px; background: var(--blueprint-bg);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .connection-icon svg { width: 28px; height: 28px; stroke: var(--blueprint-line); }
+        .connection-card h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .connection-card p {
+            font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;
+        }
+
+        /* Input Section */
+        .input-section {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .input-panel {
+            background: var(--white); border: 1px solid var(--light-gray);
+            padding: 2rem;
+        }
+        .input-panel-header {
+            display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+            padding-bottom: 1rem; border-bottom: 1px solid var(--light-gray);
+        }
+        .input-panel-header h2 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+        }
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+        .input-group label {
+            display: block; font-size: 0.8rem; font-weight: 600;
+            color: var(--concrete-dark); margin-bottom: 0.5rem;
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .input-group label span {
+            font-weight: 400; color: var(--concrete-light);
+            text-transform: none; font-size: 0.75rem;
+        }
+        .input-row {
+            display: flex; gap: 0.5rem; align-items: center;
+        }
+        .input-row input, .input-row select {
+            flex: 1;
+        }
+        .input-unit {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--concrete-light); min-width: 40px;
+        }
+        input[type="number"], input[type="text"], select {
+            width: 100%; padding: 0.75rem 1rem;
+            border: 1px solid var(--light-gray); background: var(--off-white);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.875rem;
+            color: var(--concrete-dark); transition: border-color 0.3s ease;
+        }
+        input[type="number"]:focus, input[type="text"]:focus, select:focus {
+            outline: none; border-color: var(--rebar-orange);
+        }
+        select {
+            cursor: pointer; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+
+        /* Calculate Button */
+        .calculate-section {
+            text-align: center; margin-bottom: 2rem;
+        }
+        .calculate-btn {
+            display: inline-flex; align-items: center; gap: 0.75rem;
+            padding: 1rem 3rem; background: var(--rebar-orange);
+            color: var(--white); border: 2px solid var(--rebar-orange);
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .calculate-btn:hover {
+            background: transparent; color: var(--rebar-orange);
+        }
+        .calculate-btn svg { width: 20px; height: 20px; }
+
+        /* Results Section */
+        .results-section {
+            background: var(--white); border: 1px solid var(--light-gray);
+            padding: 2rem; display: none;
+        }
+        .results-section.active { display: block; }
+        .results-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 1.5rem; padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .results-header h2 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .status-badge {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            padding: 0.25rem 0.75rem; text-transform: uppercase;
+        }
+        .status-badge.pass { background: var(--success); color: var(--white); }
+        .status-badge.fail { background: var(--error); color: var(--white); }
+        .results-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .result-card {
+            background: var(--off-white); padding: 1.25rem;
+            border-left: 3px solid var(--steel-blue);
+        }
+        .result-card.highlight { border-left-color: var(--rebar-orange); }
+        .result-label {
+            font-size: 0.75rem; color: var(--concrete-light);
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;
+        }
+        .result-value {
+            font-family: 'JetBrains Mono', monospace; font-size: 1.5rem;
+            font-weight: 600; color: var(--concrete-dark);
+        }
+        .result-value span {
+            font-size: 0.875rem; font-weight: 400; color: var(--concrete-light);
+        }
+        .result-ratio {
+            margin-top: 0.5rem; font-size: 0.8rem;
+        }
+        .result-ratio.pass { color: var(--success); }
+        .result-ratio.fail { color: var(--error); }
+
+        /* Design Checks Table */
+        .checks-table {
+            width: 100%; border-collapse: collapse; margin-top: 1.5rem;
+        }
+        .checks-table th {
+            background: var(--concrete-dark); color: var(--white);
+            padding: 0.75rem 1rem; text-align: left;
+            font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.8rem;
+        }
+        .checks-table td {
+            padding: 0.75rem 1rem; border-bottom: 1px solid var(--light-gray);
+            font-size: 0.875rem;
+        }
+        .checks-table tr:hover td { background: rgba(61, 90, 115, 0.03); }
+        .check-status {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+        }
+        .check-status.pass { color: var(--success); }
+        .check-status.fail { color: var(--error); }
+        .check-status svg { width: 16px; height: 16px; }
+
+        /* Code Reference */
+        .code-reference {
+            background: var(--concrete-dark); padding: 1.5rem 2rem;
+            margin-top: 2rem;
+        }
+        .code-reference p {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8); line-height: 1.7;
+        }
+        .code-reference code {
+            color: var(--rebar-orange); background: rgba(217, 119, 6, 0.15);
+            padding: 0.125rem 0.375rem;
+        }
+
+        /* Other Tools Section */
+        .other-tools-section {
+            position: relative; z-index: 1; background: var(--concrete-dark);
+            padding: 5rem 4rem;
+        }
+        .other-tools-section .section-header {
+            max-width: 1400px; margin: 0 auto 3rem;
+            display: flex; align-items: flex-end; gap: 1.5rem;
+            padding-bottom: 1.5rem; border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        .other-tools-section .section-number { 
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6); background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.75rem; letter-spacing: 0.05em;
+        }
+        .other-tools-section .section-title { 
+            font-family: 'Barlow Condensed', sans-serif; font-size: 2rem;
+            font-weight: 700; color: var(--white); text-transform: uppercase;
+            letter-spacing: 0.02em; position: relative;
+        }
+        .other-tools-section .section-title .accent { 
+            color: var(--rebar-orange); position: relative;
+        }
+        .other-tools-section .section-title .accent::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+            background: var(--rebar-orange);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .other-tools-section .section-header:hover .section-title .accent::after { width: 100%; }
+
+        .tools-carousel-wrapper {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; gap: 1.5rem;
+        }
+        .carousel-arrow {
+            width: 50px; height: 50px; flex-shrink: 0;
+            background: transparent; border: 2px solid var(--blueprint-line);
+            color: var(--white); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .carousel-arrow:hover { background: var(--rebar-orange); border-color: var(--rebar-orange); }
+        .carousel-arrow svg { width: 24px; height: 24px; }
+        .carousel-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+        .carousel-arrow:disabled:hover { background: transparent; border-color: var(--blueprint-line); }
+
+        .tools-carousel { flex: 1; overflow: hidden; }
+        .tools-track {
+            display: flex; gap: 1.5rem;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tool-card {
+            flex: 0 0 calc(33.333% - 1rem);
+            background: var(--concrete-mid);
+            text-decoration: none; overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .tool-card-header {
+            background: var(--blueprint-bg); padding: 1.5rem;
+            position: relative; overflow: hidden;
+        }
+        .tool-card-header::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.5;
+        }
+        .tool-card-icon {
+            position: relative; z-index: 1;
+            width: 50px; height: 50px; background: rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .tool-card-icon svg { width: 24px; height: 24px; stroke: var(--rebar-orange); }
+        .tool-card-tag {
+            position: relative; z-index: 1;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: var(--blueprint-line); text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        .tool-card-info { padding: 1.25rem; }
+        .tool-card-category {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: var(--rebar-orange); text-transform: uppercase;
+            letter-spacing: 0.1em; margin-bottom: 0.5rem; display: block;
+        }
+        .tool-card-info h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem;
+            font-weight: 600; color: var(--white); text-transform: uppercase;
+            letter-spacing: 0.02em; margin-bottom: 0.5rem; line-height: 1.2;
+        }
+        .tool-card-info p {
+            font-size: 0.75rem; color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5; margin-bottom: 1rem;
+        }
+        .tool-card-link {
+            font-family: 'Barlow', sans-serif; font-size: 0.75rem;
+            font-weight: 600; color: var(--blueprint-line); text-transform: uppercase;
+            letter-spacing: 0.1em; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        .tool-card-link svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+        .tool-card:hover .tool-card-link { color: var(--rebar-orange); }
+        .tool-card:hover .tool-card-link svg { transform: translateX(4px); }
+
+        /* CTA Section */
+        .cta-section { background: var(--steel-blue); max-width: 100%; padding: 0.625rem 4rem; position: relative; }
+        .cta-section::before {
+            content: ''; position: absolute; top: 0; right: 0; width: 400px; height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(217, 119, 6, 0.2) 100%);
+        }
+        .cta-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+        .cta-text h2 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.75rem; font-weight: 700;
+            text-transform: uppercase; color: var(--white); margin-bottom: 0.25rem;
+        }
+        .cta-text p { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); }
+        .cta-button {
+            display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.875rem 1.75rem;
+            background: var(--rebar-orange); color: var(--white); text-decoration: none;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8125rem;
+            transition: all 0.4s ease; border: 2px solid var(--rebar-orange);
+            position: relative; overflow: hidden;
+        }
+        .cta-button::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        .cta-button:hover::before { left: 100%; }
+        .cta-button:hover { background: transparent; border-color: var(--white); transform: translateY(-3px); }
+        .cta-button svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .cta-button:hover svg { transform: translateX(5px); }
+
+        /* Footer */
+        footer { background: var(--concrete-dark); padding: 1rem 4rem; position: relative; z-index: 1; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { display: flex; align-items: center; gap: 0.75rem; }
+        .footer-logo-icon { width: 36px; height: 36px; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; }
+        .footer-logo-icon svg { width: 20px; height: 20px; stroke: var(--rebar-orange); }
+        .footer-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 0.05em; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { color: rgba(255, 255, 255, 0.5); text-decoration: none; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--rebar-orange); }
+        .footer-copyright { font-family: 'JetBrains Mono', monospace; color: rgba(255, 255, 255, 0.3); font-size: 0.6875rem; letter-spacing: 0.05em; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .code-cards { grid-template-columns: repeat(2, 1fr); }
+            .connection-grid { grid-template-columns: repeat(2, 1fr); }
+            .input-section { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: repeat(2, 1fr); }
+            .tool-card { flex: 0 0 calc(50% - 0.75rem); }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero { padding: 5rem 1.5rem 3rem; min-height: 40vh; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero-subtitle { font-size: 0.9375rem; }
+            .corner-mark { width: 50px; height: 50px; }
+            .corner-mark.top-left { left: 15px; }
+            .corner-mark.top-right { right: 15px; }
+            .corner-mark.bottom-left { left: 15px; }
+            .corner-mark.bottom-right { right: 15px; }
+            .tool-container { padding: 2rem 1.5rem; }
+            .code-cards { grid-template-columns: 1fr 1fr; }
+            .connection-grid { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+            .other-tools-section { padding: 3rem 1.5rem; }
+            .other-tools-section .section-header { margin-bottom: 2rem; }
+            .other-tools-section .section-title { font-size: 1.5rem; }
+            .other-tools-section .section-number { font-size: 0.625rem; }
+            .tool-card { flex: 0 0 100%; }
+            .carousel-arrow { width: 36px; height: 36px; }
+            .carousel-arrow svg { width: 18px; height: 18px; }
+            .tools-carousel-wrapper { gap: 0.5rem; }
+            .cta-section { padding: 3rem 1.5rem; }
+            .cta-content { flex-direction: column; text-align: center; gap: 2rem; }
+            footer { padding: 1rem 1.5rem; }
+            .footer-content { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+            .tool-meta { flex-direction: column; gap: 0.75rem; }
+            .checks-table { font-size: 0.75rem; }
+            .checks-table th, .checks-table td { padding: 0.5rem; }
+        }
+        @media (max-width: 480px) {
+            nav { padding: 1rem; }
+            .hero { padding: 4.5rem 1rem 2rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .corner-mark { width: 40px; height: 40px; }
+            .corner-mark.top-left { left: 10px; top: 70px; }
+            .corner-mark.top-right { right: 10px; top: 70px; }
+            .corner-mark.bottom-left { left: 10px; bottom: 20px; }
+            .corner-mark.bottom-right { right: 10px; bottom: 20px; }
+            .tool-container { padding: 1.5rem 1rem; }
+            .code-selection, .connection-types, .input-panel, .results-section { padding: 1.25rem; }
+            .code-cards { grid-template-columns: 1fr; }
+            .other-tools-section { padding: 2.5rem 1rem; }
+            .other-tools-section .section-title { font-size: 1.25rem; }
+            .carousel-arrow { width: 32px; height: 32px; }
+            .carousel-arrow svg { width: 16px; height: 16px; }
+            .tool-card-info h3 { font-size: 1rem; }
+            .tool-card-info p { font-size: 0.6875rem; }
+            .cta-section { padding: 2.5rem 1rem; }
+            .cta-text h2 { font-size: 1.5rem; }
+            footer { padding: 0.7rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="blueprint-pattern"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="../../index.html" class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2L2 19h20L12 2z"/>
+                    <path d="M12 8v6"/>
+                </svg>
+            </div>
+            <div class="logo-text">
+                Delta Engineering
+                <span>Structural Solutions</span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../projects.html">Projects</a></li>
+            <li><a href="../../services.html">Services</a></li>
+            <li><a href="../index.html">Tools</a></li>
+            <li><a href="../../publications.html">Publications</a></li>
+            <li><a href="../../about.html">About</a></li>
+            <li><a href="../../contact.html">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M3 6h18M3 18h18"/>
+            </svg>
+        </button>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="../../index.html">Home</a>
+            <a href="../../projects.html">Projects</a>
+            <a href="../../services.html">Services</a>
+            <a href="../index.html">Tools</a>
+            <a href="../../publications.html">Publications</a>
+            <a href="../../about.html">About</a>
+            <a href="../../contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="corner-mark top-left"></div>
+        <div class="corner-mark top-right"></div>
+        <div class="corner-mark bottom-left"></div>
+        <div class="corner-mark bottom-right"></div>
+        <div class="hero-content">
+            <div class="tool-meta">
+                <span class="tool-tag">Online Tool</span>
+                <span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <path d="M9 3v18M3 9h18"/>
+                    </svg>
+                    Multi-Code Support
+                </span>
+                <span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22V8M5 12l7-7 7 7"/>
+                        <path d="M20 22H4"/>
+                    </svg>
+                    v2.1
+                </span>
+            </div>
+            <h1>Steel <span class="highlight">Connection</span> Designer</h1>
+            <p class="hero-subtitle">Design and verify steel connections according to AISC 360, Eurocode 3, CSA S16, and AS 4100. Supports bolted and welded connections with detailed capacity checks.</p>
+        </div>
+    </section>
+
+    <!-- Tool Container -->
+    <main class="tool-container">
+        
+        <!-- Step 1: Code Selection -->
+        <section class="code-selection">
+            <div class="code-selection-header">
+                <span class="step-number">STEP 01</span>
+                <h2>Select Design Code</h2>
+            </div>
+            <div class="code-cards">
+                <div class="code-card selected" onclick="selectCode(this, 'AISC')">
+                    <div class="code-flag">🇺🇸</div>
+                    <div class="code-name">United States</div>
+                    <div class="code-standard">AISC 360-22</div>
+                </div>
+                <div class="code-card" onclick="selectCode(this, 'EC3')">
+                    <div class="code-flag">🇪🇺</div>
+                    <div class="code-name">Eurocode</div>
+                    <div class="code-standard">EN 1993-1-8</div>
+                </div>
+                <div class="code-card" onclick="selectCode(this, 'CSA')">
+                    <div class="code-flag">🇨🇦</div>
+                    <div class="code-name">Canada</div>
+                    <div class="code-standard">CSA S16-19</div>
+                </div>
+                <div class="code-card" onclick="selectCode(this, 'AS')">
+                    <div class="code-flag">🇦🇺</div>
+                    <div class="code-name">Australia</div>
+                    <div class="code-standard">AS 4100-2020</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: Connection Type -->
+        <section class="connection-types">
+            <div class="code-selection-header">
+                <span class="step-number">STEP 02</span>
+                <h2>Select Connection Type</h2>
+            </div>
+            <div class="connection-grid">
+                <div class="connection-card selected" onclick="selectConnection(this, 'shear-tab')">
+                    <div class="connection-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <rect x="2" y="4" width="6" height="16"/>
+                            <rect x="10" y="8" width="12" height="8"/>
+                            <circle cx="12" cy="10" r="1"/><circle cx="12" cy="14" r="1"/>
+                            <circle cx="15" cy="10" r="1"/><circle cx="15" cy="14" r="1"/>
+                        </svg>
+                    </div>
+                    <h3>Shear Tab (Single Plate)</h3>
+                    <p>Simple shear connection with single plate welded to column, bolted to beam web.</p>
+                </div>
+                <div class="connection-card" onclick="selectConnection(this, 'end-plate')">
+                    <div class="connection-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <rect x="2" y="4" width="6" height="16"/>
+                            <rect x="8" y="6" width="2" height="12"/>
+                            <rect x="12" y="8" width="10" height="8"/>
+                            <circle cx="9" cy="8" r="0.8"/><circle cx="9" cy="12" r="0.8"/><circle cx="9" cy="16" r="0.8"/>
+                        </svg>
+                    </div>
+                    <h3>End Plate Connection</h3>
+                    <p>Moment connection with end plate welded to beam, bolted to column flange.</p>
+                </div>
+                <div class="connection-card" onclick="selectConnection(this, 'clip-angle')">
+                    <div class="connection-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <rect x="2" y="4" width="6" height="16"/>
+                            <path d="M8 6h3v12h-3M11 8h11v8h-11"/>
+                            <circle cx="10" cy="9" r="0.8"/><circle cx="10" cy="15" r="0.8"/>
+                            <circle cx="14" cy="10" r="0.8"/><circle cx="14" cy="14" r="0.8"/>
+                        </svg>
+                    </div>
+                    <h3>Clip Angle Connection</h3>
+                    <p>Double angle shear connection bolted to both beam web and column.</p>
+                </div>
+                <div class="connection-card" onclick="selectConnection(this, 'seated')">
+                    <div class="connection-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <rect x="2" y="4" width="6" height="16"/>
+                            <path d="M8 14h4v4h-4z"/>
+                            <rect x="12" y="8" width="10" height="6"/>
+                            <circle cx="10" cy="16" r="0.8"/>
+                        </svg>
+                    </div>
+                    <h3>Seated Connection</h3>
+                    <p>Beam supported on seat angle or tee with optional top angle for stability.</p>
+                </div>
+                <div class="connection-card" onclick="selectConnection(this, 'moment-splice')">
+                    <div class="connection-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <rect x="2" y="8" width="9" height="8"/>
+                            <rect x="13" y="8" width="9" height="8"/>
+                            <rect x="10" y="6" width="4" height="12"/>
+                            <circle cx="12" cy="8" r="0.8"/><circle cx="12" cy="12" r="0.8"/><circle cx="12" cy="16" r="0.8"/>
+                        </svg>
+                    </div>
+                    <h3>Beam Splice</h3>
+                    <p>Moment or shear splice connection between two beam segments.</p>
+                </div>
+                <div class="connection-card" onclick="selectConnection(this, 'base-plate')">
+                    <div class="connection-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <rect x="8" y="4" width="8" height="12"/>
+                            <rect x="4" y="16" width="16" height="3"/>
+                            <rect x="2" y="19" width="20" height="3" fill="none" stroke-dasharray="2 1"/>
+                            <circle cx="6" cy="17.5" r="0.8"/><circle cx="18" cy="17.5" r="0.8"/>
+                        </svg>
+                    </div>
+                    <h3>Column Base Plate</h3>
+                    <p>Base plate connection transferring column loads to concrete foundation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3: Input Parameters -->
+        <section class="input-section">
+            <div class="input-panel">
+                <div class="input-panel-header">
+                    <span class="step-number">STEP 03</span>
+                    <h2>Member Properties</h2>
+                </div>
+                <div class="input-group">
+                    <label>Beam Section</label>
+                    <select id="beamSection">
+                        <option value="W21x50">W21×50</option>
+                        <option value="W18x35">W18×35</option>
+                        <option value="W16x31">W16×31</option>
+                        <option value="W14x22">W14×22</option>
+                        <option value="W12x19">W12×19</option>
+                        <option value="W10x12">W10×12</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Column Section</label>
+                    <select id="columnSection">
+                        <option value="W14x90">W14×90</option>
+                        <option value="W14x68">W14×68</option>
+                        <option value="W12x65">W12×65</option>
+                        <option value="W12x53">W12×53</option>
+                        <option value="W10x49">W10×49</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Steel Grade</label>
+                    <select id="steelGrade">
+                        <option value="A992">ASTM A992 (Fy = 345 MPa)</option>
+                        <option value="A36">ASTM A36 (Fy = 250 MPa)</option>
+                        <option value="S355">S355 (Fy = 355 MPa)</option>
+                        <option value="S275">S275 (Fy = 275 MPa)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Beam Length <span>(center to center)</span></label>
+                    <div class="input-row">
+                        <input type="number" id="beamLength" value="6000" step="100">
+                        <span class="input-unit">mm</span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-panel">
+                <div class="input-panel-header">
+                    <span class="step-number">STEP 04</span>
+                    <h2>Design Loads</h2>
+                </div>
+                <div class="input-group">
+                    <label>Shear Force (Vu)</label>
+                    <div class="input-row">
+                        <input type="number" id="shearForce" value="150" step="10">
+                        <span class="input-unit">kN</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Axial Force (Nu) <span>+ tension / - compression</span></label>
+                    <div class="input-row">
+                        <input type="number" id="axialForce" value="0" step="5">
+                        <span class="input-unit">kN</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Moment (Mu) <span>if applicable</span></label>
+                    <div class="input-row">
+                        <input type="number" id="moment" value="0" step="5">
+                        <span class="input-unit">kN·m</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Bolt Diameter</label>
+                    <select id="boltDiameter">
+                        <option value="M20">M20 (3/4")</option>
+                        <option value="M22">M22 (7/8")</option>
+                        <option value="M24">M24 (1")</option>
+                        <option value="M27">M27 (1-1/8")</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Bolt Grade</label>
+                    <select id="boltGrade">
+                        <option value="A325">ASTM A325 / 8.8</option>
+                        <option value="A490">ASTM A490 / 10.9</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Number of Bolts</label>
+                    <div class="input-row">
+                        <input type="number" id="numBolts" value="3" min="2" max="12" step="1">
+                        <span class="input-unit">bolts</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculate Button -->
+        <div class="calculate-section">
+            <button class="calculate-btn" onclick="calculateConnection()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4"/>
+                    <path d="M14 9l3 3-3 3"/>
+                </svg>
+                Calculate Connection
+            </button>
+        </div>
+
+        <!-- Results Section -->
+        <section class="results-section" id="resultsSection">
+            <div class="results-header">
+                <h2>
+                    Design Results
+                    <span class="status-badge pass" id="overallStatus">PASS</span>
+                </h2>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--concrete-light);">
+                    Code: <span id="resultCode">AISC 360-22</span>
+                </span>
+            </div>
+            <div class="results-grid">
+                <div class="result-card highlight">
+                    <div class="result-label">Shear Capacity (φVn)</div>
+                    <div class="result-value" id="shearCapacity">245.8 <span>kN</span></div>
+                    <div class="result-ratio pass" id="shearRatio">Vu/φVn = 0.61 ✓</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Bolt Shear Capacity</div>
+                    <div class="result-value" id="boltCapacity">92.4 <span>kN/bolt</span></div>
+                    <div class="result-ratio pass" id="boltRatio">Demand = 50.0 kN ✓</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Bearing Capacity</div>
+                    <div class="result-value" id="bearingCapacity">187.2 <span>kN</span></div>
+                    <div class="result-ratio pass" id="bearingRatio">Ratio = 0.80 ✓</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Plate Thickness Required</div>
+                    <div class="result-value" id="plateThickness">9.5 <span>mm</span></div>
+                    <div class="result-ratio pass">Provided = 10 mm ✓</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Weld Size Required</div>
+                    <div class="result-value" id="weldSize">6 <span>mm</span></div>
+                    <div class="result-ratio pass">Fillet weld both sides</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Block Shear Capacity</div>
+                    <div class="result-value" id="blockShear">312.5 <span>kN</span></div>
+                    <div class="result-ratio pass" id="blockRatio">Ratio = 0.48 ✓</div>
+                </div>
+            </div>
+
+            <table class="checks-table">
+                <thead>
+                    <tr>
+                        <th>Design Check</th>
+                        <th>Capacity</th>
+                        <th>Demand</th>
+                        <th>Ratio</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bolt Shear (Single Plane)</td>
+                        <td>277.2 kN</td>
+                        <td>150.0 kN</td>
+                        <td>0.54</td>
+                        <td><span class="check-status pass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>Bolt Bearing on Plate</td>
+                        <td>187.2 kN</td>
+                        <td>150.0 kN</td>
+                        <td>0.80</td>
+                        <td><span class="check-status pass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>Bolt Bearing on Beam Web</td>
+                        <td>165.4 kN</td>
+                        <td>150.0 kN</td>
+                        <td>0.91</td>
+                        <td><span class="check-status pass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>Plate Gross Shear</td>
+                        <td>245.8 kN</td>
+                        <td>150.0 kN</td>
+                        <td>0.61</td>
+                        <td><span class="check-status pass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>Plate Net Shear</td>
+                        <td>198.3 kN</td>
+                        <td>150.0 kN</td>
+                        <td>0.76</td>
+                        <td><span class="check-status pass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>Block Shear Rupture</td>
+                        <td>312.5 kN</td>
+                        <td>150.0 kN</td>
+                        <td>0.48</td>
+                        <td><span class="check-status pass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>Weld Capacity</td>
+                        <td>218.7 kN</td>
+                        <td>150.0 kN</td>
+                        <td>0.69</td>
+                        <td><span class="check-status pass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> OK</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-reference">
+                <p>
+                    <code>AISC 360-22 Chapter J</code> — Design of bolted and welded connections. 
+                    Bolt shear per Section J3.6, bearing per Section J3.10, block shear per Section J4.3.
+                    Resistance factor φ = 0.75 for bolt shear, φ = 0.75 for bearing, φ = 0.90 for yielding.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Other Tools Section -->
+    <section class="other-tools-section">
+        <div class="section-header">
+            <span class="section-number">MORE TOOLS</span>
+            <h2 class="section-title">Other <span class="accent">Tools</span></h2>
+        </div>
+        <div class="tools-carousel-wrapper">
+            <button class="carousel-arrow carousel-prev" onclick="moveToolsCarousel(-1)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="tools-carousel">
+                <div class="tools-track">
+                    <a href="#" class="tool-card">
+                        <div class="tool-card-header">
+                            <div class="tool-card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            </div>
+                            <span class="tool-card-tag">Calculator</span>
+                        </div>
+                        <div class="tool-card-info">
+                            <span class="tool-card-category">Concrete</span>
+                            <h3>RC Beam Designer</h3>
+                            <p>Design reinforced concrete beams per ACI 318, EC2, and other standards.</p>
+                            <span class="tool-card-link">Open Tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="#" class="tool-card">
+                        <div class="tool-card-header">
+                            <div class="tool-card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><path d="M12 8v6"/></svg>
+                            </div>
+                            <span class="tool-card-tag">Calculator</span>
+                        </div>
+                        <div class="tool-card-info">
+                            <span class="tool-card-category">Foundation</span>
+                            <h3>Footing Designer</h3>
+                            <p>Isolated and combined footing design with bearing and settlement checks.</p>
+                            <span class="tool-card-link">Open Tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="#" class="tool-card">
+                        <div class="tool-card-header">
+                            <div class="tool-card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            </div>
+                            <span class="tool-card-tag">Calculator</span>
+                        </div>
+                        <div class="tool-card-info">
+                            <span class="tool-card-category">Seismic</span>
+                            <h3>Response Spectrum Tool</h3>
+                            <p>Generate design response spectra per ASCE 7, EC8, and regional codes.</p>
+                            <span class="tool-card-link">Open Tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="#" class="tool-card">
+                        <div class="tool-card-header">
+                            <div class="tool-card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                            </div>
+                            <span class="tool-card-tag">Calculator</span>
+                        </div>
+                        <div class="tool-card-info">
+                            <span class="tool-card-category">Steel</span>
+                            <h3>Section Properties</h3>
+                            <p>Calculate section properties for standard and custom steel shapes.</p>
+                            <span class="tool-card-link">Open Tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="#" class="tool-card">
+                        <div class="tool-card-header">
+                            <div class="tool-card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                            </div>
+                            <span class="tool-card-tag">Calculator</span>
+                        </div>
+                        <div class="tool-card-info">
+                            <span class="tool-card-category">Wind</span>
+                            <h3>Wind Load Calculator</h3>
+                            <p>Calculate wind pressures and forces per ASCE 7, EC1, and AS 1170.</p>
+                            <span class="tool-card-link">Open Tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                    <a href="#" class="tool-card">
+                        <div class="tool-card-header">
+                            <div class="tool-card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                            </div>
+                            <span class="tool-card-tag">Reference</span>
+                        </div>
+                        <div class="tool-card-info">
+                            <span class="tool-card-category">General</span>
+                            <h3>Unit Converter</h3>
+                            <p>Convert between metric, imperial, and engineering units quickly.</p>
+                            <span class="tool-card-link">Open Tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <button class="carousel-arrow carousel-next" onclick="moveToolsCarousel(1)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <div class="cta-text">
+                <h2>Need Custom Engineering Solutions?</h2>
+                <p>Our team provides specialized structural analysis and design services.</p>
+            </div>
+            <a href="../../contact.html" class="cta-button">
+                Contact Us
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/></svg>
+                </div>
+                <div class="footer-logo-text">Delta Engineering</div>
+            </div>
+            <div class="footer-links">
+                <a href="../../projects.html">Projects</a><a href="../../services.html">Services</a><a href="../index.html">Tools</a><a href="../../publications.html">Publications</a><a href="../../about.html">About</a><a href="../../contact.html">Contact</a>
+            </div>
+            <div class="footer-copyright">© 2024 DELTA ENGINEERING. ALL RIGHTS RESERVED.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.querySelector('nav').style.setProperty('--scroll-progress', scrollPercent + '%');
+        });
+
+        // Code selection
+        let selectedCode = 'AISC';
+        function selectCode(element, code) {
+            document.querySelectorAll('.code-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedCode = code;
+        }
+
+        // Connection type selection
+        let selectedConnection = 'shear-tab';
+        function selectConnection(element, type) {
+            document.querySelectorAll('.connection-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedConnection = type;
+        }
+
+        // Calculate connection (demo function)
+        function calculateConnection() {
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.classList.add('active');
+            
+            // Update code reference
+            const codeNames = {
+                'AISC': 'AISC 360-22',
+                'EC3': 'EN 1993-1-8',
+                'CSA': 'CSA S16-19',
+                'AS': 'AS 4100-2020'
+            };
+            document.getElementById('resultCode').textContent = codeNames[selectedCode];
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Tools Carousel
+        let toolsPosition = 0;
+        
+        function moveToolsCarousel(direction) {
+            const track = document.querySelector('.tools-track');
+            const cards = document.querySelectorAll('.tool-card');
+            if (!track || cards.length === 0) return;
+            
+            const cardWidth = cards[0].offsetWidth + 24;
+            const visible = window.innerWidth <= 768 ? 1 : (window.innerWidth <= 1024 ? 2 : 3);
+            const maxPosition = cards.length - visible;
+            
+            toolsPosition += direction;
+            
+            if (toolsPosition < 0) toolsPosition = 0;
+            if (toolsPosition > maxPosition) toolsPosition = maxPosition;
+            
+            track.style.transform = `translateX(-${toolsPosition * cardWidth}px)`;
+            updateToolsArrows();
+        }
+        
+        function updateToolsArrows() {
+            const prevBtn = document.querySelector('.other-tools-section .carousel-prev');
+            const nextBtn = document.querySelector('.other-tools-section .carousel-next');
+            const cards = document.querySelectorAll('.tool-card');
+            const visible = window.innerWidth <= 768 ? 1 : (window.innerWidth <= 1024 ? 2 : 3);
+            const maxPosition = cards.length - visible;
+            
+            if (prevBtn) prevBtn.disabled = toolsPosition <= 0;
+            if (nextBtn) nextBtn.disabled = toolsPosition >= maxPosition;
+        }
+        
+        document.addEventListener('DOMContentLoaded', updateToolsArrows);
+        window.addEventListener('resize', () => {
+            toolsPosition = 0;
+            const track = document.querySelector('.tools-track');
+            if (track) track.style.transform = 'translateX(0)';
+            updateToolsArrows();
+        });
+    </script>
+</body>
+</html>
