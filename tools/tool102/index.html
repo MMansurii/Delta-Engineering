@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steel Connection Designer | Delta Engineering Tools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --concrete-dark: #2c3038; --concrete-mid: #4a4f5a; --concrete-light: #6b7280; --steel-blue: #3d5a73; --rebar-orange: #d97706; --blueprint-bg: #1e3a5f; --blueprint-line: #4a90c2; --blueprint-grid: rgba(74,144,194,0.15); --white: #fff; --off-white: #f8f9fa; --light-gray: #e5e7eb; --text-primary: #1f2937; --success: #10b981; --error: #ef4444; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Barlow', sans-serif; background: var(--off-white); color: var(--text-primary); line-height: 1.6; }
+        .blueprint-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.4; background-image: linear-gradient(rgba(45,65,85,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(45,65,85,0.03) 1px, transparent 1px); background-size: 100px 100px; }
+        nav { position: fixed; top: 0; left: 0; width: 100%; padding: 1rem 4rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 3px solid var(--concrete-dark); }
+        nav::after { content: ''; position: absolute; bottom: 0; left: 0; height: 3px; width: var(--scroll-progress, 0%); background: linear-gradient(90deg, var(--rebar-orange), var(--steel-blue)); }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon { width: 40px; height: 40px; background: var(--concrete-dark); display: flex; align-items: center; justify-content: center; }
+        .logo-icon svg { width: 24px; height: 24px; stroke: var(--rebar-orange); }
+        .logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--concrete-dark); text-transform: uppercase; }
+        .logo-text span { display: block; font-size: 0.7rem; font-weight: 500; color: var(--concrete-light); }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--concrete-mid); font-size: 0.8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 2px; background: var(--rebar-orange); transition: width 0.3s; }
+        .nav-links a:hover::after { width: 100%; }
+        .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; color: var(--rebar-orange); }
+        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--concrete-dark); flex-direction: column; padding: 1rem 0; }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { color: rgba(255,255,255,0.7); text-decoration: none; padding: 0.75rem 2rem; font-size: 0.875rem; text-transform: uppercase; }
+        .hero { position: relative; min-height: 40vh; background: linear-gradient(135deg, var(--blueprint-bg), #152a45); display: flex; align-items: center; padding: 8rem 4rem 3rem; z-index: 1; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(var(--blueprint-grid) 1px, transparent 1px), linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px); background-size: 80px 80px; }
+        .corner-mark { position: absolute; width: 60px; height: 60px; border: 2px solid var(--blueprint-line); opacity: 0.4; animation: floatCorner 6s ease-in-out infinite; }
+        .corner-mark.top-left { top: 100px; left: 40px; border-right: none; border-bottom: none; --move-x: 5px; --move-y: 5px; }
+        .corner-mark.top-right { top: 100px; right: 40px; border-left: none; border-bottom: none; --move-x: -5px; --move-y: 5px; }
+        .corner-mark.bottom-left { bottom: 40px; left: 40px; border-right: none; border-top: none; --move-x: 5px; --move-y: -5px; }
+        .corner-mark.bottom-right { bottom: 40px; right: 40px; border-left: none; border-top: none; --move-x: -5px; --move-y: -5px; }
+        @keyframes floatCorner { 0%, 100% { transform: translate(0,0); opacity: 0.4; } 50% { transform: translate(var(--move-x), var(--move-y)); opacity: 0.6; } }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; text-align: center; color: var(--white); }
+        .tool-meta { display: inline-flex; align-items: center; gap: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--blueprint-line); margin-bottom: 1rem; }
+        .tool-tag { background: var(--rebar-orange); color: var(--white); padding: 0.25rem 0.75rem; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
+        .hero h1 { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; text-transform: uppercase; margin-bottom: 0.75rem; }
+        .hero h1 .highlight { color: var(--rebar-orange); }
+        .hero-subtitle { font-size: 0.95rem; color: rgba(255,255,255,0.75); max-width: 650px; margin: 0 auto; }
+        .tool-container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .section-box { background: var(--white); border: 1px solid var(--light-gray); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--light-gray); }
+        .section-header h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 600; color: var(--concrete-dark); text-transform: uppercase; }
+        .step-number { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; background: var(--rebar-orange); color: var(--white); padding: 0.2rem 0.5rem; }
+        .code-cards { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .code-card { flex: 1; min-width: 160px; background: var(--off-white); border: 2px solid var(--light-gray); padding: 0.85rem 1rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 0.75rem; position: relative; }
+        .code-card:hover { border-color: var(--steel-blue); }
+        .code-card.selected { border-color: var(--rebar-orange); background: rgba(217,119,6,0.05); }
+        .code-card.selected::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--rebar-orange); }
+        .code-flag { font-size: 1.5rem; }
+        .code-info { flex: 1; }
+        .code-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--concrete-dark); text-transform: uppercase; line-height: 1.2; }
+        .code-standard { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--steel-blue); }
+        .code-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--light-gray); }
+        .code-card.selected .code-check { background: var(--rebar-orange); border-color: var(--rebar-orange); }
+        .code-card.selected .code-check::after { content: '✓'; color: white; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; height: 100%; }
+        .connection-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .connection-card { background: var(--off-white); border: 2px solid var(--light-gray); cursor: pointer; transition: all 0.3s; overflow: hidden; }
+        .connection-card:hover { border-color: var(--steel-blue); transform: translateY(-2px); }
+        .connection-card.selected { border-color: var(--rebar-orange); }
+        .connection-diagram { height: 140px; background: var(--blueprint-bg); display: flex; align-items: center; justify-content: center; position: relative; }
+        .connection-diagram::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(var(--blueprint-grid) 1px, transparent 1px), linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px); background-size: 12px 12px; opacity: 0.4; }
+        .connection-diagram svg { width: 110px; height: 95px; position: relative; z-index: 1; }
+        .connection-info { padding: 1rem; }
+        .connection-card h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 600; color: var(--concrete-dark); text-transform: uppercase; margin-bottom: 0.25rem; }
+        .connection-card p { font-size: 0.8rem; color: var(--concrete-light); line-height: 1.4; }
+        .main-layout { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.5rem; }
+        .panel { background: var(--white); border: 1px solid var(--light-gray); }
+        .panel-header { background: var(--concrete-dark); color: var(--white); padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+        .panel-header h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 600; text-transform: uppercase; }
+        .step-badge { background: var(--rebar-orange); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; padding: 0.15rem 0.5rem; }
+        .panel-body { padding: 1.25rem; }
+        .input-group { margin-bottom: 1rem; }
+        .input-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--concrete-dark); margin-bottom: 0.4rem; text-transform: uppercase; }
+        .input-row { display: flex; gap: 0.5rem; align-items: center; }
+        .input-unit { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--concrete-light); min-width: 35px; }
+        input[type="number"], select { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--light-gray); background: var(--off-white); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--concrete-dark); }
+        input:focus, select:focus { outline: none; border-color: var(--rebar-orange); }
+        select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem; }
+        .input-divider { border: none; border-top: 1px dashed var(--light-gray); margin: 1.25rem 0; }
+        .input-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .calculate-btn { width: 100%; padding: 1rem; background: var(--rebar-orange); color: var(--white); border: none; font-family: 'Barlow Condensed', sans-serif; font-size: 1.15rem; font-weight: 600; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-top: 1rem; }
+        .calculate-btn:hover { background: var(--concrete-dark); }
+        .calculate-btn svg { width: 20px; height: 20px; }
+        .preview-header { background: var(--blueprint-bg); color: var(--white); padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+        .preview-header h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 600; text-transform: uppercase; }
+        .preview-canvas { background: linear-gradient(135deg, #1a2d47, var(--blueprint-bg)); height: 280px; display: flex; align-items: center; justify-content: center; position: relative; margin: 1rem; border: 1px solid var(--blueprint-line); }
+        .preview-canvas::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(74,144,194,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(74,144,194,0.08) 1px, transparent 1px); background-size: 15px 15px; }
+        .preview-canvas svg { width: 85%; height: 85%; position: relative; z-index: 1; }
+        .dim-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .dim-table th { background: var(--off-white); padding: 0.6rem; text-align: left; font-weight: 600; color: var(--concrete-dark); text-transform: uppercase; font-size: 0.8rem; border-bottom: 1px solid var(--light-gray); }
+        .dim-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--light-gray); }
+        .dim-table td:last-child { font-family: 'JetBrains Mono', monospace; text-align: right; color: var(--steel-blue); }
+        .results-header { background: var(--concrete-dark); color: var(--white); padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+        .results-header h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 600; text-transform: uppercase; }
+        .status-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; padding: 0.25rem 0.75rem; text-transform: uppercase; font-weight: 600; }
+        .status-badge.pass { background: var(--success); color: var(--white); }
+        .status-badge.fail { background: var(--error); color: var(--white); }
+        .status-badge.pending { background: var(--concrete-light); color: var(--white); }
+        .capacity-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+        .capacity-card { background: var(--off-white); padding: 1rem; border-left: 4px solid var(--steel-blue); }
+        .capacity-card.critical { border-left-color: var(--rebar-orange); }
+        .capacity-card.fail { border-left-color: var(--error); background: rgba(239,68,68,0.05); }
+        .capacity-label { font-size: 0.8rem; color: var(--concrete-light); text-transform: uppercase; margin-bottom: 0.35rem; }
+        .capacity-value { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 600; color: var(--concrete-dark); }
+        .capacity-ratio { font-size: 0.85rem; margin-top: 0.35rem; font-family: 'JetBrains Mono', monospace; }
+        .capacity-ratio.pass { color: var(--success); }
+        .capacity-ratio.fail { color: var(--error); }
+        .checks-header { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--concrete-dark); text-transform: uppercase; padding: 0.75rem 0; border-bottom: 2px solid var(--light-gray); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .checks-header svg { width: 16px; height: 16px; stroke: var(--rebar-orange); }
+        .check-item { display: grid; grid-template-columns: 1fr auto auto auto; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--light-gray); font-size: 0.95rem; align-items: center; }
+        .check-name { color: var(--text-primary); font-weight: 500; }
+        .check-values { font-family: 'JetBrains Mono', monospace; color: var(--concrete-light); font-size: 0.85rem; }
+        .check-ratio { font-family: 'JetBrains Mono', monospace; font-weight: 600; min-width: 50px; text-align: right; font-size: 0.95rem; }
+        .check-ratio.pass { color: var(--success); }
+        .check-ratio.fail { color: var(--error); }
+        .check-status { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .check-status.pass { background: var(--success); }
+        .check-status.fail { background: var(--error); }
+        .check-status svg { width: 12px; height: 12px; stroke: white; stroke-width: 3; }
+        .calc-details { background: var(--concrete-dark); padding: 1.25rem; margin-top: 1.25rem; }
+        .calc-details h4 { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: var(--white); text-transform: uppercase; margin-bottom: 0.75rem; }
+        .calc-formula { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: rgba(255,255,255,0.9); line-height: 2; }
+        .calc-formula .result { color: var(--rebar-orange); font-weight: 600; }
+        .calc-ref { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); }
+        .calc-ref code { background: rgba(217,119,6,0.2); color: var(--rebar-orange); padding: 0.1rem 0.25rem; }
+        .cta-section { background: var(--steel-blue); padding: 0.5rem 4rem; position: relative; margin-top: 2rem; }
+        .cta-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .cta-text h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; font-weight: 700; text-transform: uppercase; color: var(--white); }
+        .cta-text p { font-size: 0.8rem; color: rgba(255,255,255,0.7); }
+        .cta-button { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.5rem; background: var(--rebar-orange); color: var(--white); text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; border: 2px solid var(--rebar-orange); }
+        .cta-button:hover { background: transparent; border-color: var(--white); }
+        footer { background: var(--concrete-dark); padding: 0.75rem 4rem; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { display: flex; align-items: center; gap: 0.5rem; }
+        .footer-logo-icon { width: 32px; height: 32px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; }
+        .footer-logo-icon svg { width: 18px; height: 18px; stroke: var(--rebar-orange); }
+        .footer-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--white); text-transform: uppercase; }
+        .footer-links { display: flex; gap: 1.5rem; }
+        .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; }
+        .footer-links a:hover { color: var(--rebar-orange); }
+        .footer-copyright { font-family: 'JetBrains Mono', monospace; color: rgba(255,255,255,0.3); font-size: 0.6rem; }
+        @media (max-width: 1024px) { .main-layout { grid-template-columns: 1fr; } .code-card { flex: 1 1 calc(50% - 0.25rem); } .connection-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { nav { padding: 1rem 1.5rem; } .nav-links { display: none; } .mobile-menu-btn { display: block; } .hero { padding: 6rem 1.5rem 2rem; } .hero h1 { font-size: 1.75rem; } .corner-mark { width: 50px; height: 50px; } .tool-container { padding: 1.5rem 1rem; } .code-card { flex: 1 1 100%; } .connection-grid { grid-template-columns: 1fr; } .cta-section { padding: 1.5rem; } .cta-content { flex-direction: column; text-align: center; gap: 1rem; } footer { padding: 0.75rem 1.5rem; } .footer-content { flex-direction: column; gap: 0.75rem; } .tool-meta { flex-direction: column; gap: 0.5rem; } .capacity-summary { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="blueprint-pattern"></div>
+    <nav>
+        <a href="../../index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/></svg></div><div class="logo-text">Delta Engineering<span>Structural Solutions</span></div></a>
+        <ul class="nav-links"><li><a href="../../index.html">Home</a></li><li><a href="../../projects.html">Projects</a></li><li><a href="../../services.html">Services</a></li><li><a href="../index.html">Tools</a></li><li><a href="../../publications.html">Publications</a></li><li><a href="../../about.html">About</a></li><li><a href="../../contact.html">Contact</a></li></ul>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+        <div class="mobile-menu" id="mobileMenu"><a href="../../index.html">Home</a><a href="../../projects.html">Projects</a><a href="../../services.html">Services</a><a href="../index.html">Tools</a><a href="../../publications.html">Publications</a><a href="../../about.html">About</a><a href="../../contact.html">Contact</a></div>
+    </nav>
+    <section class="hero">
+        <div class="corner-mark top-left"></div><div class="corner-mark top-right"></div><div class="corner-mark bottom-left"></div><div class="corner-mark bottom-right"></div>
+        <div class="hero-content">
+            <div class="tool-meta"><span class="tool-tag">Online Tool</span><span>Multi-Code Support</span><span>v2.5</span></div>
+            <h1>Steel <span class="highlight">Connection</span> Designer</h1>
+            <p class="hero-subtitle">Design steel connections per AISC 360, Eurocode 3, CSA S16, and AS 4100 with full calculation transparency.</p>
+        </div>
+    </section>
+    <main class="tool-container">
+        <section class="section-box">
+            <div class="section-header"><span class="step-number">01</span><h2>Design Code</h2></div>
+            <div class="code-cards">
+                <div class="code-card selected" onclick="selectCode(this,'AISC')"><span class="code-flag">🇺🇸</span><div class="code-info"><div class="code-name">AISC 360-22</div><div class="code-standard">United States</div></div><div class="code-check"></div></div>
+                <div class="code-card" onclick="selectCode(this,'EC3')"><span class="code-flag">🇪🇺</span><div class="code-info"><div class="code-name">Eurocode 3</div><div class="code-standard">EN 1993-1-8</div></div><div class="code-check"></div></div>
+                <div class="code-card" onclick="selectCode(this,'CSA')"><span class="code-flag">🇨🇦</span><div class="code-info"><div class="code-name">CSA S16-19</div><div class="code-standard">Canada</div></div><div class="code-check"></div></div>
+                <div class="code-card" onclick="selectCode(this,'AS')"><span class="code-flag">🇦🇺</span><div class="code-info"><div class="code-name">AS 4100</div><div class="code-standard">Australia</div></div><div class="code-check"></div></div>
+            </div>
+        </section>
+        <section class="section-box">
+            <div class="section-header"><span class="step-number">02</span><h2>Connection Type</h2></div>
+            <div class="connection-grid">
+                <div class="connection-card selected" onclick="selectConnection(this,'shear-tab')"><div class="connection-diagram"><svg viewBox="0 0 120 100" fill="none"><rect x="5" y="5" width="25" height="90" fill="#3d5a73" stroke="#4a90c2"/><rect x="30" y="25" width="8" height="50" fill="#6b7280" stroke="#4a90c2"/><rect x="45" y="30" width="70" height="40" fill="#3d5a73" stroke="#4a90c2"/><rect x="45" y="30" width="70" height="6" fill="#4a4f5a"/><rect x="45" y="64" width="70" height="6" fill="#4a4f5a"/><circle cx="50" cy="40" r="3" fill="#d97706"/><circle cx="50" cy="50" r="3" fill="#d97706"/><circle cx="50" cy="60" r="3" fill="#d97706"/></svg></div><div class="connection-info"><h3>Shear Tab</h3><p>Single plate welded to column, bolted to beam</p></div></div>
+                <div class="connection-card" onclick="selectConnection(this,'end-plate')"><div class="connection-diagram"><svg viewBox="0 0 120 100" fill="none"><rect x="5" y="5" width="30" height="90" fill="#3d5a73" stroke="#4a90c2"/><rect x="35" y="15" width="8" height="70" fill="#6b7280" stroke="#4a90c2"/><rect x="43" y="25" width="72" height="50" fill="#3d5a73" stroke="#4a90c2"/><rect x="43" y="25" width="72" height="8" fill="#4a4f5a"/><rect x="43" y="67" width="72" height="8" fill="#4a4f5a"/><circle cx="39" cy="20" r="2.5" fill="#d97706"/><circle cx="39" cy="35" r="2.5" fill="#d97706"/><circle cx="39" cy="65" r="2.5" fill="#d97706"/><circle cx="39" cy="80" r="2.5" fill="#d97706"/></svg></div><div class="connection-info"><h3>End Plate Moment</h3><p>Extended or flush end plate for moment</p></div></div>
+                <div class="connection-card" onclick="selectConnection(this,'clip-angle')"><div class="connection-diagram"><svg viewBox="0 0 120 100" fill="none"><rect x="5" y="5" width="25" height="90" fill="#3d5a73" stroke="#4a90c2"/><path d="M30 25 L30 75 L38 75 L38 33 L30 33 L30 25" fill="#6b7280" stroke="#4a90c2"/><rect x="50" y="30" width="65" height="40" fill="#3d5a73" stroke="#4a90c2"/><circle cx="34" cy="40" r="2.5" fill="#d97706"/><circle cx="34" cy="60" r="2.5" fill="#d97706"/><circle cx="55" cy="40" r="2.5" fill="#d97706"/><circle cx="55" cy="60" r="2.5" fill="#d97706"/></svg></div><div class="connection-info"><h3>Double Angle</h3><p>Clip angles bolted to column and beam</p></div></div>
+                <div class="connection-card" onclick="selectConnection(this,'flange-plate')"><div class="connection-diagram"><svg viewBox="0 0 120 100" fill="none"><rect x="5" y="5" width="30" height="90" fill="#3d5a73" stroke="#4a90c2"/><rect x="35" y="20" width="35" height="6" fill="#6b7280" stroke="#4a90c2"/><rect x="35" y="74" width="35" height="6" fill="#6b7280" stroke="#4a90c2"/><rect x="35" y="35" width="8" height="30" fill="#6b7280" stroke="#4a90c2"/><rect x="50" y="26" width="65" height="48" fill="#3d5a73" stroke="#4a90c2"/><circle cx="55" cy="23" r="2" fill="#d97706"/><circle cx="65" cy="23" r="2" fill="#d97706"/><circle cx="55" cy="77" r="2" fill="#d97706"/><circle cx="65" cy="77" r="2" fill="#d97706"/></svg></div><div class="connection-info"><h3>Flange Plate</h3><p>Top/bottom plates with shear tab</p></div></div>
+                <div class="connection-card" onclick="selectConnection(this,'base-plate')"><div class="connection-diagram"><svg viewBox="0 0 120 100" fill="none"><rect x="10" y="70" width="100" height="25" fill="#4a4f5a" stroke="#4a90c2" stroke-dasharray="3 2"/><rect x="20" y="60" width="80" height="10" fill="#6b7280" stroke="#4a90c2"/><rect x="35" y="10" width="50" height="50" fill="#3d5a73" stroke="#4a90c2"/><circle cx="30" cy="65" r="3" fill="#d97706"/><circle cx="90" cy="65" r="3" fill="#d97706"/><line x1="30" y1="68" x2="30" y2="85" stroke="#d97706" stroke-width="2"/><line x1="90" y1="68" x2="90" y2="85" stroke="#d97706" stroke-width="2"/></svg></div><div class="connection-info"><h3>Base Plate</h3><p>Column base with anchor bolts</p></div></div>
+                <div class="connection-card" onclick="selectConnection(this,'splice')"><div class="connection-diagram"><svg viewBox="0 0 120 100" fill="none"><rect x="5" y="30" width="50" height="40" fill="#3d5a73" stroke="#4a90c2"/><rect x="65" y="30" width="50" height="40" fill="#3d5a73" stroke="#4a90c2"/><rect x="45" y="25" width="30" height="6" fill="#6b7280" stroke="#4a90c2"/><rect x="45" y="69" width="30" height="6" fill="#6b7280" stroke="#4a90c2"/><rect x="50" y="38" width="20" height="24" fill="#6b7280" stroke="#4a90c2"/><circle cx="52" cy="28" r="2" fill="#d97706"/><circle cx="68" cy="28" r="2" fill="#d97706"/><circle cx="52" cy="72" r="2" fill="#d97706"/><circle cx="68" cy="72" r="2" fill="#d97706"/></svg></div><div class="connection-info"><h3>Beam Splice</h3><p>Moment splice with flange/web plates</p></div></div>
+            </div>
+        </section>
+        
+        <!-- Step 03: Input Parameters -->
+        <section class="section-box">
+            <div class="section-header"><span class="step-number">03</span><h2>Input Parameters</h2></div>
+            <div id="inputPanel">
+                <div class="input-grid">
+                    <div class="input-group"><label>Beam Section</label><select id="beamSection"><option value="W21x50">W21×50</option><option value="W18x35">W18×35</option><option value="W16x31">W16×31</option><option value="W14x22">W14×22</option></select></div>
+                    <div class="input-group"><label>Column Section</label><select id="columnSection"><option value="W14x90">W14×90</option><option value="W14x68">W14×68</option><option value="W12x65">W12×65</option></select></div>
+                    <div class="input-group"><label>Steel Grade</label><select id="steelGrade"><option value="A992">ASTM A992 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>
+                    <div class="input-group"><label>Plate Grade</label><select id="plateGrade"><option value="A36">ASTM A36 (Fy=250 MPa)</option><option value="A572">ASTM A572 Gr.50 (Fy=345 MPa)</option></select></div>
+                </div>
+                <hr class="input-divider">
+                <div class="input-grid">
+                    <div class="input-group"><label>Shear Force (Vu)</label><div class="input-row"><input type="number" id="shearForce" value="150" step="10"><span class="input-unit">kN</span></div></div>
+                    <div class="input-group"><label>Axial Force (Nu)</label><div class="input-row"><input type="number" id="axialForce" value="0" step="5"><span class="input-unit">kN</span></div></div>
+                    <div class="input-group"><label>Moment (Mu)</label><div class="input-row"><input type="number" id="momentForce" value="0" step="10"><span class="input-unit">kN·m</span></div></div>
+                    <div class="input-group"><label>Eccentricity (e)</label><div class="input-row"><input type="number" id="eccentricity" value="75" step="5"><span class="input-unit">mm</span></div></div>
+                </div>
+                <hr class="input-divider">
+                <div class="input-grid">
+                    <div class="input-group"><label>Plate Thickness (tp)</label><div class="input-row"><input type="number" id="plateThickness" value="10" step="2"><span class="input-unit">mm</span></div></div>
+                    <div class="input-group"><label>Plate Depth (dp)</label><div class="input-row"><input type="number" id="plateDepth" value="230" step="10"><span class="input-unit">mm</span></div></div>
+                    <div class="input-group"><label>Bolt Diameter</label><select id="boltDiameter"><option value="M20">M20 (db=20mm)</option><option value="M22">M22 (db=22mm)</option><option value="M24">M24 (db=24mm)</option></select></div>
+                    <div class="input-group"><label>Bolt Grade</label><select id="boltGrade"><option value="8.8">Grade 8.8 / A325</option><option value="10.9">Grade 10.9 / A490</option></select></div>
+                    <div class="input-group"><label>Number of Bolts (n)</label><div class="input-row"><input type="number" id="numBolts" value="3" min="2" max="10"><span class="input-unit">bolts</span></div></div>
+                    <div class="input-group"><label>Bolt Spacing (s)</label><div class="input-row"><input type="number" id="boltSpacing" value="75" step="5"><span class="input-unit">mm</span></div></div>
+                    <div class="input-group"><label>Edge Distance (Le)</label><div class="input-row"><input type="number" id="edgeDistance" value="40" step="5"><span class="input-unit">mm</span></div></div>
+                    <div class="input-group"><label>Weld Size (w)</label><div class="input-row"><input type="number" id="weldSize" value="6" step="1"><span class="input-unit">mm</span></div></div>
+                </div>
+                <button class="calculate-btn" onclick="calculateConnection()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4"/><path d="M14 9l3 3-3 3"/></svg>Calculate Connection</button>
+            </div>
+        </section>
+
+        <!-- Connection Preview -->
+        <section class="section-box">
+            <div class="section-header"><span class="step-number">04</span><h2>Connection Preview</h2><span style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--steel-blue);margin-left:auto;" id="connTypeLabel">SHEAR TAB</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+                <div class="preview-canvas" style="height:350px;margin:0;"><svg viewBox="0 0 300 250" fill="none" id="connectionSVG"><rect x="20" y="20" width="60" height="210" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/><text x="50" y="240" fill="#4a90c2" font-size="10" text-anchor="middle">W14×90</text><rect x="80" y="55" width="15" height="140" fill="#6b7280" stroke="#4a90c2" stroke-width="1.5"/><text x="87" y="205" fill="#d97706" font-size="8" text-anchor="middle">PL10</text><rect x="110" y="70" width="170" height="110" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/><rect x="110" y="70" width="170" height="15" fill="#4a4f5a" stroke="#4a90c2"/><rect x="110" y="165" width="170" height="15" fill="#4a4f5a" stroke="#4a90c2"/><text x="195" y="240" fill="#4a90c2" font-size="10" text-anchor="middle">W21×50</text><circle cx="120" cy="95" r="8" fill="none" stroke="#d97706" stroke-width="2"/><circle cx="120" cy="95" r="3" fill="#d97706"/><circle cx="120" cy="125" r="8" fill="none" stroke="#d97706" stroke-width="2"/><circle cx="120" cy="125" r="3" fill="#d97706"/><circle cx="120" cy="155" r="8" fill="none" stroke="#d97706" stroke-width="2"/><circle cx="120" cy="155" r="3" fill="#d97706"/><path d="M80 55 L72 47 M80 55 L72 63 M80 195 L72 187 M80 195 L72 203" stroke="#d97706" stroke-width="2"/><line x1="95" y1="55" x2="95" y2="195" stroke="#fff" stroke-width="0.5" stroke-dasharray="3 2"/><text x="100" y="130" fill="#fff" font-size="9">230</text></svg></div>
+                <div>
+                    <h4 style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;color:var(--concrete-dark);text-transform:uppercase;margin-bottom:1rem;">Connection Geometry</h4>
+                    <table class="dim-table"><thead><tr><th>Parameter</th><th>Value</th></tr></thead><tbody id="dimensionTable"><tr><td>Plate thickness (tp)</td><td>10 mm</td></tr><tr><td>Plate depth (dp)</td><td>230 mm</td></tr><tr><td>Bolt diameter (db)</td><td>20 mm</td></tr><tr><td>Hole diameter (dh)</td><td>22 mm</td></tr><tr><td>Number of bolts (n)</td><td>3</td></tr><tr><td>Bolt spacing (s)</td><td>75 mm</td></tr><tr><td>Edge distance (Le)</td><td>40 mm</td></tr><tr><td>Weld size (w)</td><td>6 mm</td></tr><tr><td>Weld length (Lw)</td><td>210 mm</td></tr></tbody></table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Design Results -->
+        <section class="section-box">
+            <div class="section-header"><span class="step-number">05</span><h2>Design Results</h2><span class="status-badge pending" id="overallStatus" style="margin-left:auto;">PENDING</span></div>
+            <div id="resultsBody"><div style="text-align:center;padding:3rem 1rem;color:var(--concrete-light);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:1rem;opacity:0.5;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><p style="font-size:1rem;">Enter parameters and click Calculate to see detailed results</p></div></div>
+        </section>
+    </main>
+    <section class="cta-section"><div class="cta-content"><div class="cta-text"><h2>Need Custom Engineering Solutions?</h2><p>Our team provides specialized structural design services.</p></div><a href="../../contact.html" class="cta-button">Contact Us <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div></section>
+    <footer><div class="footer-content"><div class="footer-logo"><div class="footer-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/></svg></div><div class="footer-logo-text">Delta Engineering</div></div><div class="footer-links"><a href="../../projects.html">Projects</a><a href="../../services.html">Services</a><a href="../index.html">Tools</a><a href="../../publications.html">Publications</a><a href="../../about.html">About</a><a href="../../contact.html">Contact</a></div><div class="footer-copyright">© 2024 DELTA ENGINEERING</div></div></footer>
+    <script>
+        var selectedCode = 'AISC';
+        var selectedConnection = 'shear-tab';
+        var codeData = {
+            'AISC': { name: 'AISC 360-22' },
+            'EC3': { name: 'EN 1993-1-8' },
+            'CSA': { name: 'CSA S16-19' },
+            'AS': { name: 'AS 4100-2020' }
+        };
+        var boltData = {
+            'M20': { d: 20, dh: 22, Ab: 314 },
+            'M22': { d: 22, dh: 24, Ab: 380 },
+            'M24': { d: 24, dh: 26, Ab: 452 }
+        };
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        window.addEventListener('scroll', function() {
+            var p = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('nav').style.setProperty('--scroll-progress', p + '%');
+        });
+
+        function selectCode(el, code) {
+            var cards = document.querySelectorAll('.code-card');
+            for (var i = 0; i < cards.length; i++) {
+                cards[i].classList.remove('selected');
+            }
+            el.classList.add('selected');
+            selectedCode = code;
+            var s = document.getElementById('steelGrade');
+            if (code === 'AISC') {
+                s.innerHTML = '<option value="A992">ASTM A992 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option>';
+            } else if (code === 'EC3') {
+                s.innerHTML = '<option value="S355">S355 (fy=355 MPa)</option><option value="S275">S275 (fy=275 MPa)</option>';
+            } else if (code === 'CSA') {
+                s.innerHTML = '<option value="350W">350W (Fy=350 MPa)</option><option value="300W">300W (Fy=300 MPa)</option>';
+            } else {
+                s.innerHTML = '<option value="350">Grade 350 (fy=350 MPa)</option><option value="300">Grade 300 (fy=300 MPa)</option>';
+            }
+        }
+
+        function selectConnection(el, type) {
+            var cards = document.querySelectorAll('.connection-card');
+            for (var i = 0; i < cards.length; i++) {
+                cards[i].classList.remove('selected');
+            }
+            el.classList.add('selected');
+            selectedConnection = type;
+            var labels = {
+                'shear-tab': 'SHEAR TAB',
+                'end-plate': 'END PLATE',
+                'clip-angle': 'DOUBLE ANGLE',
+                'flange-plate': 'FLANGE PLATE',
+                'base-plate': 'BASE PLATE',
+                'splice': 'BEAM SPLICE'
+            };
+            document.getElementById('connTypeLabel').textContent = labels[type] || type.toUpperCase();
+        }
+
+        function calculateConnection() {
+            var Vu = parseFloat(document.getElementById('shearForce').value);
+            var tp = parseFloat(document.getElementById('plateThickness').value);
+            var dp = parseFloat(document.getElementById('plateDepth').value);
+            var boltDia = document.getElementById('boltDiameter').value;
+            var boltGrade = document.getElementById('boltGrade').value;
+            var n = parseInt(document.getElementById('numBolts').value);
+            var s = parseFloat(document.getElementById('boltSpacing').value);
+            var Le = parseFloat(document.getElementById('edgeDistance').value);
+            var w = parseFloat(document.getElementById('weldSize').value);
+            var steelGrade = document.getElementById('steelGrade').value;
+            var Fy = (steelGrade.indexOf('992') >= 0 || steelGrade.indexOf('355') >= 0 || steelGrade.indexOf('350') >= 0) ? 345 : 250;
+            var Fu = Fy === 345 ? 450 : 400;
+            var bolt = boltData[boltDia];
+            var checks = [];
+            var formulas = [];
+
+            if (selectedCode === 'AISC') {
+                var phi_v = 0.75, phi_y = 0.90, phi_r = 0.75;
+                var Fnv = boltGrade === '8.8' ? 372 : 468;
+                var Vn_bolt = n * phi_v * Fnv * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear (J3.6)', capacity: Vn_bolt.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_bolt).toFixed(2), pass: Vu <= Vn_bolt });
+                formulas.push({ title: 'Bolt Shear (AISC J3.6)', formula: 'φRn = ' + phi_v + '×' + n + '×' + Fnv + '×' + bolt.Ab + '/1000 = <span class="result">' + Vn_bolt.toFixed(1) + ' kN</span>' });
+
+                var Lc = Le - bolt.dh/2;
+                var Rn_br = n * phi_v * Math.min(1.2*Lc*tp*Fu/1000, 2.4*bolt.d*tp*Fu/1000);
+                checks.push({ name: 'Bolt Bearing (J3.10)', capacity: Rn_br.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Rn_br).toFixed(2), pass: Vu <= Rn_br });
+
+                var Agv = dp * tp;
+                var Vn_gross = phi_y * 0.6 * Fy * Agv / 1000;
+                checks.push({ name: 'Gross Shear Yield (J4.2)', capacity: Vn_gross.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_gross).toFixed(2), pass: Vu <= Vn_gross });
+                formulas.push({ title: 'Gross Shear (J4.2)', formula: 'Agv = ' + dp + '×' + tp + ' = ' + Agv + ' mm²<br>φRn = <span class="result">' + Vn_gross.toFixed(1) + ' kN</span>' });
+
+                var Anv = (dp - n*bolt.dh) * tp;
+                var Vn_net = phi_r * 0.6 * Fu * Anv / 1000;
+                checks.push({ name: 'Net Shear Rupture (J4.2)', capacity: Vn_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_net).toFixed(2), pass: Vu <= Vn_net });
+
+                var Ant = (Le - bolt.dh/2) * tp;
+                var Agv_b = ((n-1)*s + Le) * tp;
+                var Anv_b = Agv_b - (n-0.5)*bolt.dh*tp;
+                var Rn_block = phi_r * (Fu*Ant/1000 + Math.min(0.6*Fy*Agv_b/1000, 0.6*Fu*Anv_b/1000));
+                checks.push({ name: 'Block Shear (J4.3)', capacity: Rn_block.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Rn_block).toFixed(2), pass: Vu <= Rn_block });
+
+                var Lw = dp - 20;
+                var throat = w * 0.707;
+                var Rn_weld = phi_v * 0.6 * 490 * throat * Lw * 2 / 1000;
+                checks.push({ name: 'Weld Capacity (J2.4)', capacity: Rn_weld.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Rn_weld).toFixed(2), pass: Vu <= Rn_weld });
+                formulas.push({ title: 'Weld (J2.4)', formula: 'a = 0.707×' + w + ' = ' + throat.toFixed(1) + ' mm<br>φRn = <span class="result">' + Rn_weld.toFixed(1) + ' kN</span>' });
+            }
+            else if (selectedCode === 'EC3') {
+                var gamma_M2 = 1.25, gamma_M0 = 1.00;
+                var fub = boltGrade === '8.8' ? 800 : 1000;
+                var alpha_v = boltGrade === '8.8' ? 0.6 : 0.5;
+                var Fv_Rd = n * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Bolt Shear (Table 3.4)', capacity: Fv_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fv_Rd).toFixed(2), pass: Vu <= Fv_Rd });
+
+                var k1 = Math.min(2.8*Le/bolt.dh - 1.7, 2.5);
+                var alpha_b = Math.min(Le/(3*bolt.dh), fub/Fu, 1.0);
+                var Fb_Rd = n * k1 * alpha_b * Fu * bolt.d * tp / (gamma_M2 * 1000);
+                checks.push({ name: 'Bearing (Table 3.4)', capacity: Fb_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fb_Rd).toFixed(2), pass: Vu <= Fb_Rd });
+
+                var Vpl_Rd = dp * tp * Fy / (Math.sqrt(3) * gamma_M0 * 1000);
+                checks.push({ name: 'Gross Shear (6.2.6)', capacity: Vpl_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vpl_Rd).toFixed(2), pass: Vu <= Vpl_Rd });
+
+                var Anet = (dp - n*bolt.dh) * tp;
+                var Vnet_Rd = Anet * Fu / (Math.sqrt(3) * gamma_M2 * 1000);
+                checks.push({ name: 'Net Shear (6.2.6)', capacity: Vnet_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vnet_Rd).toFixed(2), pass: Vu <= Vnet_Rd });
+
+                var Lw_ec = dp - 20;
+                var a_t = w * 0.707;
+                var fvw_d = Fu / (Math.sqrt(3) * 0.9 * gamma_M2);
+                var Fw_Rd = a_t * Lw_ec * 2 * fvw_d / 1000;
+                checks.push({ name: 'Weld (4.5)', capacity: Fw_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fw_Rd).toFixed(2), pass: Vu <= Fw_Rd });
+            }
+            else if (selectedCode === 'CSA') {
+                var phi_u = 0.75;
+                var Fu_bolt = boltGrade === '8.8' ? 830 : 1040;
+                var Vr_bolt = n * 0.6 * phi_u * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear (Cl.13.12)', capacity: Vr_bolt.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_bolt).toFixed(2), pass: Vu <= Vr_bolt });
+
+                var Br = n * 3 * 0.80 * tp * bolt.d * Fu / 1000;
+                checks.push({ name: 'Bearing (Cl.13.12)', capacity: Br.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Br).toFixed(2), pass: Vu <= Br });
+
+                var Vr_gr = phi_u * 0.6 * Fy * dp * tp / 1000;
+                checks.push({ name: 'Gross Shear (Cl.13.11)', capacity: Vr_gr.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_gr).toFixed(2), pass: Vu <= Vr_gr });
+
+                var An_csa = (dp - n*(bolt.dh+2)) * tp;
+                var Vr_net = phi_u * 0.6 * Fu * An_csa / 1000;
+                checks.push({ name: 'Net Shear (Cl.13.11)', capacity: Vr_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_net).toFixed(2), pass: Vu <= Vr_net });
+
+                var Aw = w * 0.707 * (dp-20) * 2;
+                var Vr_w = 0.67 * 0.67 * 490 * Aw / 1000;
+                checks.push({ name: 'Weld (Cl.13.13)', capacity: Vr_w.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_w).toFixed(2), pass: Vu <= Vr_w });
+            }
+            else if (selectedCode === 'AS') {
+                var phi = 0.80;
+                var fuf = boltGrade === '8.8' ? 830 : 1040;
+                var Vf = n * phi * 0.62 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear (Cl.9.2.2.1)', capacity: Vf.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vf).toFixed(2), pass: Vu <= Vf });
+
+                var Vb = n * phi * 3.2 * bolt.d * tp * Fu / 1000;
+                checks.push({ name: 'Bearing (Cl.9.2.2.4)', capacity: Vb.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vb).toFixed(2), pass: Vu <= Vb });
+
+                var Vw_as = phi * 0.6 * Fy * dp * tp / 1000;
+                checks.push({ name: 'Shear Yield (Cl.5.11)', capacity: Vw_as.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vw_as).toFixed(2), pass: Vu <= Vw_as });
+
+                var An_as = (dp - n*bolt.dh) * tp * 0.85;
+                var Vu_as = phi * 0.6 * Fu * An_as / 1000;
+                checks.push({ name: 'Net Shear (Cl.5.11)', capacity: Vu_as.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vu_as).toFixed(2), pass: Vu <= Vu_as });
+
+                var tt = w * 0.707;
+                var vw = 0.6 * 480 / Math.sqrt(3);
+                var Vw_weld = phi * tt * (dp-20) * 2 * vw / 1000;
+                checks.push({ name: 'Weld (Cl.9.6)', capacity: Vw_weld.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vw_weld).toFixed(2), pass: Vu <= Vw_weld });
+            }
+
+            var allPass = true;
+            var maxRatio = 0;
+            for (var i = 0; i < checks.length; i++) {
+                if (!checks[i].pass) allPass = false;
+                var r = parseFloat(checks[i].ratio);
+                if (r > maxRatio) maxRatio = r;
+            }
+            renderResults(checks, formulas, allPass, maxRatio);
+        }
+
+        function renderResults(checks, formulas, allPass, maxRatio) {
+            var badge = document.getElementById('overallStatus');
+            badge.textContent = allPass ? 'PASS' : 'FAIL';
+            badge.className = 'status-badge ' + (allPass ? 'pass' : 'fail');
+
+            var passCount = 0;
+            for (var i = 0; i < checks.length; i++) {
+                if (checks[i].pass) passCount++;
+            }
+
+            var html = '<div class="capacity-summary">';
+            html += '<div class="capacity-card' + (maxRatio > 0.9 ? ' critical' : '') + (maxRatio > 1.0 ? ' fail' : '') + '">';
+            html += '<div class="capacity-label">Governing Ratio</div>';
+            html += '<div class="capacity-value">' + maxRatio.toFixed(2) + '</div>';
+            html += '<div class="capacity-ratio ' + (maxRatio <= 1.0 ? 'pass' : 'fail') + '">' + (maxRatio <= 1.0 ? '✓ OK' : '✗ EXCEEDS') + '</div>';
+            html += '</div>';
+            html += '<div class="capacity-card">';
+            html += '<div class="capacity-label">Design Code</div>';
+            html += '<div class="capacity-value" style="font-size:0.85rem;">' + codeData[selectedCode].name + '</div>';
+            html += '<div class="capacity-ratio pass">' + passCount + '/' + checks.length + ' pass</div>';
+            html += '</div></div>';
+
+            html += '<div class="checks-header"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" width="12" height="12"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg> Design Checks</div>';
+
+            for (var i = 0; i < checks.length; i++) {
+                var c = checks[i];
+                html += '<div class="check-item">';
+                html += '<span class="check-name">' + c.name + '</span>';
+                html += '<span class="check-values">' + c.capacity + '/' + c.demand + '</span>';
+                html += '<span class="check-ratio ' + (c.pass ? 'pass' : 'fail') + '">' + c.ratio + '</span>';
+                html += '<div class="check-status ' + (c.pass ? 'pass' : 'fail') + '">';
+                html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="9" height="9">';
+                html += c.pass ? '<path d="M20 6L9 17l-5-5"/>' : '<path d="M18 6L6 18M6 6l12 12"/>';
+                html += '</svg></div></div>';
+            }
+
+            if (formulas.length > 0) {
+                html += '<div class="calc-details"><h4>Calculation Details</h4>';
+                for (var j = 0; j < formulas.length; j++) {
+                    html += '<div style="margin-bottom:0.75rem;">';
+                    html += '<strong style="color:var(--rebar-orange);font-size:0.65rem;">' + formulas[j].title + '</strong>';
+                    html += '<div class="calc-formula">' + formulas[j].formula + '</div>';
+                    html += '</div>';
+                }
+                html += '<div class="calc-ref">Reference: <code>' + codeData[selectedCode].name + '</code></div></div>';
+            }
+
+            document.getElementById('resultsBody').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
