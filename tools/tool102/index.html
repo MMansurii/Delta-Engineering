@@ -192,30 +192,29 @@
             <div class="section-header"><span class="step-number">03</span><h2>Input Parameters</h2></div>
             <div id="inputPanel">
                 <div class="input-grid">
-                    <div class="input-group"><label>Beam Section</label><select id="beamSection"><option value="W21x50">W21×50</option><option value="W18x35">W18×35</option><option value="W16x31">W16×31</option><option value="W14x22">W14×22</option></select></div>
-                    <div class="input-group"><label>Column Section</label><select id="columnSection"><option value="W14x90">W14×90</option><option value="W14x68">W14×68</option><option value="W12x65">W12×65</option></select></div>
-                    <div class="input-group"><label>Steel Grade</label><select id="steelGrade"><option value="A992">ASTM A992 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>
-                    <div class="input-group"><label>Plate Grade</label><select id="plateGrade"><option value="A36">ASTM A36 (Fy=250 MPa)</option><option value="A572">ASTM A572 Gr.50 (Fy=345 MPa)</option></select></div>
+                    <div class="input-group"><label>Beam Section</label><select id="beamSection" onchange="calculateConnection()"><option value="W21x50">W21×50</option><option value="W18x35">W18×35</option><option value="W16x31">W16×31</option><option value="W14x22">W14×22</option></select></div>
+                    <div class="input-group"><label>Column Section</label><select id="columnSection" onchange="calculateConnection()"><option value="W14x90">W14×90</option><option value="W14x68">W14×68</option><option value="W12x65">W12×65</option></select></div>
+                    <div class="input-group"><label>Steel Grade</label><select id="steelGrade" onchange="calculateConnection()"><option value="A992">ASTM A992 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>
+                    <div class="input-group"><label>Plate Grade</label><select id="plateGrade" onchange="calculateConnection()"><option value="A36">ASTM A36 (Fy=250 MPa)</option><option value="A572">ASTM A572 Gr.50 (Fy=345 MPa)</option></select></div>
                 </div>
                 <hr class="input-divider">
                 <div class="input-grid">
-                    <div class="input-group"><label>Shear Force (Vu)</label><div class="input-row"><input type="number" id="shearForce" value="150" step="10"><span class="input-unit">kN</span></div></div>
-                    <div class="input-group"><label>Axial Force (Nu)</label><div class="input-row"><input type="number" id="axialForce" value="0" step="5"><span class="input-unit">kN</span></div></div>
-                    <div class="input-group"><label>Moment (Mu)</label><div class="input-row"><input type="number" id="momentForce" value="0" step="10"><span class="input-unit">kN·m</span></div></div>
-                    <div class="input-group"><label>Eccentricity (e)</label><div class="input-row"><input type="number" id="eccentricity" value="75" step="5"><span class="input-unit">mm</span></div></div>
+                    <div class="input-group"><label>Shear Force (Vu)</label><div class="input-row"><input type="number" id="shearForce" value="150" step="10" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>
+                    <div class="input-group"><label>Axial Force (Nu)</label><div class="input-row"><input type="number" id="axialForce" value="0" step="5" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>
+                    <div class="input-group"><label>Moment (Mu)</label><div class="input-row"><input type="number" id="momentForce" value="0" step="10" oninput="calculateConnection()"><span class="input-unit">kN·m</span></div></div>
+                    <div class="input-group"><label>Eccentricity (e)</label><div class="input-row"><input type="number" id="eccentricity" value="75" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>
                 </div>
                 <hr class="input-divider">
                 <div class="input-grid">
-                    <div class="input-group"><label>Plate Thickness (tp)</label><div class="input-row"><input type="number" id="plateThickness" value="10" step="2"><span class="input-unit">mm</span></div></div>
-                    <div class="input-group"><label>Plate Depth (dp)</label><div class="input-row"><input type="number" id="plateDepth" value="230" step="10"><span class="input-unit">mm</span></div></div>
-                    <div class="input-group"><label>Bolt Diameter</label><select id="boltDiameter"><option value="M20">M20 (db=20mm)</option><option value="M22">M22 (db=22mm)</option><option value="M24">M24 (db=24mm)</option></select></div>
-                    <div class="input-group"><label>Bolt Grade</label><select id="boltGrade"><option value="8.8">Grade 8.8 / A325</option><option value="10.9">Grade 10.9 / A490</option></select></div>
-                    <div class="input-group"><label>Number of Bolts (n)</label><div class="input-row"><input type="number" id="numBolts" value="3" min="2" max="10"><span class="input-unit">bolts</span></div></div>
-                    <div class="input-group"><label>Bolt Spacing (s)</label><div class="input-row"><input type="number" id="boltSpacing" value="75" step="5"><span class="input-unit">mm</span></div></div>
-                    <div class="input-group"><label>Edge Distance (Le)</label><div class="input-row"><input type="number" id="edgeDistance" value="40" step="5"><span class="input-unit">mm</span></div></div>
-                    <div class="input-group"><label>Weld Size (w)</label><div class="input-row"><input type="number" id="weldSize" value="6" step="1"><span class="input-unit">mm</span></div></div>
+                    <div class="input-group"><label>Plate Thickness (tp)</label><div class="input-row"><input type="number" id="plateThickness" value="10" step="2" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>
+                    <div class="input-group"><label>Plate Depth (dp)</label><div class="input-row"><input type="number" id="plateDepth" value="230" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>
+                    <div class="input-group"><label>Bolt Diameter</label><select id="boltDiameter" onchange="calculateConnection()"><option value="M20">M20 (db=20mm)</option><option value="M22">M22 (db=22mm)</option><option value="M24">M24 (db=24mm)</option></select></div>
+                    <div class="input-group"><label>Bolt Grade</label><select id="boltGrade" onchange="calculateConnection()"><option value="8.8">Grade 8.8 / A325</option><option value="10.9">Grade 10.9 / A490</option></select></div>
+                    <div class="input-group"><label>Number of Bolts (n)</label><div class="input-row"><input type="number" id="numBolts" value="3" min="2" max="10" oninput="calculateConnection()"><span class="input-unit">bolts</span></div></div>
+                    <div class="input-group"><label>Bolt Spacing (s)</label><div class="input-row"><input type="number" id="boltSpacing" value="75" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>
+                    <div class="input-group"><label>Edge Distance (Le)</label><div class="input-row"><input type="number" id="edgeDistance" value="40" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>
+                    <div class="input-group"><label>Weld Size (w)</label><div class="input-row"><input type="number" id="weldSize" value="6" step="1" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>
                 </div>
-                <button class="calculate-btn" onclick="calculateConnection()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4"/><path d="M14 9l3 3-3 3"/></svg>Calculate Connection</button>
             </div>
         </section>
 
@@ -251,7 +250,8 @@
         var boltData = {
             'M20': { d: 20, dh: 22, Ab: 314 },
             'M22': { d: 22, dh: 24, Ab: 380 },
-            'M24': { d: 24, dh: 26, Ab: 452 }
+            'M24': { d: 24, dh: 26, Ab: 452 },
+            'M30': { d: 30, dh: 33, Ab: 707 }
         };
 
         function toggleMobileMenu() {
@@ -280,6 +280,7 @@
             } else {
                 s.innerHTML = '<option value="350">Grade 350 (fy=350 MPa)</option><option value="300">Grade 300 (fy=300 MPa)</option>';
             }
+            calculateConnection();
         }
 
         function selectConnection(el, type) {
@@ -298,122 +299,435 @@
                 'splice': 'BEAM SPLICE'
             };
             document.getElementById('connTypeLabel').textContent = labels[type] || type.toUpperCase();
+            updateInputsForConnection(type);
+            updatePreview();
+            calculateConnection();
+        }
+
+        function updateInputsForConnection(type) {
+            var inputPanel = document.getElementById('inputPanel');
+            var html = '';
+            
+            if (type === 'shear-tab') {
+                html = '<div class="input-grid">' +
+                    '<div class="input-group"><label>Beam Section</label><select id="beamSection" onchange="calculateConnection()"><option value="W21x50">W21×50</option><option value="W18x35">W18×35</option><option value="W16x31">W16×31</option><option value="W14x22">W14×22</option></select></div>' +
+                    '<div class="input-group"><label>Column Section</label><select id="columnSection" onchange="calculateConnection()"><option value="W14x90">W14×90</option><option value="W14x68">W14×68</option><option value="W12x65">W12×65</option></select></div>' +
+                    '<div class="input-group"><label>Steel Grade</label><select id="steelGrade" onchange="calculateConnection()"><option value="A992">ASTM A992 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>' +
+                    '<div class="input-group"><label>Plate Grade</label><select id="plateGrade" onchange="calculateConnection()"><option value="A36">ASTM A36 (Fy=250 MPa)</option><option value="A572">ASTM A572 Gr.50 (Fy=345 MPa)</option></select></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Shear Force (Vu)</label><div class="input-row"><input type="number" id="shearForce" value="150" step="10" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>' +
+                    '<div class="input-group"><label>Axial Force (Nu)</label><div class="input-row"><input type="number" id="axialForce" value="0" step="5" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Plate Thickness (tp)</label><div class="input-row"><input type="number" id="plateThickness" value="10" step="2" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Plate Depth (dp)</label><div class="input-row"><input type="number" id="plateDepth" value="230" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Bolt Diameter</label><select id="boltDiameter" onchange="calculateConnection()"><option value="M20">M20</option><option value="M22">M22</option><option value="M24">M24</option></select></div>' +
+                    '<div class="input-group"><label>Bolt Grade</label><select id="boltGrade" onchange="calculateConnection()"><option value="8.8">Grade 8.8 / A325</option><option value="10.9">Grade 10.9 / A490</option></select></div>' +
+                    '<div class="input-group"><label>Number of Bolts (n)</label><div class="input-row"><input type="number" id="numBolts" value="3" min="2" max="10" oninput="calculateConnection()"><span class="input-unit">bolts</span></div></div>' +
+                    '<div class="input-group"><label>Bolt Spacing (s)</label><div class="input-row"><input type="number" id="boltSpacing" value="75" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Edge Distance (Le)</label><div class="input-row"><input type="number" id="edgeDistance" value="40" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Weld Size (w)</label><div class="input-row"><input type="number" id="weldSize" value="6" step="1" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '</div>';
+            }
+            else if (type === 'end-plate') {
+                html = '<div class="input-grid">' +
+                    '<div class="input-group"><label>Beam Section</label><select id="beamSection" onchange="calculateConnection()"><option value="W21x50">W21×50 (d=529, bf=166, tf=14, tw=9)</option><option value="W18x35">W18×35</option><option value="W16x31">W16×31</option></select></div>' +
+                    '<div class="input-group"><label>Column Section</label><select id="columnSection" onchange="calculateConnection()"><option value="W14x90">W14×90 (tf=18)</option><option value="W14x68">W14×68</option></select></div>' +
+                    '<div class="input-group"><label>Steel Grade</label><select id="steelGrade" onchange="calculateConnection()"><option value="A992">ASTM A992 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>' +
+                    '<div class="input-group"><label>Plate Grade</label><select id="plateGrade" onchange="calculateConnection()"><option value="A572">ASTM A572 Gr.50 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Moment (Mu)</label><div class="input-row"><input type="number" id="momentForce" value="250" step="10" oninput="calculateConnection()"><span class="input-unit">kN·m</span></div></div>' +
+                    '<div class="input-group"><label>Shear Force (Vu)</label><div class="input-row"><input type="number" id="shearForce" value="100" step="10" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>' +
+                    '<div class="input-group"><label>Axial Force (Nu)</label><div class="input-row"><input type="number" id="axialForce" value="0" step="5" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>End Plate Width (bp)</label><div class="input-row"><input type="number" id="plateWidth" value="200" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>End Plate Depth (dp)</label><div class="input-row"><input type="number" id="plateDepth" value="600" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>End Plate Thickness (tp)</label><div class="input-row"><input type="number" id="plateThickness" value="20" step="2" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Extension Above (pext)</label><div class="input-row"><input type="number" id="plateExt" value="50" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Bolt Diameter</label><select id="boltDiameter" onchange="calculateConnection()"><option value="M20">M20</option><option value="M22">M22</option><option value="M24" selected>M24</option></select></div>' +
+                    '<div class="input-group"><label>Bolt Grade</label><select id="boltGrade" onchange="calculateConnection()"><option value="8.8">Grade 8.8 / A325</option><option value="10.9" selected>Grade 10.9 / A490</option></select></div>' +
+                    '<div class="input-group"><label>Bolt Rows (tension)</label><div class="input-row"><input type="number" id="boltRowsTension" value="2" min="1" max="4" oninput="calculateConnection()"><span class="input-unit">rows</span></div></div>' +
+                    '<div class="input-group"><label>Bolts Per Row</label><div class="input-row"><input type="number" id="boltsPerRow" value="2" min="2" max="4" oninput="calculateConnection()"><span class="input-unit">bolts</span></div></div>' +
+                    '<div class="input-group"><label>Bolt Gage (g)</label><div class="input-row"><input type="number" id="boltGage" value="100" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Pitch (pf)</label><div class="input-row"><input type="number" id="boltPitch" value="90" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Edge Distance (pfi)</label><div class="input-row"><input type="number" id="edgeDistance" value="40" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Weld Size (w)</label><div class="input-row"><input type="number" id="weldSize" value="8" step="1" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '</div>';
+            }
+            else if (type === 'clip-angle') {
+                html = '<div class="input-grid">' +
+                    '<div class="input-group"><label>Beam Section</label><select id="beamSection" onchange="calculateConnection()"><option value="W21x50">W21×50</option><option value="W18x35">W18×35</option><option value="W16x31">W16×31</option></select></div>' +
+                    '<div class="input-group"><label>Column Section</label><select id="columnSection" onchange="calculateConnection()"><option value="W14x90">W14×90</option><option value="W14x68">W14×68</option></select></div>' +
+                    '<div class="input-group"><label>Steel Grade</label><select id="steelGrade" onchange="calculateConnection()"><option value="A992">ASTM A992 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>' +
+                    '<div class="input-group"><label>Angle Grade</label><select id="plateGrade" onchange="calculateConnection()"><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Shear Force (Vu)</label><div class="input-row"><input type="number" id="shearForce" value="150" step="10" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>' +
+                    '<div class="input-group"><label>Axial Force (Nu)</label><div class="input-row"><input type="number" id="axialForce" value="0" step="5" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Angle Size</label><select id="angleSize" onchange="calculateConnection()"><option value="L102x102x9.5">L102×102×9.5</option><option value="L89x89x9.5">L89×89×9.5</option><option value="L76x76x7.9">L76×76×7.9</option></select></div>' +
+                    '<div class="input-group"><label>Angle Length (La)</label><div class="input-row"><input type="number" id="angleLength" value="230" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Angle Thickness (ta)</label><div class="input-row"><input type="number" id="angleThickness" value="9.5" step="0.5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Angle Leg (La)</label><div class="input-row"><input type="number" id="angleLeg" value="102" step="1" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Bolt Diameter</label><select id="boltDiameter" onchange="calculateConnection()"><option value="M20">M20</option><option value="M22">M22</option></select></div>' +
+                    '<div class="input-group"><label>Bolt Grade</label><select id="boltGrade" onchange="calculateConnection()"><option value="8.8">Grade 8.8 / A325</option><option value="10.9">Grade 10.9 / A490</option></select></div>' +
+                    '<div class="input-group"><label>Bolts on Beam Web (n1)</label><div class="input-row"><input type="number" id="numBolts" value="3" min="2" max="6" oninput="calculateConnection()"><span class="input-unit">bolts</span></div></div>' +
+                    '<div class="input-group"><label>Bolts on Column (n2)</label><div class="input-row"><input type="number" id="numBoltsCol" value="3" min="2" max="6" oninput="calculateConnection()"><span class="input-unit">bolts</span></div></div>' +
+                    '<div class="input-group"><label>Bolt Spacing (s)</label><div class="input-row"><input type="number" id="boltSpacing" value="75" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Edge Distance (Le)</label><div class="input-row"><input type="number" id="edgeDistance" value="35" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Gage on OSL (g)</label><div class="input-row"><input type="number" id="gageOSL" value="65" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '</div>';
+            }
+            else if (type === 'flange-plate') {
+                html = '<div class="input-grid">' +
+                    '<div class="input-group"><label>Beam Section</label><select id="beamSection" onchange="calculateConnection()"><option value="W21x50">W21×50 (d=529, bf=166, tf=14)</option><option value="W18x35">W18×35</option></select></div>' +
+                    '<div class="input-group"><label>Column Section</label><select id="columnSection" onchange="calculateConnection()"><option value="W14x90">W14×90</option><option value="W14x68">W14×68</option></select></div>' +
+                    '<div class="input-group"><label>Steel Grade</label><select id="steelGrade" onchange="calculateConnection()"><option value="A992">ASTM A992 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>' +
+                    '<div class="input-group"><label>Plate Grade</label><select id="plateGrade" onchange="calculateConnection()"><option value="A572">ASTM A572 Gr.50 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Moment (Mu)</label><div class="input-row"><input type="number" id="momentForce" value="200" step="10" oninput="calculateConnection()"><span class="input-unit">kN·m</span></div></div>' +
+                    '<div class="input-group"><label>Shear Force (Vu)</label><div class="input-row"><input type="number" id="shearForce" value="120" step="10" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>' +
+                    '</div><hr class="input-divider">' +
+                    '<p style="font-size:0.85rem;color:var(--steel-blue);margin-bottom:0.75rem;font-weight:600;">Flange Plates (Top & Bottom)</p>' +
+                    '<div class="input-grid">' +
+                    '<div class="input-group"><label>Flange Plate Width (bfp)</label><div class="input-row"><input type="number" id="flangePlateWidth" value="180" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Flange Plate Thickness (tfp)</label><div class="input-row"><input type="number" id="flangePlateThick" value="16" step="2" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Flange Plate Length (Lfp)</label><div class="input-row"><input type="number" id="flangePlateLength" value="300" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Bolts per Flange Plate</label><div class="input-row"><input type="number" id="boltsFP" value="4" min="2" max="8" oninput="calculateConnection()"><span class="input-unit">bolts</span></div></div>' +
+                    '</div><hr class="input-divider">' +
+                    '<p style="font-size:0.85rem;color:var(--steel-blue);margin-bottom:0.75rem;font-weight:600;">Shear Tab (Web Connection)</p>' +
+                    '<div class="input-grid">' +
+                    '<div class="input-group"><label>Shear Tab Thickness (tp)</label><div class="input-row"><input type="number" id="plateThickness" value="10" step="2" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Shear Tab Depth (dp)</label><div class="input-row"><input type="number" id="plateDepth" value="230" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Bolts on Shear Tab</label><div class="input-row"><input type="number" id="numBolts" value="3" min="2" max="6" oninput="calculateConnection()"><span class="input-unit">bolts</span></div></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Bolt Diameter</label><select id="boltDiameter" onchange="calculateConnection()"><option value="M20">M20</option><option value="M22">M22</option><option value="M24">M24</option></select></div>' +
+                    '<div class="input-group"><label>Bolt Grade</label><select id="boltGrade" onchange="calculateConnection()"><option value="8.8">Grade 8.8 / A325</option><option value="10.9">Grade 10.9 / A490</option></select></div>' +
+                    '<div class="input-group"><label>Bolt Spacing (s)</label><div class="input-row"><input type="number" id="boltSpacing" value="75" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Edge Distance (Le)</label><div class="input-row"><input type="number" id="edgeDistance" value="40" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Weld Size (w)</label><div class="input-row"><input type="number" id="weldSize" value="8" step="1" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '</div>';
+            }
+            else if (type === 'base-plate') {
+                html = '<div class="input-grid">' +
+                    '<div class="input-group"><label>Column Section</label><select id="columnSection" onchange="calculateConnection()"><option value="W14x90">W14×90 (d=356, bf=368)</option><option value="W12x65">W12×65</option><option value="W10x49">W10×49</option></select></div>' +
+                    '<div class="input-group"><label>Steel Grade</label><select id="steelGrade" onchange="calculateConnection()"><option value="A992">ASTM A992 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>' +
+                    '<div class="input-group"><label>Plate Grade</label><select id="plateGrade" onchange="calculateConnection()"><option value="A36">ASTM A36 (Fy=250 MPa)</option><option value="A572">ASTM A572 Gr.50 (Fy=345 MPa)</option></select></div>' +
+                    '<div class="input-group"><label>Concrete f\'c</label><select id="concreteFc" onchange="calculateConnection()"><option value="25">25 MPa</option><option value="30">30 MPa</option><option value="35">35 MPa</option></select></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Axial Load (Pu)</label><div class="input-row"><input type="number" id="axialForce" value="800" step="50" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>' +
+                    '<div class="input-group"><label>Moment (Mu)</label><div class="input-row"><input type="number" id="momentForce" value="50" step="10" oninput="calculateConnection()"><span class="input-unit">kN·m</span></div></div>' +
+                    '<div class="input-group"><label>Shear Force (Vu)</label><div class="input-row"><input type="number" id="shearForce" value="30" step="10" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Base Plate Width (B)</label><div class="input-row"><input type="number" id="basePlateB" value="450" step="25" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Base Plate Length (N)</label><div class="input-row"><input type="number" id="basePlateN" value="500" step="25" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Base Plate Thickness (tp)</label><div class="input-row"><input type="number" id="plateThickness" value="32" step="2" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Anchor Bolt Diameter</label><select id="boltDiameter" onchange="calculateConnection()"><option value="M20">M20</option><option value="M24">M24</option><option value="M30">M30</option></select></div>' +
+                    '<div class="input-group"><label>Anchor Bolt Grade</label><select id="boltGrade" onchange="calculateConnection()"><option value="4.6">Grade 4.6 (F1554 Gr.36)</option><option value="8.8">Grade 8.8 (F1554 Gr.55)</option></select></div>' +
+                    '<div class="input-group"><label>Number of Anchors</label><div class="input-row"><input type="number" id="numBolts" value="4" min="4" max="8" step="2" oninput="calculateConnection()"><span class="input-unit">bolts</span></div></div>' +
+                    '<div class="input-group"><label>Anchor Embedment (hef)</label><div class="input-row"><input type="number" id="embedment" value="300" step="25" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Edge Distance (ca)</label><div class="input-row"><input type="number" id="edgeDistance" value="150" step="25" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '</div>';
+            }
+            else if (type === 'splice') {
+                html = '<div class="input-grid">' +
+                    '<div class="input-group"><label>Beam Section</label><select id="beamSection" onchange="calculateConnection()"><option value="W21x50">W21×50 (d=529, bf=166, tf=14, tw=9)</option><option value="W18x35">W18×35</option><option value="W24x68">W24×68</option></select></div>' +
+                    '<div class="input-group"><label>Steel Grade</label><select id="steelGrade" onchange="calculateConnection()"><option value="A992">ASTM A992 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>' +
+                    '<div class="input-group"><label>Plate Grade</label><select id="plateGrade" onchange="calculateConnection()"><option value="A572">ASTM A572 Gr.50 (Fy=345 MPa)</option><option value="A36">ASTM A36 (Fy=250 MPa)</option></select></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Moment (Mu)</label><div class="input-row"><input type="number" id="momentForce" value="300" step="10" oninput="calculateConnection()"><span class="input-unit">kN·m</span></div></div>' +
+                    '<div class="input-group"><label>Shear Force (Vu)</label><div class="input-row"><input type="number" id="shearForce" value="150" step="10" oninput="calculateConnection()"><span class="input-unit">kN</span></div></div>' +
+                    '</div><hr class="input-divider">' +
+                    '<p style="font-size:0.85rem;color:var(--steel-blue);margin-bottom:0.75rem;font-weight:600;">Flange Splice Plates</p>' +
+                    '<div class="input-grid">' +
+                    '<div class="input-group"><label>Flange Plate Width (bfp)</label><div class="input-row"><input type="number" id="flangePlateWidth" value="166" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Flange Plate Thickness (tfp)</label><div class="input-row"><input type="number" id="flangePlateThick" value="12" step="2" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Bolts per Side (flange)</label><div class="input-row"><input type="number" id="boltsFP" value="4" min="2" max="8" oninput="calculateConnection()"><span class="input-unit">bolts</span></div></div>' +
+                    '<div class="input-group"><label>Bolt Rows (flange)</label><div class="input-row"><input type="number" id="boltRowsFP" value="2" min="1" max="3" oninput="calculateConnection()"><span class="input-unit">rows</span></div></div>' +
+                    '</div><hr class="input-divider">' +
+                    '<p style="font-size:0.85rem;color:var(--steel-blue);margin-bottom:0.75rem;font-weight:600;">Web Splice Plates</p>' +
+                    '<div class="input-grid">' +
+                    '<div class="input-group"><label>Web Plate Depth (dwp)</label><div class="input-row"><input type="number" id="webPlateDepth" value="400" step="10" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Web Plate Thickness (twp)</label><div class="input-row"><input type="number" id="webPlateThick" value="10" step="2" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Bolts per Side (web)</label><div class="input-row"><input type="number" id="boltsWP" value="6" min="2" max="10" oninput="calculateConnection()"><span class="input-unit">bolts</span></div></div>' +
+                    '</div><hr class="input-divider"><div class="input-grid">' +
+                    '<div class="input-group"><label>Bolt Diameter</label><select id="boltDiameter" onchange="calculateConnection()"><option value="M20">M20</option><option value="M22">M22</option><option value="M24">M24</option></select></div>' +
+                    '<div class="input-group"><label>Bolt Grade</label><select id="boltGrade" onchange="calculateConnection()"><option value="8.8">Grade 8.8 / A325</option><option value="10.9">Grade 10.9 / A490</option></select></div>' +
+                    '<div class="input-group"><label>Bolt Spacing (s)</label><div class="input-row"><input type="number" id="boltSpacing" value="75" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '<div class="input-group"><label>Edge Distance (Le)</label><div class="input-row"><input type="number" id="edgeDistance" value="40" step="5" oninput="calculateConnection()"><span class="input-unit">mm</span></div></div>' +
+                    '</div>';
+            }
+            else {
+                // Default for other connection types - show message
+                html = '<div style="padding:2rem;text-align:center;color:var(--concrete-light);">' +
+                    '<p style="font-size:1rem;">Calculations for this connection type are under development.</p>' +
+                    '</div>';
+            }
+            
+            inputPanel.innerHTML = html;
+        }
+
+        function updatePreview() {
+            var svg = document.getElementById('connectionSVG');
+            var dimTable = document.getElementById('dimensionTable');
+            var svgHtml = '';
+            var tableHtml = '';
+
+            if (selectedConnection === 'shear-tab') {
+                var tp = document.getElementById('plateThickness') ? document.getElementById('plateThickness').value : 10;
+                var dp = document.getElementById('plateDepth') ? document.getElementById('plateDepth').value : 230;
+                var n = document.getElementById('numBolts') ? document.getElementById('numBolts').value : 3;
+                var db = document.getElementById('boltDiameter') ? document.getElementById('boltDiameter').value.replace('M','') : 20;
+                var s = document.getElementById('boltSpacing') ? document.getElementById('boltSpacing').value : 75;
+                var Le = document.getElementById('edgeDistance') ? document.getElementById('edgeDistance').value : 40;
+                var w = document.getElementById('weldSize') ? document.getElementById('weldSize').value : 6;
+                var dh = parseInt(db) + 2;
+                var Lw = dp - 20;
+
+                svgHtml = '<rect x="20" y="20" width="60" height="210" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<text x="50" y="240" fill="#4a90c2" font-size="10" text-anchor="middle">Column</text>' +
+                    '<rect x="80" y="55" width="15" height="140" fill="#6b7280" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<text x="87" y="205" fill="#d97706" font-size="8" text-anchor="middle">PL' + tp + '</text>' +
+                    '<rect x="110" y="50" width="170" height="150" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<rect x="110" y="50" width="170" height="15" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<rect x="110" y="185" width="170" height="15" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<text x="195" y="240" fill="#4a90c2" font-size="10" text-anchor="middle">Beam</text>';
+                for (var i = 0; i < n; i++) {
+                    var cy = 80 + i * 35;
+                    svgHtml += '<circle cx="120" cy="' + cy + '" r="8" fill="none" stroke="#d97706" stroke-width="2"/>' +
+                        '<circle cx="120" cy="' + cy + '" r="3" fill="#d97706"/>';
+                }
+                svgHtml += '<path d="M80 55 L72 47 M80 55 L72 63 M80 195 L72 187 M80 195 L72 203" stroke="#d97706" stroke-width="2"/>';
+
+                tableHtml = '<tr><td>Plate thickness (tp)</td><td>' + tp + ' mm</td></tr>' +
+                    '<tr><td>Plate depth (dp)</td><td>' + dp + ' mm</td></tr>' +
+                    '<tr><td>Bolt diameter (db)</td><td>' + db + ' mm</td></tr>' +
+                    '<tr><td>Hole diameter (dh)</td><td>' + dh + ' mm</td></tr>' +
+                    '<tr><td>Number of bolts (n)</td><td>' + n + '</td></tr>' +
+                    '<tr><td>Bolt spacing (s)</td><td>' + s + ' mm</td></tr>' +
+                    '<tr><td>Edge distance (Le)</td><td>' + Le + ' mm</td></tr>' +
+                    '<tr><td>Weld size (w)</td><td>' + w + ' mm</td></tr>' +
+                    '<tr><td>Weld length (Lw)</td><td>' + Lw + ' mm</td></tr>';
+            }
+            else if (selectedConnection === 'end-plate') {
+                var tp = document.getElementById('plateThickness') ? document.getElementById('plateThickness').value : 20;
+                var bp = document.getElementById('plateWidth') ? document.getElementById('plateWidth').value : 200;
+                var dp = document.getElementById('plateDepth') ? document.getElementById('plateDepth').value : 600;
+                var nr = document.getElementById('boltRowsTension') ? document.getElementById('boltRowsTension').value : 2;
+                var nb = document.getElementById('boltsPerRow') ? document.getElementById('boltsPerRow').value : 2;
+                var g = document.getElementById('boltGage') ? document.getElementById('boltGage').value : 100;
+                var pf = document.getElementById('boltPitch') ? document.getElementById('boltPitch').value : 90;
+                var w = document.getElementById('weldSize') ? document.getElementById('weldSize').value : 8;
+
+                svgHtml = '<rect x="30" y="30" width="20" height="190" fill="#6b7280" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<text x="40" y="235" fill="#d97706" font-size="8" text-anchor="middle">EP' + tp + '</text>' +
+                    '<rect x="50" y="50" width="200" height="150" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<rect x="50" y="50" width="200" height="12" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<rect x="50" y="188" width="200" height="12" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<text x="150" y="235" fill="#4a90c2" font-size="10" text-anchor="middle">Beam</text>' +
+                    '<rect x="10" y="20" width="20" height="210" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<text x="20" y="245" fill="#4a90c2" font-size="9" text-anchor="middle">Col</text>';
+                var boltY = [45, 70, 180, 205];
+                for (var i = 0; i < 4; i++) {
+                    svgHtml += '<circle cx="35" cy="' + boltY[i] + '" r="6" fill="none" stroke="#d97706" stroke-width="2"/>' +
+                        '<circle cx="35" cy="' + boltY[i] + '" r="2" fill="#d97706"/>';
+                    svgHtml += '<circle cx="45" cy="' + boltY[i] + '" r="6" fill="none" stroke="#d97706" stroke-width="2"/>' +
+                        '<circle cx="45" cy="' + boltY[i] + '" r="2" fill="#d97706"/>';
+                }
+                svgHtml += '<path d="M50 50 L42 42 M50 50 L42 58 M50 200 L42 192 M50 200 L42 208" stroke="#d97706" stroke-width="2"/>';
+
+                tableHtml = '<tr><td>End plate width (bp)</td><td>' + bp + ' mm</td></tr>' +
+                    '<tr><td>End plate depth (dp)</td><td>' + dp + ' mm</td></tr>' +
+                    '<tr><td>End plate thickness (tp)</td><td>' + tp + ' mm</td></tr>' +
+                    '<tr><td>Bolt rows (tension)</td><td>' + nr + '</td></tr>' +
+                    '<tr><td>Bolts per row</td><td>' + nb + '</td></tr>' +
+                    '<tr><td>Total bolts</td><td>' + (nr * nb * 2) + '</td></tr>' +
+                    '<tr><td>Bolt gage (g)</td><td>' + g + ' mm</td></tr>' +
+                    '<tr><td>Bolt pitch (pf)</td><td>' + pf + ' mm</td></tr>' +
+                    '<tr><td>Weld size (w)</td><td>' + w + ' mm</td></tr>';
+            }
+            else if (selectedConnection === 'clip-angle') {
+                var La = document.getElementById('angleLength') ? document.getElementById('angleLength').value : 230;
+                var ta = document.getElementById('angleThickness') ? document.getElementById('angleThickness').value : 9.5;
+                var leg = document.getElementById('angleLeg') ? document.getElementById('angleLeg').value : 102;
+                var n1 = document.getElementById('numBolts') ? document.getElementById('numBolts').value : 3;
+                var n2 = document.getElementById('numBoltsCol') ? document.getElementById('numBoltsCol').value : 3;
+                var s = document.getElementById('boltSpacing') ? document.getElementById('boltSpacing').value : 75;
+
+                svgHtml = '<rect x="20" y="20" width="50" height="210" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<text x="45" y="240" fill="#4a90c2" font-size="10" text-anchor="middle">Column</text>' +
+                    '<path d="M70 55 L70 195 L85 195 L85 60 L110 60 L110 55 Z" fill="#6b7280" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<path d="M130 55 L130 195 L115 195 L115 60 L110 60 L110 55 Z" fill="#6b7280" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<text x="100" y="205" fill="#d97706" font-size="8" text-anchor="middle">2L</text>' +
+                    '<rect x="130" y="50" width="150" height="150" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<rect x="130" y="50" width="150" height="12" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<rect x="130" y="188" width="150" height="12" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<text x="205" y="240" fill="#4a90c2" font-size="10" text-anchor="middle">Beam</text>';
+                for (var i = 0; i < 3; i++) {
+                    var cy = 80 + i * 40;
+                    svgHtml += '<circle cx="60" cy="' + cy + '" r="6" fill="none" stroke="#d97706" stroke-width="2"/>' +
+                        '<circle cx="60" cy="' + cy + '" r="2" fill="#d97706"/>';
+                    svgHtml += '<circle cx="120" cy="' + cy + '" r="6" fill="none" stroke="#d97706" stroke-width="2"/>' +
+                        '<circle cx="120" cy="' + cy + '" r="2" fill="#d97706"/>';
+                }
+
+                tableHtml = '<tr><td>Angle size</td><td>L' + leg + '×' + leg + '×' + ta + '</td></tr>' +
+                    '<tr><td>Angle length (La)</td><td>' + La + ' mm</td></tr>' +
+                    '<tr><td>Angle thickness (ta)</td><td>' + ta + ' mm</td></tr>' +
+                    '<tr><td>Bolts on beam (n1)</td><td>' + n1 + '</td></tr>' +
+                    '<tr><td>Bolts on column (n2)</td><td>' + n2 + '</td></tr>' +
+                    '<tr><td>Bolt spacing (s)</td><td>' + s + ' mm</td></tr>';
+            }
+            else if (selectedConnection === 'flange-plate') {
+                var bfp = document.getElementById('flangePlateWidth') ? document.getElementById('flangePlateWidth').value : 180;
+                var tfp = document.getElementById('flangePlateThick') ? document.getElementById('flangePlateThick').value : 16;
+                var nfp = document.getElementById('boltsFP') ? document.getElementById('boltsFP').value : 4;
+                var tp = document.getElementById('plateThickness') ? document.getElementById('plateThickness').value : 10;
+                var dp = document.getElementById('plateDepth') ? document.getElementById('plateDepth').value : 230;
+                var nw = document.getElementById('numBolts') ? document.getElementById('numBolts').value : 3;
+
+                svgHtml = '<rect x="20" y="20" width="50" height="210" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<text x="45" y="245" fill="#4a90c2" font-size="10" text-anchor="middle">Column</text>' +
+                    '<rect x="70" y="25" width="80" height="12" fill="#d97706" stroke="#4a90c2" stroke-width="1"/>' +
+                    '<rect x="70" y="213" width="80" height="12" fill="#d97706" stroke="#4a90c2" stroke-width="1"/>' +
+                    '<text x="110" y="22" fill="#d97706" font-size="7" text-anchor="middle">FP' + tfp + '</text>' +
+                    '<rect x="70" y="80" width="12" height="90" fill="#6b7280" stroke="#4a90c2" stroke-width="1"/>' +
+                    '<text x="76" y="180" fill="#d97706" font-size="6" text-anchor="middle">ST</text>' +
+                    '<rect x="100" y="40" width="180" height="170" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<rect x="100" y="40" width="180" height="14" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<rect x="100" y="196" width="180" height="14" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<text x="190" y="245" fill="#4a90c2" font-size="10" text-anchor="middle">Beam</text>';
+                svgHtml += '<circle cx="95" cy="31" r="5" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="125" cy="31" r="5" fill="none" stroke="#fff" stroke-width="1.5"/>';
+                svgHtml += '<circle cx="95" cy="219" r="5" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="125" cy="219" r="5" fill="none" stroke="#fff" stroke-width="1.5"/>';
+                for (var i = 0; i < 3; i++) {
+                    svgHtml += '<circle cx="110" cy="' + (100 + i*30) + '" r="5" fill="none" stroke="#d97706" stroke-width="1.5"/>';
+                }
+
+                tableHtml = '<tr><td>Flange plate width</td><td>' + bfp + ' mm</td></tr>' +
+                    '<tr><td>Flange plate thickness</td><td>' + tfp + ' mm</td></tr>' +
+                    '<tr><td>Bolts per flange plate</td><td>' + nfp + '</td></tr>' +
+                    '<tr><td>Shear tab thickness</td><td>' + tp + ' mm</td></tr>' +
+                    '<tr><td>Shear tab depth</td><td>' + dp + ' mm</td></tr>' +
+                    '<tr><td>Shear tab bolts</td><td>' + nw + '</td></tr>';
+            }
+            else if (selectedConnection === 'base-plate') {
+                var B = document.getElementById('basePlateB') ? document.getElementById('basePlateB').value : 450;
+                var N = document.getElementById('basePlateN') ? document.getElementById('basePlateN').value : 500;
+                var tp = document.getElementById('plateThickness') ? document.getElementById('plateThickness').value : 32;
+                var n = document.getElementById('numBolts') ? document.getElementById('numBolts').value : 4;
+                var hef = document.getElementById('embedment') ? document.getElementById('embedment').value : 300;
+                var fc = document.getElementById('concreteFc') ? document.getElementById('concreteFc').value : 25;
+
+                svgHtml = '<rect x="50" y="140" width="200" height="25" fill="#6b7280" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<text x="150" y="180" fill="#d97706" font-size="9" text-anchor="middle">Base Plate ' + B + '×' + N + '×' + tp + '</text>' +
+                    '<rect x="100" y="50" width="100" height="90" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<rect x="95" y="50" width="10" height="90" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<rect x="195" y="50" width="10" height="90" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<text x="150" y="45" fill="#4a90c2" font-size="10" text-anchor="middle">Column</text>' +
+                    '<rect x="30" y="165" width="240" height="60" fill="#8b8b8b" stroke="#666" stroke-width="1"/>' +
+                    '<text x="150" y="200" fill="#fff" font-size="9" text-anchor="middle">Concrete f\'c=' + fc + 'MPa</text>';
+                svgHtml += '<line x1="70" y1="140" x2="70" y2="210" stroke="#d97706" stroke-width="3"/>' +
+                    '<line x1="230" y1="140" x2="230" y2="210" stroke="#d97706" stroke-width="3"/>' +
+                    '<line x1="70" y1="140" x2="70" y2="210" stroke="#d97706" stroke-width="3"/>' +
+                    '<line x1="230" y1="140" x2="230" y2="210" stroke="#d97706" stroke-width="3"/>';
+                svgHtml += '<circle cx="70" cy="152" r="8" fill="none" stroke="#d97706" stroke-width="2"/>' +
+                    '<circle cx="230" cy="152" r="8" fill="none" stroke="#d97706" stroke-width="2"/>' +
+                    '<circle cx="70" cy="152" r="3" fill="#d97706"/>' +
+                    '<circle cx="230" cy="152" r="3" fill="#d97706"/>';
+
+                tableHtml = '<tr><td>Base plate width (B)</td><td>' + B + ' mm</td></tr>' +
+                    '<tr><td>Base plate length (N)</td><td>' + N + ' mm</td></tr>' +
+                    '<tr><td>Base plate thickness (tp)</td><td>' + tp + ' mm</td></tr>' +
+                    '<tr><td>Number of anchors</td><td>' + n + '</td></tr>' +
+                    '<tr><td>Embedment depth (hef)</td><td>' + hef + ' mm</td></tr>' +
+                    '<tr><td>Concrete strength (f\'c)</td><td>' + fc + ' MPa</td></tr>';
+            }
+            else if (selectedConnection === 'splice') {
+                var bfp = document.getElementById('flangePlateWidth') ? document.getElementById('flangePlateWidth').value : 166;
+                var tfp = document.getElementById('flangePlateThick') ? document.getElementById('flangePlateThick').value : 12;
+                var nfp = document.getElementById('boltsFP') ? document.getElementById('boltsFP').value : 4;
+                var dwp = document.getElementById('webPlateDepth') ? document.getElementById('webPlateDepth').value : 400;
+                var twp = document.getElementById('webPlateThick') ? document.getElementById('webPlateThick').value : 10;
+                var nwp = document.getElementById('boltsWP') ? document.getElementById('boltsWP').value : 6;
+
+                svgHtml = '<rect x="20" y="40" width="110" height="170" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<rect x="20" y="40" width="110" height="14" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<rect x="20" y="196" width="110" height="14" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<rect x="170" y="40" width="110" height="170" fill="#3d5a73" stroke="#4a90c2" stroke-width="1.5"/>' +
+                    '<rect x="170" y="40" width="110" height="14" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<rect x="170" y="196" width="110" height="14" fill="#4a4f5a" stroke="#4a90c2"/>' +
+                    '<text x="75" y="235" fill="#4a90c2" font-size="10" text-anchor="middle">Beam</text>' +
+                    '<text x="225" y="235" fill="#4a90c2" font-size="10" text-anchor="middle">Beam</text>';
+                svgHtml += '<rect x="100" y="30" width="100" height="10" fill="#d97706" stroke="#4a90c2" stroke-width="1"/>' +
+                    '<rect x="100" y="210" width="100" height="10" fill="#d97706" stroke="#4a90c2" stroke-width="1"/>' +
+                    '<text x="150" y="25" fill="#d97706" font-size="7" text-anchor="middle">Flange Splice PL</text>';
+                svgHtml += '<rect x="125" y="70" width="50" height="110" fill="#6b7280" stroke="#4a90c2" stroke-width="1"/>' +
+                    '<text x="150" y="190" fill="#d97706" font-size="7" text-anchor="middle">Web PL</text>';
+                for (var i = 0; i < 2; i++) {
+                    svgHtml += '<circle cx="' + (120 + i*60) + '" cy="35" r="4" fill="none" stroke="#fff" stroke-width="1.5"/>';
+                    svgHtml += '<circle cx="' + (120 + i*60) + '" cy="215" r="4" fill="none" stroke="#fff" stroke-width="1.5"/>';
+                }
+                for (var i = 0; i < 3; i++) {
+                    svgHtml += '<circle cx="140" cy="' + (90 + i*30) + '" r="4" fill="none" stroke="#d97706" stroke-width="1.5"/>';
+                    svgHtml += '<circle cx="160" cy="' + (90 + i*30) + '" r="4" fill="none" stroke="#d97706" stroke-width="1.5"/>';
+                }
+
+                tableHtml = '<tr><td>Flange plate width</td><td>' + bfp + ' mm</td></tr>' +
+                    '<tr><td>Flange plate thickness</td><td>' + tfp + ' mm</td></tr>' +
+                    '<tr><td>Flange bolts per side</td><td>' + nfp + '</td></tr>' +
+                    '<tr><td>Web plate depth</td><td>' + dwp + ' mm</td></tr>' +
+                    '<tr><td>Web plate thickness</td><td>' + twp + ' mm</td></tr>' +
+                    '<tr><td>Web bolts per side</td><td>' + nwp + '</td></tr>';
+            }
+
+            if (svg && svgHtml) svg.innerHTML = svgHtml;
+            if (dimTable && tableHtml) dimTable.innerHTML = tableHtml;
         }
 
         function calculateConnection() {
-            var Vu = parseFloat(document.getElementById('shearForce').value);
-            var tp = parseFloat(document.getElementById('plateThickness').value);
-            var dp = parseFloat(document.getElementById('plateDepth').value);
-            var boltDia = document.getElementById('boltDiameter').value;
-            var boltGrade = document.getElementById('boltGrade').value;
-            var n = parseInt(document.getElementById('numBolts').value);
-            var s = parseFloat(document.getElementById('boltSpacing').value);
-            var Le = parseFloat(document.getElementById('edgeDistance').value);
-            var w = parseFloat(document.getElementById('weldSize').value);
-            var steelGrade = document.getElementById('steelGrade').value;
-            var Fy = (steelGrade.indexOf('992') >= 0 || steelGrade.indexOf('355') >= 0 || steelGrade.indexOf('350') >= 0) ? 345 : 250;
-            var Fu = Fy === 345 ? 450 : 400;
-            var bolt = boltData[boltDia];
             var checks = [];
             var formulas = [];
+            
+            // Update preview
+            updatePreview();
+            
+            // Get common elements if they exist
+            var shearEl = document.getElementById('shearForce');
+            var Vu = shearEl ? parseFloat(shearEl.value) || 0 : 0;
+            var steelGradeEl = document.getElementById('steelGrade');
+            var steelGrade = steelGradeEl ? steelGradeEl.value : 'A992';
+            var Fy = (steelGrade.indexOf('992') >= 0 || steelGrade.indexOf('355') >= 0 || steelGrade.indexOf('350') >= 0) ? 345 : 250;
+            var Fu = Fy === 345 ? 450 : 400;
+            var boltDiaEl = document.getElementById('boltDiameter');
+            var boltDia = boltDiaEl ? boltDiaEl.value : 'M20';
+            var bolt = boltData[boltDia];
+            var boltGradeEl = document.getElementById('boltGrade');
+            var boltGrade = boltGradeEl ? boltGradeEl.value : '8.8';
 
-            if (selectedCode === 'AISC') {
-                var phi_v = 0.75, phi_y = 0.90, phi_r = 0.75;
-                var Fnv = boltGrade === '8.8' ? 372 : 468;
-                var Vn_bolt = n * phi_v * Fnv * bolt.Ab / 1000;
-                checks.push({ name: 'Bolt Shear (J3.6)', capacity: Vn_bolt.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_bolt).toFixed(2), pass: Vu <= Vn_bolt });
-                formulas.push({ title: 'Bolt Shear (AISC J3.6)', formula: 'φRn = ' + phi_v + '×' + n + '×' + Fnv + '×' + bolt.Ab + '/1000 = <span class="result">' + Vn_bolt.toFixed(1) + ' kN</span>' });
-
-                var Lc = Le - bolt.dh/2;
-                var Rn_br = n * phi_v * Math.min(1.2*Lc*tp*Fu/1000, 2.4*bolt.d*tp*Fu/1000);
-                checks.push({ name: 'Bolt Bearing (J3.10)', capacity: Rn_br.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Rn_br).toFixed(2), pass: Vu <= Rn_br });
-
-                var Agv = dp * tp;
-                var Vn_gross = phi_y * 0.6 * Fy * Agv / 1000;
-                checks.push({ name: 'Gross Shear Yield (J4.2)', capacity: Vn_gross.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_gross).toFixed(2), pass: Vu <= Vn_gross });
-                formulas.push({ title: 'Gross Shear (J4.2)', formula: 'Agv = ' + dp + '×' + tp + ' = ' + Agv + ' mm²<br>φRn = <span class="result">' + Vn_gross.toFixed(1) + ' kN</span>' });
-
-                var Anv = (dp - n*bolt.dh) * tp;
-                var Vn_net = phi_r * 0.6 * Fu * Anv / 1000;
-                checks.push({ name: 'Net Shear Rupture (J4.2)', capacity: Vn_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_net).toFixed(2), pass: Vu <= Vn_net });
-
-                var Ant = (Le - bolt.dh/2) * tp;
-                var Agv_b = ((n-1)*s + Le) * tp;
-                var Anv_b = Agv_b - (n-0.5)*bolt.dh*tp;
-                var Rn_block = phi_r * (Fu*Ant/1000 + Math.min(0.6*Fy*Agv_b/1000, 0.6*Fu*Anv_b/1000));
-                checks.push({ name: 'Block Shear (J4.3)', capacity: Rn_block.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Rn_block).toFixed(2), pass: Vu <= Rn_block });
-
-                var Lw = dp - 20;
-                var throat = w * 0.707;
-                var Rn_weld = phi_v * 0.6 * 490 * throat * Lw * 2 / 1000;
-                checks.push({ name: 'Weld Capacity (J2.4)', capacity: Rn_weld.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Rn_weld).toFixed(2), pass: Vu <= Rn_weld });
-                formulas.push({ title: 'Weld (J2.4)', formula: 'a = 0.707×' + w + ' = ' + throat.toFixed(1) + ' mm<br>φRn = <span class="result">' + Rn_weld.toFixed(1) + ' kN</span>' });
+            // Branch by connection type
+            if (selectedConnection === 'shear-tab') {
+                calculateShearTab(checks, formulas, Vu, Fy, Fu, bolt, boltGrade, boltDia);
             }
-            else if (selectedCode === 'EC3') {
-                var gamma_M2 = 1.25, gamma_M0 = 1.00;
-                var fub = boltGrade === '8.8' ? 800 : 1000;
-                var alpha_v = boltGrade === '8.8' ? 0.6 : 0.5;
-                var Fv_Rd = n * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
-                checks.push({ name: 'Bolt Shear (Table 3.4)', capacity: Fv_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fv_Rd).toFixed(2), pass: Vu <= Fv_Rd });
-
-                var k1 = Math.min(2.8*Le/bolt.dh - 1.7, 2.5);
-                var alpha_b = Math.min(Le/(3*bolt.dh), fub/Fu, 1.0);
-                var Fb_Rd = n * k1 * alpha_b * Fu * bolt.d * tp / (gamma_M2 * 1000);
-                checks.push({ name: 'Bearing (Table 3.4)', capacity: Fb_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fb_Rd).toFixed(2), pass: Vu <= Fb_Rd });
-
-                var Vpl_Rd = dp * tp * Fy / (Math.sqrt(3) * gamma_M0 * 1000);
-                checks.push({ name: 'Gross Shear (6.2.6)', capacity: Vpl_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vpl_Rd).toFixed(2), pass: Vu <= Vpl_Rd });
-
-                var Anet = (dp - n*bolt.dh) * tp;
-                var Vnet_Rd = Anet * Fu / (Math.sqrt(3) * gamma_M2 * 1000);
-                checks.push({ name: 'Net Shear (6.2.6)', capacity: Vnet_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vnet_Rd).toFixed(2), pass: Vu <= Vnet_Rd });
-
-                var Lw_ec = dp - 20;
-                var a_t = w * 0.707;
-                var fvw_d = Fu / (Math.sqrt(3) * 0.9 * gamma_M2);
-                var Fw_Rd = a_t * Lw_ec * 2 * fvw_d / 1000;
-                checks.push({ name: 'Weld (4.5)', capacity: Fw_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fw_Rd).toFixed(2), pass: Vu <= Fw_Rd });
+            else if (selectedConnection === 'end-plate') {
+                calculateEndPlate(checks, formulas, Fy, Fu, bolt, boltGrade, boltDia);
             }
-            else if (selectedCode === 'CSA') {
-                var phi_u = 0.75;
-                var Fu_bolt = boltGrade === '8.8' ? 830 : 1040;
-                var Vr_bolt = n * 0.6 * phi_u * Fu_bolt * bolt.Ab / 1000;
-                checks.push({ name: 'Bolt Shear (Cl.13.12)', capacity: Vr_bolt.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_bolt).toFixed(2), pass: Vu <= Vr_bolt });
-
-                var Br = n * 3 * 0.80 * tp * bolt.d * Fu / 1000;
-                checks.push({ name: 'Bearing (Cl.13.12)', capacity: Br.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Br).toFixed(2), pass: Vu <= Br });
-
-                var Vr_gr = phi_u * 0.6 * Fy * dp * tp / 1000;
-                checks.push({ name: 'Gross Shear (Cl.13.11)', capacity: Vr_gr.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_gr).toFixed(2), pass: Vu <= Vr_gr });
-
-                var An_csa = (dp - n*(bolt.dh+2)) * tp;
-                var Vr_net = phi_u * 0.6 * Fu * An_csa / 1000;
-                checks.push({ name: 'Net Shear (Cl.13.11)', capacity: Vr_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_net).toFixed(2), pass: Vu <= Vr_net });
-
-                var Aw = w * 0.707 * (dp-20) * 2;
-                var Vr_w = 0.67 * 0.67 * 490 * Aw / 1000;
-                checks.push({ name: 'Weld (Cl.13.13)', capacity: Vr_w.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_w).toFixed(2), pass: Vu <= Vr_w });
+            else if (selectedConnection === 'clip-angle') {
+                calculateDoubleAngle(checks, formulas, Vu, Fy, Fu, bolt, boltGrade, boltDia);
             }
-            else if (selectedCode === 'AS') {
-                var phi = 0.80;
-                var fuf = boltGrade === '8.8' ? 830 : 1040;
-                var Vf = n * phi * 0.62 * fuf * bolt.Ab / 1000;
-                checks.push({ name: 'Bolt Shear (Cl.9.2.2.1)', capacity: Vf.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vf).toFixed(2), pass: Vu <= Vf });
-
-                var Vb = n * phi * 3.2 * bolt.d * tp * Fu / 1000;
-                checks.push({ name: 'Bearing (Cl.9.2.2.4)', capacity: Vb.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vb).toFixed(2), pass: Vu <= Vb });
-
-                var Vw_as = phi * 0.6 * Fy * dp * tp / 1000;
-                checks.push({ name: 'Shear Yield (Cl.5.11)', capacity: Vw_as.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vw_as).toFixed(2), pass: Vu <= Vw_as });
-
-                var An_as = (dp - n*bolt.dh) * tp * 0.85;
-                var Vu_as = phi * 0.6 * Fu * An_as / 1000;
-                checks.push({ name: 'Net Shear (Cl.5.11)', capacity: Vu_as.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vu_as).toFixed(2), pass: Vu <= Vu_as });
-
-                var tt = w * 0.707;
-                var vw = 0.6 * 480 / Math.sqrt(3);
-                var Vw_weld = phi * tt * (dp-20) * 2 * vw / 1000;
-                checks.push({ name: 'Weld (Cl.9.6)', capacity: Vw_weld.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vw_weld).toFixed(2), pass: Vu <= Vw_weld });
+            else if (selectedConnection === 'flange-plate') {
+                calculateFlangePlate(checks, formulas, Fy, Fu, bolt, boltGrade, boltDia);
+            }
+            else if (selectedConnection === 'base-plate') {
+                calculateBasePlate(checks, formulas, Fy, Fu, bolt, boltGrade, boltDia);
+            }
+            else if (selectedConnection === 'splice') {
+                calculateBeamSplice(checks, formulas, Fy, Fu, bolt, boltGrade, boltDia);
+            }
+            else {
+                // Unsupported connection
+                document.getElementById('resultsBody').innerHTML = '<div style="padding:2rem;text-align:center;color:var(--concrete-light);"><p>Calculations for this connection type are under development.</p></div>';
+                return;
             }
 
             var allPass = true;
@@ -424,6 +738,1485 @@
                 if (r > maxRatio) maxRatio = r;
             }
             renderResults(checks, formulas, allPass, maxRatio);
+        }
+
+        function calculateShearTab(checks, formulas, Vu, Fy, Fu, bolt, boltGrade, boltDia) {
+            var tpEl = document.getElementById('plateThickness');
+            var tp = tpEl ? parseFloat(tpEl.value) || 10 : 10;
+            var dpEl = document.getElementById('plateDepth');
+            var dp = dpEl ? parseFloat(dpEl.value) || 230 : 230;
+            var nEl = document.getElementById('numBolts');
+            var n = nEl ? parseInt(nEl.value) || 3 : 3;
+            var sEl = document.getElementById('boltSpacing');
+            var s = sEl ? parseFloat(sEl.value) || 75 : 75;
+            var LeEl = document.getElementById('edgeDistance');
+            var Le = LeEl ? parseFloat(LeEl.value) || 40 : 40;
+            var wEl = document.getElementById('weldSize');
+            var w = wEl ? parseFloat(wEl.value) || 6 : 6;
+
+            if (selectedCode === 'AISC') {
+                var phi_v = 0.75, phi_y = 0.90, phi_r = 0.75;
+                var Fnv = boltGrade === '8.8' ? 372 : 468;
+                var Lw = dp - 20;
+                var throat = w * 0.707;
+
+                // 1. Bolt Shear
+                var rn_bolt = Fnv * bolt.Ab / 1000;
+                var Vn_bolt = n * phi_v * rn_bolt;
+                checks.push({ name: 'Bolt Shear Strength', capacity: Vn_bolt.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_bolt).toFixed(3), pass: Vu <= Vn_bolt });
+                formulas.push({ title: '1. BOLT SHEAR STRENGTH — AISC 360-22 §J3.6', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;Bolt: ' + boltDia + ', Grade ' + boltGrade + '<br>' +
+                    '&nbsp;&nbsp;Fnv = ' + Fnv + ' MPa, Ab = ' + bolt.Ab + ' mm², n = ' + n + ' bolts<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;rn = Fnv × Ab = ' + Fnv + ' × ' + bolt.Ab + ' = ' + (Fnv * bolt.Ab).toFixed(0) + ' N = ' + rn_bolt.toFixed(2) + ' kN/bolt<br>' +
+                    '&nbsp;&nbsp;Rn = n × rn = ' + n + ' × ' + rn_bolt.toFixed(2) + ' = ' + (n * rn_bolt).toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_v + ' × ' + (n * rn_bolt).toFixed(2) + ' = ' + Vn_bolt.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> Vu/φRn = ' + Vu + '/' + Vn_bolt.toFixed(2) + ' = ' + (Vu/Vn_bolt).toFixed(3) + (Vu <= Vn_bolt ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 2. Bolt Bearing
+                var Lc = Le - bolt.dh/2;
+                var Rn_tear = 1.2 * Lc * tp * Fu / 1000;
+                var Rn_deform = 2.4 * bolt.d * tp * Fu / 1000;
+                var rn_br = Math.min(Rn_tear, Rn_deform);
+                var Rn_br = n * phi_v * rn_br;
+                checks.push({ name: 'Bolt Bearing on Plate', capacity: Rn_br.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Rn_br).toFixed(3), pass: Vu <= Rn_br });
+                formulas.push({ title: '2. BOLT BEARING ON PLATE — AISC 360-22 §J3.10', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;Le = ' + Le + ' mm, dh = ' + bolt.dh + ' mm, d = ' + bolt.d + ' mm<br>' +
+                    '&nbsp;&nbsp;tp = ' + tp + ' mm, Fu = ' + Fu + ' MPa<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Lc = Le - dh/2 = ' + Le + ' - ' + bolt.dh + '/2 = ' + Lc.toFixed(1) + ' mm<br>' +
+                    '&nbsp;&nbsp;Rn(tearout) = 1.2 × Lc × t × Fu = 1.2 × ' + Lc.toFixed(1) + ' × ' + tp + ' × ' + Fu + ' = ' + Rn_tear.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;Rn(deform) = 2.4 × d × t × Fu = 2.4 × ' + bolt.d + ' × ' + tp + ' × ' + Fu + ' = ' + Rn_deform.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;rn = min(' + Rn_tear.toFixed(2) + ', ' + Rn_deform.toFixed(2) + ') = ' + rn_br.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_v + ' × ' + n + ' × ' + rn_br.toFixed(2) + ' = ' + Rn_br.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Rn_br).toFixed(3) + (Vu <= Rn_br ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 3. Gross Shear Yielding
+                var Agv = dp * tp;
+                var Rn_gross = 0.6 * Fy * Agv / 1000;
+                var Vn_gross = phi_y * Rn_gross;
+                checks.push({ name: 'Plate Gross Shear Yield', capacity: Vn_gross.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_gross).toFixed(3), pass: Vu <= Vn_gross });
+                formulas.push({ title: '3. PLATE GROSS SHEAR YIELDING — AISC 360-22 §J4.2', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;dp = ' + dp + ' mm, tp = ' + tp + ' mm, Fy = ' + Fy + ' MPa<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Agv = dp × tp = ' + dp + ' × ' + tp + ' = ' + Agv + ' mm²<br>' +
+                    '&nbsp;&nbsp;Rn = 0.60 × Fy × Agv = 0.60 × ' + Fy + ' × ' + Agv + ' = ' + (0.6 * Fy * Agv).toFixed(0) + ' N = ' + Rn_gross.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_y + ' × ' + Rn_gross.toFixed(2) + ' = ' + Vn_gross.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vn_gross).toFixed(3) + (Vu <= Vn_gross ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 4. Net Shear Rupture
+                var Anv = (dp - n*bolt.dh) * tp;
+                var Rn_net = 0.6 * Fu * Anv / 1000;
+                var Vn_net = phi_r * Rn_net;
+                checks.push({ name: 'Plate Net Shear Rupture', capacity: Vn_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_net).toFixed(3), pass: Vu <= Vn_net });
+                formulas.push({ title: '4. PLATE NET SHEAR RUPTURE — AISC 360-22 §J4.2', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;dp = ' + dp + ' mm, n = ' + n + ', dh = ' + bolt.dh + ' mm, tp = ' + tp + ' mm, Fu = ' + Fu + ' MPa<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Anv = (dp - n×dh) × tp = (' + dp + ' - ' + n + '×' + bolt.dh + ') × ' + tp + '<br>' +
+                    '&nbsp;&nbsp;Anv = ' + (dp - n*bolt.dh) + ' × ' + tp + ' = ' + Anv + ' mm²<br>' +
+                    '&nbsp;&nbsp;Rn = 0.60 × Fu × Anv = 0.60 × ' + Fu + ' × ' + Anv + ' = ' + Rn_net.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_r + ' × ' + Rn_net.toFixed(2) + ' = ' + Vn_net.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vn_net).toFixed(3) + (Vu <= Vn_net ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 5. Block Shear
+                var Ant = (Le - bolt.dh/2) * tp;
+                var Agv_b = ((n-1)*s + Le) * tp;
+                var Anv_b = Agv_b - (n-0.5)*bolt.dh*tp;
+                var shearYield = 0.6 * Fy * Agv_b / 1000;
+                var shearRupture = 0.6 * Fu * Anv_b / 1000;
+                var tensionRupture = Fu * Ant / 1000;
+                var Rn_block_val = tensionRupture + Math.min(shearYield, shearRupture);
+                var Rn_block = phi_r * Rn_block_val;
+                checks.push({ name: 'Block Shear Rupture', capacity: Rn_block.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Rn_block).toFixed(3), pass: Vu <= Rn_block });
+                formulas.push({ title: '5. BLOCK SHEAR RUPTURE — AISC 360-22 §J4.3', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;Le = ' + Le + ' mm, s = ' + s + ' mm, n = ' + n + ', dh = ' + bolt.dh + ' mm, tp = ' + tp + ' mm<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Agv = [(n-1)×s + Le] × tp = [' + ((n-1)*s) + ' + ' + Le + '] × ' + tp + ' = ' + Agv_b.toFixed(0) + ' mm²<br>' +
+                    '&nbsp;&nbsp;Anv = Agv - (n-0.5)×dh×tp = ' + Agv_b.toFixed(0) + ' - ' + ((n-0.5)*bolt.dh*tp).toFixed(0) + ' = ' + Anv_b.toFixed(0) + ' mm²<br>' +
+                    '&nbsp;&nbsp;Ant = (Le - dh/2) × tp = ' + Ant.toFixed(0) + ' mm²<br><br>' +
+                    '&nbsp;&nbsp;0.6×Fy×Agv = ' + shearYield.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;0.6×Fu×Anv = ' + shearRupture.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;Fu×Ant = ' + tensionRupture.toFixed(2) + ' kN<br><br>' +
+                    '&nbsp;&nbsp;Rn = UbsFuAnt + min(0.6FyAgv, 0.6FuAnv) = ' + tensionRupture.toFixed(2) + ' + ' + Math.min(shearYield, shearRupture).toFixed(2) + ' = ' + Rn_block_val.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_r + ' × ' + Rn_block_val.toFixed(2) + ' = ' + Rn_block.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Rn_block).toFixed(3) + (Vu <= Rn_block ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 6. Weld Capacity
+                var Fexx = 490;
+                var Rn_weld_val = 0.6 * Fexx * throat * Lw * 2 / 1000;
+                var Rn_weld = phi_v * Rn_weld_val;
+                checks.push({ name: 'Fillet Weld Strength', capacity: Rn_weld.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Rn_weld).toFixed(3), pass: Vu <= Rn_weld });
+                formulas.push({ title: '6. FILLET WELD STRENGTH — AISC 360-22 §J2.4', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;w = ' + w + ' mm, Lw = dp - 20 = ' + Lw + ' mm (each side)<br>' +
+                    '&nbsp;&nbsp;Electrode E70XX, Fexx = ' + Fexx + ' MPa<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Effective throat: a = 0.707 × w = 0.707 × ' + w + ' = ' + throat.toFixed(2) + ' mm<br>' +
+                    '&nbsp;&nbsp;Fnw = 0.60 × Fexx = 0.60 × ' + Fexx + ' = ' + (0.6*Fexx) + ' MPa<br>' +
+                    '&nbsp;&nbsp;Rn = Fnw × a × Lw × 2 = ' + (0.6*Fexx) + ' × ' + throat.toFixed(2) + ' × ' + Lw + ' × 2 = ' + Rn_weld_val.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_v + ' × ' + Rn_weld_val.toFixed(2) + ' = ' + Rn_weld.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Rn_weld).toFixed(3) + (Vu <= Rn_weld ? ' ✓ OK' : ' ✗ NG')
+                });
+            }
+            else if (selectedCode === 'EC3') {
+                var gamma_M2 = 1.25, gamma_M0 = 1.00;
+                var fub = boltGrade === '8.8' ? 800 : 1000;
+                var alpha_v = boltGrade === '8.8' ? 0.6 : 0.5;
+                var Lw_ec = dp - 20;
+                var a_t = w * 0.707;
+
+                // 1. Bolt Shear
+                var Fv_Rd = n * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Bolt Shear Resistance', capacity: Fv_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fv_Rd).toFixed(3), pass: Vu <= Fv_Rd });
+                formulas.push({ title: '1. BOLT SHEAR RESISTANCE — EN 1993-1-8 Table 3.4', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;Bolt class ' + boltGrade + ', fub = ' + fub + ' MPa, As = ' + bolt.Ab + ' mm²<br>' +
+                    '&nbsp;&nbsp;αv = ' + alpha_v + ', γM2 = ' + gamma_M2 + ', n = ' + n + ' bolts<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Fv,Rd = n × αv × fub × As / γM2<br>' +
+                    '&nbsp;&nbsp;Fv,Rd = ' + n + ' × ' + alpha_v + ' × ' + fub + ' × ' + bolt.Ab + ' / ' + gamma_M2 + '<br>' +
+                    '&nbsp;&nbsp;<span class="result">Fv,Rd = ' + Fv_Rd.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Fv_Rd).toFixed(3) + (Vu <= Fv_Rd ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 2. Bearing
+                var e1 = Le, p1 = s, d0 = bolt.dh;
+                var alpha_d = Math.min(e1/(3*d0), p1/(3*d0) - 0.25, fub/Fu, 1.0);
+                var k1 = Math.min(2.8*e1/d0 - 1.7, 2.5);
+                var Fb_Rd = n * k1 * alpha_d * Fu * bolt.d * tp / (gamma_M2 * 1000);
+                checks.push({ name: 'Bearing Resistance', capacity: Fb_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fb_Rd).toFixed(3), pass: Vu <= Fb_Rd });
+                formulas.push({ title: '2. BEARING RESISTANCE — EN 1993-1-8 Table 3.4', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;e1 = ' + e1 + ' mm, p1 = ' + p1 + ' mm, d0 = ' + d0 + ' mm<br>' +
+                    '&nbsp;&nbsp;d = ' + bolt.d + ' mm, t = ' + tp + ' mm, fu = ' + Fu + ' MPa<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;αd = min(e1/3d0, p1/3d0-0.25, fub/fu, 1.0) = ' + alpha_d.toFixed(3) + '<br>' +
+                    '&nbsp;&nbsp;k1 = min(2.8e1/d0-1.7, 2.5) = ' + k1.toFixed(3) + '<br>' +
+                    '&nbsp;&nbsp;Fb,Rd = n × k1 × αd × fu × d × t / γM2<br>' +
+                    '&nbsp;&nbsp;<span class="result">Fb,Rd = ' + Fb_Rd.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Fb_Rd).toFixed(3) + (Vu <= Fb_Rd ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 3. Gross Shear
+                var Av = dp * tp;
+                var Vpl_Rd = Av * Fy / (Math.sqrt(3) * gamma_M0 * 1000);
+                checks.push({ name: 'Gross Section Shear', capacity: Vpl_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vpl_Rd).toFixed(3), pass: Vu <= Vpl_Rd });
+                formulas.push({ title: '3. GROSS SECTION SHEAR — EN 1993-1-1 §6.2.6', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Av = dp × tp = ' + dp + ' × ' + tp + ' = ' + Av + ' mm²<br>' +
+                    '&nbsp;&nbsp;Vpl,Rd = Av × fy / (√3 × γM0)<br>' +
+                    '&nbsp;&nbsp;Vpl,Rd = ' + Av + ' × ' + Fy + ' / (√3 × ' + gamma_M0 + ')<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vpl,Rd = ' + Vpl_Rd.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vpl_Rd).toFixed(3) + (Vu <= Vpl_Rd ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 4. Net Shear
+                var Anet = (dp - n*bolt.dh) * tp;
+                var Vnet_Rd = Anet * Fu / (Math.sqrt(3) * gamma_M2 * 1000);
+                checks.push({ name: 'Net Section Shear', capacity: Vnet_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vnet_Rd).toFixed(3), pass: Vu <= Vnet_Rd });
+                formulas.push({ title: '4. NET SECTION SHEAR — EN 1993-1-1 §6.2.6', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Anet = (dp - n×d0) × tp = (' + dp + ' - ' + n + '×' + bolt.dh + ') × ' + tp + ' = ' + Anet + ' mm²<br>' +
+                    '&nbsp;&nbsp;Vnet,Rd = Anet × fu / (√3 × γM2)<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vnet,Rd = ' + Vnet_Rd.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vnet_Rd).toFixed(3) + (Vu <= Vnet_Rd ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 5. Weld
+                var beta_w = 0.9;
+                var fvw_d = Fu / (Math.sqrt(3) * beta_w * gamma_M2);
+                var Fw_Rd = a_t * Lw_ec * 2 * fvw_d / 1000;
+                checks.push({ name: 'Fillet Weld Resistance', capacity: Fw_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fw_Rd).toFixed(3), pass: Vu <= Fw_Rd });
+                formulas.push({ title: '5. FILLET WELD RESISTANCE — EN 1993-1-8 §4.5', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;a = ' + a_t.toFixed(2) + ' mm, Lw = ' + Lw_ec + ' mm, βw = ' + beta_w + '<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;fvw,d = fu / (√3 × βw × γM2) = ' + Fu + ' / (√3 × ' + beta_w + ' × ' + gamma_M2 + ') = ' + fvw_d.toFixed(1) + ' MPa<br>' +
+                    '&nbsp;&nbsp;Fw,Rd = a × Lw × 2 × fvw,d<br>' +
+                    '&nbsp;&nbsp;<span class="result">Fw,Rd = ' + Fw_Rd.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Fw_Rd).toFixed(3) + (Vu <= Fw_Rd ? ' ✓ OK' : ' ✗ NG')
+                });
+            }
+            else if (selectedCode === 'CSA') {
+                var phi_u = 0.75, phi_br = 0.80, phi_w = 0.67;
+                var Fu_bolt = boltGrade === '8.8' ? 830 : 1040;
+                var Lw_csa = dp - 20;
+                var throat_csa = w * 0.707;
+
+                // 1. Bolt Shear
+                var Vr_bolt = n * 0.6 * phi_u * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear Resistance', capacity: Vr_bolt.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_bolt).toFixed(3), pass: Vu <= Vr_bolt });
+                formulas.push({ title: '1. BOLT SHEAR RESISTANCE — CSA S16-19 Cl.13.12.1.2', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;Bolt ' + boltDia + ' Grade ' + boltGrade + ', Fu = ' + Fu_bolt + ' MPa<br>' +
+                    '&nbsp;&nbsp;Ab = ' + bolt.Ab + ' mm², φu = ' + phi_u + ', n = ' + n + '<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Vr = 0.6 × φu × n × Ab × Fu<br>' +
+                    '&nbsp;&nbsp;Vr = 0.6 × ' + phi_u + ' × ' + n + ' × ' + bolt.Ab + ' × ' + Fu_bolt + ' / 1000<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vr = ' + Vr_bolt.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vr_bolt).toFixed(3) + (Vu <= Vr_bolt ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 2. Bearing
+                var Br = n * 3 * phi_br * tp * bolt.d * Fu / 1000;
+                checks.push({ name: 'Bearing Resistance', capacity: Br.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Br).toFixed(3), pass: Vu <= Br });
+                formulas.push({ title: '2. BEARING RESISTANCE — CSA S16-19 Cl.13.12.1.2', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Br = 3 × φbr × n × t × d × Fu<br>' +
+                    '&nbsp;&nbsp;Br = 3 × ' + phi_br + ' × ' + n + ' × ' + tp + ' × ' + bolt.d + ' × ' + Fu + ' / 1000<br>' +
+                    '&nbsp;&nbsp;<span class="result">Br = ' + Br.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Br).toFixed(3) + (Vu <= Br ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 3. Gross Shear
+                var Ag_csa = dp * tp;
+                var Vr_gr = phi_u * 0.6 * Fy * Ag_csa / 1000;
+                checks.push({ name: 'Gross Shear Resistance', capacity: Vr_gr.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_gr).toFixed(3), pass: Vu <= Vr_gr });
+                formulas.push({ title: '3. GROSS SHEAR RESISTANCE — CSA S16-19 Cl.13.11', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Ag = ' + dp + ' × ' + tp + ' = ' + Ag_csa + ' mm²<br>' +
+                    '&nbsp;&nbsp;Vr = 0.6 × φu × Ag × Fy<br>' +
+                    '&nbsp;&nbsp;Vr = 0.6 × ' + phi_u + ' × ' + Ag_csa + ' × ' + Fy + ' / 1000<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vr = ' + Vr_gr.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vr_gr).toFixed(3) + (Vu <= Vr_gr ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 4. Net Shear
+                var An_csa = (dp - n*(bolt.dh+2)) * tp;
+                var Vr_net = phi_u * 0.6 * Fu * An_csa / 1000;
+                checks.push({ name: 'Net Shear Resistance', capacity: Vr_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_net).toFixed(3), pass: Vu <= Vr_net });
+                formulas.push({ title: '4. NET SHEAR RESISTANCE — CSA S16-19 Cl.13.11', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;An = (dp - n×(dh+2)) × tp = (' + dp + ' - ' + n + '×' + (bolt.dh+2) + ') × ' + tp + ' = ' + An_csa + ' mm²<br>' +
+                    '&nbsp;&nbsp;Vr = 0.6 × φu × An × Fu<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vr = ' + Vr_net.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vr_net).toFixed(3) + (Vu <= Vr_net ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 5. Weld
+                var Aw_csa = throat_csa * Lw_csa * 2;
+                var Xu = 490;
+                var Vr_w = phi_w * 0.67 * Xu * Aw_csa / 1000;
+                checks.push({ name: 'Weld Resistance', capacity: Vr_w.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_w).toFixed(3), pass: Vu <= Vr_w });
+                formulas.push({ title: '5. WELD RESISTANCE — CSA S16-19 Cl.13.13', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;a = ' + throat_csa.toFixed(2) + ' mm, Lw = ' + Lw_csa + ' mm, Xu = ' + Xu + ' MPa<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Aw = a × Lw × 2 = ' + Aw_csa.toFixed(0) + ' mm²<br>' +
+                    '&nbsp;&nbsp;Vr = 0.67 × φw × Aw × Xu<br>' +
+                    '&nbsp;&nbsp;Vr = 0.67 × ' + phi_w + ' × ' + Aw_csa.toFixed(0) + ' × ' + Xu + ' / 1000<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vr = ' + Vr_w.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vr_w).toFixed(3) + (Vu <= Vr_w ? ' ✓ OK' : ' ✗ NG')
+                });
+            }
+            else if (selectedCode === 'AS') {
+                var phi = 0.80;
+                var fuf = boltGrade === '8.8' ? 830 : 1040;
+                var Lw_as = dp - 20;
+                var tt = w * 0.707;
+
+                // 1. Bolt Shear
+                var krc = 1.0;
+                var Vf = n * phi * 0.62 * krc * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear Capacity', capacity: Vf.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vf).toFixed(3), pass: Vu <= Vf });
+                formulas.push({ title: '1. BOLT SHEAR CAPACITY — AS 4100 Cl.9.2.2.1', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;Bolt ' + boltDia + ' Grade ' + boltGrade + ', fuf = ' + fuf + ' MPa<br>' +
+                    '&nbsp;&nbsp;Ac = ' + bolt.Ab + ' mm², φ = ' + phi + ', krc = ' + krc + '<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Vf = φ × 0.62 × krc × n × Ac × fuf<br>' +
+                    '&nbsp;&nbsp;Vf = ' + phi + ' × 0.62 × ' + krc + ' × ' + n + ' × ' + bolt.Ab + ' × ' + fuf + ' / 1000<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vf = ' + Vf.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vf).toFixed(3) + (Vu <= Vf ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 2. Bearing
+                var Vb = n * phi * 3.2 * bolt.d * tp * Fu / 1000;
+                checks.push({ name: 'Bearing Capacity', capacity: Vb.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vb).toFixed(3), pass: Vu <= Vb });
+                formulas.push({ title: '2. BEARING CAPACITY — AS 4100 Cl.9.2.2.4', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Vb = φ × 3.2 × n × df × tp × fu<br>' +
+                    '&nbsp;&nbsp;Vb = ' + phi + ' × 3.2 × ' + n + ' × ' + bolt.d + ' × ' + tp + ' × ' + Fu + ' / 1000<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vb = ' + Vb.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vb).toFixed(3) + (Vu <= Vb ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 3. Shear Yield
+                var Ag_as = dp * tp;
+                var Vw_as = phi * 0.6 * Fy * Ag_as / 1000;
+                checks.push({ name: 'Shear Yield Capacity', capacity: Vw_as.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vw_as).toFixed(3), pass: Vu <= Vw_as });
+                formulas.push({ title: '3. SHEAR YIELD CAPACITY — AS 4100 Cl.5.11.2', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Ag = dp × tp = ' + dp + ' × ' + tp + ' = ' + Ag_as + ' mm²<br>' +
+                    '&nbsp;&nbsp;Vw = φ × 0.6 × fy × Ag<br>' +
+                    '&nbsp;&nbsp;Vw = ' + phi + ' × 0.6 × ' + Fy + ' × ' + Ag_as + ' / 1000<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vw = ' + Vw_as.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vw_as).toFixed(3) + (Vu <= Vw_as ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 4. Net Shear
+                var An_as = (dp - n*bolt.dh) * tp * 0.85;
+                var Vu_as = phi * 0.6 * Fu * An_as / 1000;
+                checks.push({ name: 'Net Shear Capacity', capacity: Vu_as.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vu_as).toFixed(3), pass: Vu <= Vu_as });
+                formulas.push({ title: '4. NET SHEAR CAPACITY — AS 4100 Cl.5.11.3', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;An = 0.85 × (dp - n×dh) × tp = 0.85 × (' + dp + ' - ' + n + '×' + bolt.dh + ') × ' + tp + ' = ' + An_as.toFixed(0) + ' mm²<br>' +
+                    '&nbsp;&nbsp;Vu = φ × 0.6 × fu × An<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vu = ' + Vu_as.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vu_as).toFixed(3) + (Vu <= Vu_as ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 5. Weld
+                var fuw = 480;
+                var vw = 0.6 * fuw / Math.sqrt(3);
+                var Vw_weld = phi * tt * Lw_as * 2 * vw / 1000;
+                checks.push({ name: 'Weld Capacity', capacity: Vw_weld.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vw_weld).toFixed(3), pass: Vu <= Vw_weld });
+                formulas.push({ title: '5. WELD CAPACITY — AS 4100 Cl.9.6', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;tt = ' + tt.toFixed(2) + ' mm, Lw = ' + Lw_as + ' mm, fuw = ' + fuw + ' MPa (E48XX)<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;vw = 0.6 × fuw / √3 = 0.6 × ' + fuw + ' / √3 = ' + vw.toFixed(1) + ' MPa<br>' +
+                    '&nbsp;&nbsp;Vw = φ × tt × Lw × 2 × vw<br>' +
+                    '&nbsp;&nbsp;Vw = ' + phi + ' × ' + tt.toFixed(2) + ' × ' + Lw_as + ' × 2 × ' + vw.toFixed(1) + ' / 1000<br>' +
+                    '&nbsp;&nbsp;<span class="result">Vw = ' + Vw_weld.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vw_weld).toFixed(3) + (Vu <= Vw_weld ? ' ✓ OK' : ' ✗ NG')
+                });
+            }
+        }
+
+        function calculateEndPlate(checks, formulas, Fy, Fu, bolt, boltGrade, boltDia) {
+            var MuEl = document.getElementById('momentForce');
+            var Mu = MuEl ? parseFloat(MuEl.value) || 250 : 250;
+            var VuEl = document.getElementById('shearForce');
+            var Vu = VuEl ? parseFloat(VuEl.value) || 100 : 100;
+            var tpEl = document.getElementById('plateThickness');
+            var tp = tpEl ? parseFloat(tpEl.value) || 20 : 20;
+            var bpEl = document.getElementById('plateWidth');
+            var bp = bpEl ? parseFloat(bpEl.value) || 200 : 200;
+            var dpEl = document.getElementById('plateDepth');
+            var dp = dpEl ? parseFloat(dpEl.value) || 600 : 600;
+            var pextEl = document.getElementById('plateExt');
+            var pext = pextEl ? parseFloat(pextEl.value) || 50 : 50;
+            var nrEl = document.getElementById('boltRowsTension');
+            var nr = nrEl ? parseInt(nrEl.value) || 2 : 2;
+            var nbEl = document.getElementById('boltsPerRow');
+            var nb = nbEl ? parseInt(nbEl.value) || 2 : 2;
+            var gEl = document.getElementById('boltGage');
+            var g = gEl ? parseFloat(gEl.value) || 100 : 100;
+            var pfEl = document.getElementById('boltPitch');
+            var pf = pfEl ? parseFloat(pfEl.value) || 90 : 90;
+            var wEl = document.getElementById('weldSize');
+            var w = wEl ? parseFloat(wEl.value) || 8 : 8;
+
+            // Beam properties (W21x50 default)
+            var d_beam = 529, bf = 166, tf = 14, tw = 9;
+            var n_total = nr * nb * 2; // Total bolts (tension + compression side)
+            var n_tension = nr * nb; // Bolts in tension zone
+            var h = d_beam - tf; // Lever arm approximation
+
+            if (selectedCode === 'AISC') {
+                var phi_v = 0.75, phi_y = 0.90, phi_r = 0.75, phi_b = 0.90;
+                var Fnt = boltGrade === '8.8' ? 620 : 780;
+                var Fnv = boltGrade === '8.8' ? 372 : 468;
+
+                // 1. Bolt Tension Capacity
+                var Tu = Mu * 1000 / h; // Tension force from moment
+                var Rn_t = n_tension * Fnt * bolt.Ab / 1000;
+                var phiRn_t = phi_v * Rn_t;
+                checks.push({ name: 'Bolt Tension Strength', capacity: phiRn_t.toFixed(1), demand: Tu.toFixed(1), ratio: (Tu/phiRn_t).toFixed(3), pass: Tu <= phiRn_t });
+                formulas.push({ title: '1. BOLT TENSION STRENGTH — AISC 360-22 §J3.6', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;Mu = ' + Mu + ' kN·m, h ≈ d - tf = ' + d_beam + ' - ' + tf + ' = ' + h + ' mm<br>' +
+                    '&nbsp;&nbsp;Fnt = ' + Fnt + ' MPa, Ab = ' + bolt.Ab + ' mm², n = ' + n_tension + ' bolts in tension<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Tu = Mu / h = ' + Mu + ' × 1000 / ' + h + ' = ' + Tu.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;Rn = n × Fnt × Ab = ' + n_tension + ' × ' + Fnt + ' × ' + bolt.Ab + ' / 1000 = ' + Rn_t.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_v + ' × ' + Rn_t.toFixed(2) + ' = ' + phiRn_t.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Tu/phiRn_t).toFixed(3) + (Tu <= phiRn_t ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 2. Bolt Shear Capacity (for shear force)
+                var rn_v = Fnv * bolt.Ab / 1000;
+                var phiRn_v = phi_v * n_total * rn_v;
+                checks.push({ name: 'Bolt Shear Strength', capacity: phiRn_v.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/phiRn_v).toFixed(3), pass: Vu <= phiRn_v });
+                formulas.push({ title: '2. BOLT SHEAR STRENGTH — AISC 360-22 §J3.6', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Fnv = ' + Fnv + ' MPa, n = ' + n_total + ' bolts total<br>' +
+                    '&nbsp;&nbsp;rn = Fnv × Ab = ' + rn_v.toFixed(2) + ' kN/bolt<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_v + ' × ' + n_total + ' × ' + rn_v.toFixed(2) + ' = ' + phiRn_v.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/phiRn_v).toFixed(3) + (Vu <= phiRn_v ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 3. Combined Tension + Shear
+                var fv = Vu * 1000 / (n_total * bolt.Ab);
+                var Fnt_mod = 1.3 * Fnt - (Fnt / (phi_v * Fnv)) * fv;
+                Fnt_mod = Math.min(Fnt_mod, Fnt);
+                var Rn_comb = n_tension * Fnt_mod * bolt.Ab / 1000;
+                var phiRn_comb = phi_v * Rn_comb;
+                checks.push({ name: 'Combined Tension-Shear', capacity: phiRn_comb.toFixed(1), demand: Tu.toFixed(1), ratio: (Tu/phiRn_comb).toFixed(3), pass: Tu <= phiRn_comb });
+                formulas.push({ title: '3. COMBINED TENSION-SHEAR — AISC 360-22 §J3.7', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;fv = Vu / (n × Ab) = ' + Vu + '×1000 / (' + n_total + '×' + bolt.Ab + ') = ' + fv.toFixed(1) + ' MPa<br>' +
+                    '&nbsp;&nbsp;F\'nt = 1.3Fnt - (Fnt/φFnv)×fv = 1.3×' + Fnt + ' - (' + Fnt + '/' + (phi_v*Fnv).toFixed(0) + ')×' + fv.toFixed(1) + ' = ' + Fnt_mod.toFixed(1) + ' MPa<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phiRn_comb.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Tu/phiRn_comb).toFixed(3) + (Tu <= phiRn_comb ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 4. End Plate Flexural Yielding (Yield Line)
+                var s_yl = 0.5 * Math.sqrt(bp * g);
+                var Yp = (bp/2) * (h/s_yl + 2 + s_yl/g);
+                var Mn_pl = phi_b * Fy * tp * tp * Yp / 1e6;
+                checks.push({ name: 'End Plate Flexure (Yield Line)', capacity: Mn_pl.toFixed(1), demand: Mu.toFixed(1), ratio: (Mu/Mn_pl).toFixed(3), pass: Mu <= Mn_pl });
+                formulas.push({ title: '4. END PLATE FLEXURE — AISC Design Guide 4', formula: 
+                    '<strong>Calculation (Simplified Yield Line):</strong><br>' +
+                    '&nbsp;&nbsp;s = 0.5√(bp×g) = 0.5×√(' + bp + '×' + g + ') = ' + s_yl.toFixed(1) + ' mm<br>' +
+                    '&nbsp;&nbsp;Yp = (bp/2)(h/s + 2 + s/g) = ' + Yp.toFixed(1) + ' mm<br>' +
+                    '&nbsp;&nbsp;Mn = φ × Fy × tp² × Yp<br>' +
+                    '&nbsp;&nbsp;<span class="result">φMn = ' + Mn_pl.toFixed(2) + ' kN·m</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Mu/Mn_pl).toFixed(3) + (Mu <= Mn_pl ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 5. Beam Flange Weld
+                var throat = w * 0.707;
+                var Lw_flange = 2 * (bf - tw);
+                var Fexx = 490;
+                var Rn_w = 0.6 * Fexx * throat * Lw_flange / 1000;
+                var Tu_flange = Tu;
+                checks.push({ name: 'Beam Flange to Plate Weld', capacity: (phi_v*Rn_w).toFixed(1), demand: Tu_flange.toFixed(1), ratio: (Tu_flange/(phi_v*Rn_w)).toFixed(3), pass: Tu_flange <= phi_v*Rn_w });
+                formulas.push({ title: '5. BEAM FLANGE WELD — AISC 360-22 §J2.4', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;w = ' + w + ' mm, Lw = 2×(bf-tw) = 2×(' + bf + '-' + tw + ') = ' + Lw_flange + ' mm<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;a = 0.707×' + w + ' = ' + throat.toFixed(2) + ' mm<br>' +
+                    '&nbsp;&nbsp;Rn = 0.6×' + Fexx + '×' + throat.toFixed(2) + '×' + Lw_flange + '/1000 = ' + Rn_w.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + (phi_v*Rn_w).toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Tu_flange/(phi_v*Rn_w)).toFixed(3) + (Tu_flange <= phi_v*Rn_w ? ' ✓ OK' : ' ✗ NG')
+                });
+            }
+            else if (selectedCode === 'EC3') {
+                var gamma_M0 = 1.00, gamma_M2 = 1.25;
+                var fub = boltGrade === '8.8' ? 800 : 1000;
+                var Tu = Mu * 1000 / h;
+
+                // 1. Bolt Tension
+                var Ft_Rd = n_tension * 0.9 * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Bolt Tension Resistance', capacity: Ft_Rd.toFixed(1), demand: Tu.toFixed(1), ratio: (Tu/Ft_Rd).toFixed(3), pass: Tu <= Ft_Rd });
+                formulas.push({ title: '1. BOLT TENSION — EN 1993-1-8 Table 3.4', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;Ft,Rd = 0.9 × fub × As / γM2 = 0.9 × ' + fub + ' × ' + bolt.Ab + ' × ' + n_tension + ' / ' + gamma_M2 + ' / 1000<br>&nbsp;&nbsp;<span class="result">Ft,Rd = ' + Ft_Rd.toFixed(2) + ' kN</span>'
+                });
+
+                // 2. Bolt Shear
+                var alpha_v = boltGrade === '8.8' ? 0.6 : 0.5;
+                var Fv_Rd = n_total * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Bolt Shear Resistance', capacity: Fv_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fv_Rd).toFixed(3), pass: Vu <= Fv_Rd });
+                formulas.push({ title: '2. BOLT SHEAR — EN 1993-1-8 Table 3.4', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;Fv,Rd = αv × fub × As × n / γM2 = ' + alpha_v + ' × ' + fub + ' × ' + bolt.Ab + ' × ' + n_total + ' / ' + gamma_M2 + ' / 1000<br>&nbsp;&nbsp;<span class="result">Fv,Rd = ' + Fv_Rd.toFixed(2) + ' kN</span>'
+                });
+
+                // 3. End Plate Bending (T-stub)
+                var m_ep = (g - tw - 2*0.8*w) / 2;
+                var leff = Math.min(2*Math.PI*m_ep, bp);
+                var Mpl = 0.25 * leff * tp * tp * Fy / 1e6;
+                var Fep_Rd = 4 * Mpl / (m_ep/1000) * nr;
+                checks.push({ name: 'End Plate Bending (T-stub)', capacity: Fep_Rd.toFixed(1), demand: Tu.toFixed(1), ratio: (Tu/Fep_Rd).toFixed(3), pass: Tu <= Fep_Rd });
+                formulas.push({ title: '3. END PLATE BENDING — EN 1993-1-8 §6.2.4', formula: 
+                    '<strong>Calculation (Mode 1 - Complete yielding):</strong><br>&nbsp;&nbsp;m = ' + m_ep.toFixed(1) + ' mm, leff = ' + leff.toFixed(1) + ' mm<br>&nbsp;&nbsp;Mpl = 0.25 × leff × tp² × fy = ' + Mpl.toFixed(2) + ' kN·m<br>&nbsp;&nbsp;<span class="result">FT,Rd = 4Mpl/m × nr = ' + Fep_Rd.toFixed(2) + ' kN</span>'
+                });
+
+                // 4. Weld
+                var a_w = w * 0.707;
+                var Lw_f = 2 * (bf - tw);
+                var fvw_d = Fu / (Math.sqrt(3) * 0.9 * gamma_M2);
+                var Fw_Rd = a_w * Lw_f * fvw_d / 1000;
+                checks.push({ name: 'Flange Weld Resistance', capacity: Fw_Rd.toFixed(1), demand: Tu.toFixed(1), ratio: (Tu/Fw_Rd).toFixed(3), pass: Tu <= Fw_Rd });
+                formulas.push({ title: '4. FLANGE WELD — EN 1993-1-8 §4.5', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;a = ' + a_w.toFixed(2) + ' mm, Lw = ' + Lw_f + ' mm<br>&nbsp;&nbsp;<span class="result">Fw,Rd = ' + Fw_Rd.toFixed(2) + ' kN</span>'
+                });
+            }
+            else if (selectedCode === 'CSA') {
+                var phi = 0.75;
+                var Fu_bolt = boltGrade === '8.8' ? 830 : 1040;
+                var Tu = Mu * 1000 / h;
+
+                // 1. Bolt Tension
+                var Tr = n_tension * 0.75 * phi * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Tension Resistance', capacity: Tr.toFixed(1), demand: Tu.toFixed(1), ratio: (Tu/Tr).toFixed(3), pass: Tu <= Tr });
+                formulas.push({ title: '1. BOLT TENSION — CSA S16-19 Cl.13.12.1.3', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;Tr = 0.75 × φ × n × Ab × Fu = 0.75 × ' + phi + ' × ' + n_tension + ' × ' + bolt.Ab + ' × ' + Fu_bolt + ' / 1000<br>&nbsp;&nbsp;<span class="result">Tr = ' + Tr.toFixed(2) + ' kN</span>'
+                });
+
+                // 2. Bolt Shear
+                var Vr = n_total * 0.6 * phi * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear Resistance', capacity: Vr.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr).toFixed(3), pass: Vu <= Vr });
+                formulas.push({ title: '2. BOLT SHEAR — CSA S16-19 Cl.13.12.1.2', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;Vr = 0.6 × φ × n × Ab × Fu<br>&nbsp;&nbsp;<span class="result">Vr = ' + Vr.toFixed(2) + ' kN</span>'
+                });
+
+                // 3. End Plate Yield
+                var Zp = bp * tp * tp / 4;
+                var Mr = 0.9 * Fy * Zp / 1e6;
+                var m_csa = g / 2 - tw / 2;
+                var Pr = Mr / (m_csa / 1000) * nr * 2;
+                checks.push({ name: 'End Plate Flexure', capacity: Pr.toFixed(1), demand: Tu.toFixed(1), ratio: (Tu/Pr).toFixed(3), pass: Tu <= Pr });
+                formulas.push({ title: '3. END PLATE FLEXURE — CSA S16-19', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;Mr = φ × Fy × Zp = ' + Mr.toFixed(2) + ' kN·m<br>&nbsp;&nbsp;<span class="result">Pr = ' + Pr.toFixed(2) + ' kN</span>'
+                });
+
+                // 4. Weld
+                var Aw = w * 0.707 * 2 * (bf - tw);
+                var Vr_w = 0.67 * 0.67 * 490 * Aw / 1000;
+                checks.push({ name: 'Flange Weld Resistance', capacity: Vr_w.toFixed(1), demand: Tu.toFixed(1), ratio: (Tu/Vr_w).toFixed(3), pass: Tu <= Vr_w });
+                formulas.push({ title: '4. FLANGE WELD — CSA S16-19 Cl.13.13', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;<span class="result">Vr = ' + Vr_w.toFixed(2) + ' kN</span>'
+                });
+            }
+            else if (selectedCode === 'AS') {
+                var phi = 0.80;
+                var fuf = boltGrade === '8.8' ? 830 : 1040;
+                var Tu = Mu * 1000 / h;
+
+                // 1. Bolt Tension
+                var Ntf = n_tension * phi * 0.9 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Tension Capacity', capacity: Ntf.toFixed(1), demand: Tu.toFixed(1), ratio: (Tu/Ntf).toFixed(3), pass: Tu <= Ntf });
+                formulas.push({ title: '1. BOLT TENSION — AS 4100 Cl.9.2.2.2', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;Ntf = φ × 0.9 × n × As × fuf<br>&nbsp;&nbsp;<span class="result">Ntf = ' + Ntf.toFixed(2) + ' kN</span>'
+                });
+
+                // 2. Bolt Shear
+                var Vf = n_total * phi * 0.62 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear Capacity', capacity: Vf.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vf).toFixed(3), pass: Vu <= Vf });
+                formulas.push({ title: '2. BOLT SHEAR — AS 4100 Cl.9.2.2.1', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;<span class="result">Vf = ' + Vf.toFixed(2) + ' kN</span>'
+                });
+
+                // 3. Plate Flexure
+                var Ze = bp * tp * tp / 6;
+                var Ms = phi * Fy * Ze / 1e6 * nr * 2;
+                checks.push({ name: 'End Plate Flexure', capacity: Ms.toFixed(1), demand: Mu.toFixed(1), ratio: (Mu/Ms).toFixed(3), pass: Mu <= Ms });
+                formulas.push({ title: '3. END PLATE FLEXURE — AS 4100', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;<span class="result">φMs = ' + Ms.toFixed(2) + ' kN·m</span>'
+                });
+
+                // 4. Weld
+                var tt = w * 0.707;
+                var Lw = 2 * (bf - tw);
+                var vw = 0.6 * 480 / Math.sqrt(3);
+                var Vw = phi * tt * Lw * vw / 1000;
+                checks.push({ name: 'Flange Weld Capacity', capacity: Vw.toFixed(1), demand: Tu.toFixed(1), ratio: (Tu/Vw).toFixed(3), pass: Tu <= Vw });
+                formulas.push({ title: '4. FLANGE WELD — AS 4100 Cl.9.6', formula: 
+                    '<strong>Calculation:</strong><br>&nbsp;&nbsp;<span class="result">φVw = ' + Vw.toFixed(2) + ' kN</span>'
+                });
+            }
+            else {
+                // Simplified for other codes
+                checks.push({ name: 'End Plate (Other Codes)', capacity: '—', demand: Mu.toFixed(1), ratio: '—', pass: true });
+                formulas.push({ title: 'Note', formula: 'Detailed end plate calculations for ' + codeData[selectedCode].name + ' are under development.' });
+            }
+        }
+
+        function calculateDoubleAngle(checks, formulas, Vu, Fy, Fu, bolt, boltGrade, boltDia) {
+            var taEl = document.getElementById('angleThickness');
+            var ta = taEl ? parseFloat(taEl.value) || 9.5 : 9.5;
+            var LaEl = document.getElementById('angleLength');
+            var La = LaEl ? parseFloat(LaEl.value) || 230 : 230;
+            var legEl = document.getElementById('angleLeg');
+            var leg = legEl ? parseFloat(legEl.value) || 102 : 102;
+            var n1El = document.getElementById('numBolts');
+            var n1 = n1El ? parseInt(n1El.value) || 3 : 3;
+            var n2El = document.getElementById('numBoltsCol');
+            var n2 = n2El ? parseInt(n2El.value) || 3 : 3;
+            var sEl = document.getElementById('boltSpacing');
+            var s = sEl ? parseFloat(sEl.value) || 75 : 75;
+            var LeEl = document.getElementById('edgeDistance');
+            var Le = LeEl ? parseFloat(LeEl.value) || 35 : 35;
+            var gEl = document.getElementById('gageOSL');
+            var g_osl = gEl ? parseFloat(gEl.value) || 65 : 65;
+
+            // Angle material (A36)
+            var Fy_angle = 250, Fu_angle = 400;
+
+            if (selectedCode === 'AISC') {
+                var phi_v = 0.75, phi_y = 0.90, phi_r = 0.75;
+                var Fnv = boltGrade === '8.8' ? 372 : 468;
+
+                // 1. Bolt Shear - Beam Web (double shear)
+                var rn_bolt = Fnv * bolt.Ab / 1000;
+                var Vn_beam = 2 * n1 * phi_v * rn_bolt; // Double shear
+                checks.push({ name: 'Bolt Shear - Beam Web (2×)', capacity: Vn_beam.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_beam).toFixed(3), pass: Vu <= Vn_beam });
+                formulas.push({ title: '1. BOLT SHEAR AT BEAM WEB — AISC 360-22 §J3.6', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;n1 = ' + n1 + ' bolts, Double shear (2 angles)<br>' +
+                    '&nbsp;&nbsp;Fnv = ' + Fnv + ' MPa, Ab = ' + bolt.Ab + ' mm²<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;rn = Fnv × Ab = ' + rn_bolt.toFixed(2) + ' kN/bolt/plane<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = 2 × ' + n1 + ' × ' + phi_v + ' × ' + rn_bolt.toFixed(2) + ' = ' + Vn_beam.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vn_beam).toFixed(3) + (Vu <= Vn_beam ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 2. Bolt Shear - Column (single shear per angle × 2)
+                var Vn_col = 2 * n2 * phi_v * rn_bolt;
+                checks.push({ name: 'Bolt Shear - Column', capacity: Vn_col.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_col).toFixed(3), pass: Vu <= Vn_col });
+                formulas.push({ title: '2. BOLT SHEAR AT COLUMN — AISC 360-22 §J3.6', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;n2 = ' + n2 + ' bolts per angle × 2 angles<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = 2 × ' + n2 + ' × ' + phi_v + ' × ' + rn_bolt.toFixed(2) + ' = ' + Vn_col.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vn_col).toFixed(3) + (Vu <= Vn_col ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 3. Bolt Bearing on Angle (OSL)
+                var Lc = Le - bolt.dh/2;
+                var Rn_tear = 1.2 * Lc * ta * Fu_angle / 1000;
+                var Rn_deform = 2.4 * bolt.d * ta * Fu_angle / 1000;
+                var rn_br = Math.min(Rn_tear, Rn_deform);
+                var Vn_br = 2 * n1 * phi_v * rn_br;
+                checks.push({ name: 'Bearing on Angle OSL', capacity: Vn_br.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_br).toFixed(3), pass: Vu <= Vn_br });
+                formulas.push({ title: '3. BEARING ON ANGLE (OSL) — AISC 360-22 §J3.10', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Lc = Le - dh/2 = ' + Le + ' - ' + bolt.dh + '/2 = ' + Lc.toFixed(1) + ' mm<br>' +
+                    '&nbsp;&nbsp;Rn(tearout) = 1.2×Lc×ta×Fu = ' + Rn_tear.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;Rn(deform) = 2.4×d×ta×Fu = ' + Rn_deform.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = 2×' + n1 + '×' + phi_v + '×' + rn_br.toFixed(2) + ' = ' + Vn_br.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vn_br).toFixed(3) + (Vu <= Vn_br ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 4. Angle Gross Shear Yield
+                var Agv_angle = 2 * La * ta;
+                var Vn_gross = phi_y * 0.6 * Fy_angle * Agv_angle / 1000;
+                checks.push({ name: 'Angle Gross Shear Yield', capacity: Vn_gross.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_gross).toFixed(3), pass: Vu <= Vn_gross });
+                formulas.push({ title: '4. ANGLE GROSS SHEAR YIELD — AISC 360-22 §J4.2', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Agv = 2 × La × ta = 2 × ' + La + ' × ' + ta + ' = ' + Agv_angle + ' mm²<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_y + ' × 0.6 × ' + Fy_angle + ' × ' + Agv_angle + ' / 1000 = ' + Vn_gross.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vn_gross).toFixed(3) + (Vu <= Vn_gross ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 5. Angle Net Shear Rupture
+                var Anv_angle = 2 * (La - n1 * bolt.dh) * ta;
+                var Vn_net = phi_r * 0.6 * Fu_angle * Anv_angle / 1000;
+                checks.push({ name: 'Angle Net Shear Rupture', capacity: Vn_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_net).toFixed(3), pass: Vu <= Vn_net });
+                formulas.push({ title: '5. ANGLE NET SHEAR RUPTURE — AISC 360-22 §J4.2', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Anv = 2 × (La - n1×dh) × ta = 2 × (' + La + ' - ' + n1 + '×' + bolt.dh + ') × ' + ta + ' = ' + Anv_angle + ' mm²<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_r + ' × 0.6 × ' + Fu_angle + ' × ' + Anv_angle + ' / 1000 = ' + Vn_net.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vn_net).toFixed(3) + (Vu <= Vn_net ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 6. Block Shear on Angle
+                var Ant = 2 * (g_osl - bolt.dh/2) * ta;
+                var Agv_b = 2 * ((n1-1)*s + Le) * ta;
+                var Anv_b = Agv_b - 2 * (n1-0.5) * bolt.dh * ta;
+                var Ubs = 1.0;
+                var Rn_block = phi_r * (Ubs * Fu_angle * Ant/1000 + Math.min(0.6*Fy_angle*Agv_b/1000, 0.6*Fu_angle*Anv_b/1000));
+                checks.push({ name: 'Block Shear on Angle', capacity: Rn_block.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Rn_block).toFixed(3), pass: Vu <= Rn_block });
+                formulas.push({ title: '6. BLOCK SHEAR ON ANGLE — AISC 360-22 §J4.3', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Ant = 2×(g - dh/2)×ta = 2×(' + g_osl + ' - ' + bolt.dh + '/2)×' + ta + ' = ' + Ant.toFixed(0) + ' mm²<br>' +
+                    '&nbsp;&nbsp;Agv = 2×[(n-1)s + Le]×ta = ' + Agv_b.toFixed(0) + ' mm²<br>' +
+                    '&nbsp;&nbsp;Anv = Agv - 2×(n-0.5)×dh×ta = ' + Anv_b.toFixed(0) + ' mm²<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + Rn_block.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Rn_block).toFixed(3) + (Vu <= Rn_block ? ' ✓ OK' : ' ✗ NG')
+                });
+            }
+            else if (selectedCode === 'EC3') {
+                var gamma_M0 = 1.00, gamma_M2 = 1.25;
+                var fub = boltGrade === '8.8' ? 800 : 1000;
+                var alpha_v = boltGrade === '8.8' ? 0.6 : 0.5;
+
+                // 1. Bolt Shear - Beam Web (double shear)
+                var Fv_Rd_beam = 2 * n1 * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Bolt Shear - Beam Web', capacity: Fv_Rd_beam.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fv_Rd_beam).toFixed(3), pass: Vu <= Fv_Rd_beam });
+                formulas.push({ title: '1. BOLT SHEAR (BEAM) — EN 1993-1-8 Table 3.4', formula: '<strong>Calculation:</strong><br>&nbsp;&nbsp;Fv,Rd = 2 × n × αv × fub × As / γM2<br>&nbsp;&nbsp;<span class="result">Fv,Rd = ' + Fv_Rd_beam.toFixed(2) + ' kN</span>' });
+
+                // 2. Bolt Shear - Column
+                var Fv_Rd_col = 2 * n2 * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Bolt Shear - Column', capacity: Fv_Rd_col.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fv_Rd_col).toFixed(3), pass: Vu <= Fv_Rd_col });
+                formulas.push({ title: '2. BOLT SHEAR (COLUMN) — EN 1993-1-8 Table 3.4', formula: '<span class="result">Fv,Rd = ' + Fv_Rd_col.toFixed(2) + ' kN</span>' });
+
+                // 3. Bearing
+                var k1 = Math.min(2.8*Le/bolt.dh - 1.7, 2.5);
+                var alpha_d = Math.min(Le/(3*bolt.dh), fub/Fu_angle, 1.0);
+                var Fb_Rd = 2 * n1 * k1 * alpha_d * Fu_angle * bolt.d * ta / (gamma_M2 * 1000);
+                checks.push({ name: 'Bearing on Angle', capacity: Fb_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fb_Rd).toFixed(3), pass: Vu <= Fb_Rd });
+                formulas.push({ title: '3. BEARING — EN 1993-1-8 Table 3.4', formula: '<span class="result">Fb,Rd = ' + Fb_Rd.toFixed(2) + ' kN</span>' });
+
+                // 4. Angle Shear
+                var Av = 2 * La * ta;
+                var Vpl_Rd = Av * Fy_angle / (Math.sqrt(3) * gamma_M0 * 1000);
+                checks.push({ name: 'Angle Shear Resistance', capacity: Vpl_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vpl_Rd).toFixed(3), pass: Vu <= Vpl_Rd });
+                formulas.push({ title: '4. ANGLE SHEAR — EN 1993-1-1 §6.2.6', formula: '<span class="result">Vpl,Rd = ' + Vpl_Rd.toFixed(2) + ' kN</span>' });
+
+                // 5. Net Shear
+                var Anet = 2 * (La - n1*bolt.dh) * ta;
+                var Vnet_Rd = Anet * Fu_angle / (Math.sqrt(3) * gamma_M2 * 1000);
+                checks.push({ name: 'Angle Net Shear', capacity: Vnet_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vnet_Rd).toFixed(3), pass: Vu <= Vnet_Rd });
+                formulas.push({ title: '5. NET SHEAR — EN 1993-1-1 §6.2.6', formula: '<span class="result">Vnet,Rd = ' + Vnet_Rd.toFixed(2) + ' kN</span>' });
+            }
+            else if (selectedCode === 'CSA') {
+                var phi = 0.75, phi_br = 0.80;
+                var Fu_bolt = boltGrade === '8.8' ? 830 : 1040;
+
+                // 1. Bolt Shear - Beam (double shear)
+                var Vr_beam = 2 * n1 * 0.6 * phi * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Beam Web', capacity: Vr_beam.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_beam).toFixed(3), pass: Vu <= Vr_beam });
+                formulas.push({ title: '1. BOLT SHEAR (BEAM) — CSA S16-19 Cl.13.12.1.2', formula: '<span class="result">Vr = ' + Vr_beam.toFixed(2) + ' kN</span>' });
+
+                // 2. Bolt Shear - Column
+                var Vr_col = 2 * n2 * 0.6 * phi * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Column', capacity: Vr_col.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_col).toFixed(3), pass: Vu <= Vr_col });
+                formulas.push({ title: '2. BOLT SHEAR (COLUMN) — CSA S16-19 Cl.13.12.1.2', formula: '<span class="result">Vr = ' + Vr_col.toFixed(2) + ' kN</span>' });
+
+                // 3. Bearing
+                var Br = 2 * n1 * 3 * phi_br * ta * bolt.d * Fu_angle / 1000;
+                checks.push({ name: 'Bearing on Angle', capacity: Br.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Br).toFixed(3), pass: Vu <= Br });
+                formulas.push({ title: '3. BEARING — CSA S16-19 Cl.13.12.1.2', formula: '<span class="result">Br = ' + Br.toFixed(2) + ' kN</span>' });
+
+                // 4. Gross Shear
+                var Ag = 2 * La * ta;
+                var Vr_gr = phi * 0.6 * Fy_angle * Ag / 1000;
+                checks.push({ name: 'Angle Gross Shear', capacity: Vr_gr.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_gr).toFixed(3), pass: Vu <= Vr_gr });
+                formulas.push({ title: '4. GROSS SHEAR — CSA S16-19 Cl.13.11', formula: '<span class="result">Vr = ' + Vr_gr.toFixed(2) + ' kN</span>' });
+
+                // 5. Net Shear
+                var An = 2 * (La - n1*(bolt.dh+2)) * ta;
+                var Vr_net = phi * 0.6 * Fu_angle * An / 1000;
+                checks.push({ name: 'Angle Net Shear', capacity: Vr_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_net).toFixed(3), pass: Vu <= Vr_net });
+                formulas.push({ title: '5. NET SHEAR — CSA S16-19 Cl.13.11', formula: '<span class="result">Vr = ' + Vr_net.toFixed(2) + ' kN</span>' });
+            }
+            else if (selectedCode === 'AS') {
+                var phi = 0.80;
+                var fuf = boltGrade === '8.8' ? 830 : 1040;
+
+                // 1. Bolt Shear - Beam (double shear)
+                var Vf_beam = 2 * n1 * phi * 0.62 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Beam Web', capacity: Vf_beam.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vf_beam).toFixed(3), pass: Vu <= Vf_beam });
+                formulas.push({ title: '1. BOLT SHEAR (BEAM) — AS 4100 Cl.9.2.2.1', formula: '<span class="result">Vf = ' + Vf_beam.toFixed(2) + ' kN</span>' });
+
+                // 2. Bolt Shear - Column
+                var Vf_col = 2 * n2 * phi * 0.62 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Column', capacity: Vf_col.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vf_col).toFixed(3), pass: Vu <= Vf_col });
+                formulas.push({ title: '2. BOLT SHEAR (COLUMN) — AS 4100 Cl.9.2.2.1', formula: '<span class="result">Vf = ' + Vf_col.toFixed(2) + ' kN</span>' });
+
+                // 3. Bearing
+                var Vb = 2 * n1 * phi * 3.2 * bolt.d * ta * Fu_angle / 1000;
+                checks.push({ name: 'Bearing on Angle', capacity: Vb.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vb).toFixed(3), pass: Vu <= Vb });
+                formulas.push({ title: '3. BEARING — AS 4100 Cl.9.2.2.4', formula: '<span class="result">Vb = ' + Vb.toFixed(2) + ' kN</span>' });
+
+                // 4. Shear Yield
+                var Ag = 2 * La * ta;
+                var Vw = phi * 0.6 * Fy_angle * Ag / 1000;
+                checks.push({ name: 'Angle Shear Yield', capacity: Vw.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vw).toFixed(3), pass: Vu <= Vw });
+                formulas.push({ title: '4. SHEAR YIELD — AS 4100 Cl.5.11.2', formula: '<span class="result">Vw = ' + Vw.toFixed(2) + ' kN</span>' });
+
+                // 5. Net Shear
+                var An = 2 * (La - n1*bolt.dh) * ta * 0.85;
+                var Vu_net = phi * 0.6 * Fu_angle * An / 1000;
+                checks.push({ name: 'Angle Net Shear', capacity: Vu_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vu_net).toFixed(3), pass: Vu <= Vu_net });
+                formulas.push({ title: '5. NET SHEAR — AS 4100 Cl.5.11.3', formula: '<span class="result">Vu = ' + Vu_net.toFixed(2) + ' kN</span>' });
+            }
+            else {
+                // Simplified for other codes
+                checks.push({ name: 'Double Angle (Other Codes)', capacity: '—', demand: Vu.toFixed(1), ratio: '—', pass: true });
+                formulas.push({ title: 'Note', formula: 'Detailed double angle calculations for ' + codeData[selectedCode].name + ' are under development.' });
+            }
+        }
+
+        function calculateFlangePlate(checks, formulas, Fy, Fu, bolt, boltGrade, boltDia) {
+            var MuEl = document.getElementById('momentForce');
+            var Mu = MuEl ? parseFloat(MuEl.value) || 200 : 200;
+            var VuEl = document.getElementById('shearForce');
+            var Vu = VuEl ? parseFloat(VuEl.value) || 120 : 120;
+            var bfpEl = document.getElementById('flangePlateWidth');
+            var bfp = bfpEl ? parseFloat(bfpEl.value) || 180 : 180;
+            var tfpEl = document.getElementById('flangePlateThick');
+            var tfp = tfpEl ? parseFloat(tfpEl.value) || 16 : 16;
+            var LfpEl = document.getElementById('flangePlateLength');
+            var Lfp = LfpEl ? parseFloat(LfpEl.value) || 300 : 300;
+            var nfpEl = document.getElementById('boltsFP');
+            var nfp = nfpEl ? parseInt(nfpEl.value) || 4 : 4;
+            var tpEl = document.getElementById('plateThickness');
+            var tp = tpEl ? parseFloat(tpEl.value) || 10 : 10;
+            var dpEl = document.getElementById('plateDepth');
+            var dp = dpEl ? parseFloat(dpEl.value) || 230 : 230;
+            var nwEl = document.getElementById('numBolts');
+            var nw = nwEl ? parseInt(nwEl.value) || 3 : 3;
+            var sEl = document.getElementById('boltSpacing');
+            var s = sEl ? parseFloat(sEl.value) || 75 : 75;
+            var LeEl = document.getElementById('edgeDistance');
+            var Le = LeEl ? parseFloat(LeEl.value) || 40 : 40;
+            var wEl = document.getElementById('weldSize');
+            var w = wEl ? parseFloat(wEl.value) || 8 : 8;
+
+            var d_beam = 529, bf = 166, tf = 14, tw = 9;
+            var h = d_beam - tf;
+            var Fy_plate = 345;
+
+            if (selectedCode === 'AISC') {
+                var phi_v = 0.75, phi_y = 0.90, phi_r = 0.75;
+                var Fnv = boltGrade === '8.8' ? 372 : 468;
+                var Fnt = boltGrade === '8.8' ? 620 : 780;
+
+                // 1. Flange Force from Moment
+                var Pf = Mu * 1000 / h;
+                formulas.push({ title: '1. FLANGE FORCE FROM MOMENT', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Pf = Mu / h = ' + Mu + ' × 1000 / ' + h + ' = <span class="result">' + Pf.toFixed(2) + ' kN</span>'
+                });
+
+                // 2. Flange Plate Tension Yield
+                var Ag_fp = bfp * tfp;
+                var Pn_y = Fy_plate * Ag_fp / 1000;
+                var phiPn_y = phi_y * Pn_y;
+                checks.push({ name: 'Flange Plate Tension Yield', capacity: phiPn_y.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/phiPn_y).toFixed(3), pass: Pf <= phiPn_y });
+                formulas.push({ title: '2. FLANGE PLATE TENSION YIELD — AISC 360-22 §J4.1', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Ag = bfp × tfp = ' + bfp + ' × ' + tfp + ' = ' + Ag_fp + ' mm²<br>' +
+                    '&nbsp;&nbsp;Pn = Fy × Ag = ' + Fy_plate + ' × ' + Ag_fp + ' / 1000 = ' + Pn_y.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φPn = ' + phi_y + ' × ' + Pn_y.toFixed(2) + ' = ' + phiPn_y.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Pf/phiPn_y).toFixed(3) + (Pf <= phiPn_y ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 3. Flange Plate Tension Rupture
+                var An_fp = (bfp - 2 * bolt.dh) * tfp;
+                var Pn_r = Fu * An_fp / 1000;
+                var phiPn_r = phi_r * Pn_r;
+                checks.push({ name: 'Flange Plate Tension Rupture', capacity: phiPn_r.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/phiPn_r).toFixed(3), pass: Pf <= phiPn_r });
+                formulas.push({ title: '3. FLANGE PLATE TENSION RUPTURE — AISC 360-22 §J4.1', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;An = (bfp - 2×dh) × tfp = (' + bfp + ' - 2×' + bolt.dh + ') × ' + tfp + ' = ' + An_fp + ' mm²<br>' +
+                    '&nbsp;&nbsp;Pn = Fu × An = ' + Fu + ' × ' + An_fp + ' / 1000 = ' + Pn_r.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φPn = ' + phi_r + ' × ' + Pn_r.toFixed(2) + ' = ' + phiPn_r.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Pf/phiPn_r).toFixed(3) + (Pf <= phiPn_r ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 4. Bolt Shear (Flange Plate)
+                var rn_v = Fnv * bolt.Ab / 1000;
+                var phiRn_fp = phi_v * nfp * rn_v;
+                checks.push({ name: 'Bolt Shear - Flange Plate', capacity: phiRn_fp.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/phiRn_fp).toFixed(3), pass: Pf <= phiRn_fp });
+                formulas.push({ title: '4. BOLT SHEAR (FLANGE PLATE) — AISC 360-22 §J3.6', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;rn = Fnv × Ab = ' + Fnv + ' × ' + bolt.Ab + ' / 1000 = ' + rn_v.toFixed(2) + ' kN/bolt<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_v + ' × ' + nfp + ' × ' + rn_v.toFixed(2) + ' = ' + phiRn_fp.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Pf/phiRn_fp).toFixed(3) + (Pf <= phiRn_fp ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 5. Bolt Shear (Shear Tab)
+                var phiRn_st = phi_v * nw * rn_v;
+                checks.push({ name: 'Bolt Shear - Shear Tab', capacity: phiRn_st.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/phiRn_st).toFixed(3), pass: Vu <= phiRn_st });
+                formulas.push({ title: '5. BOLT SHEAR (SHEAR TAB) — AISC 360-22 §J3.6', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_v + ' × ' + nw + ' × ' + rn_v.toFixed(2) + ' = ' + phiRn_st.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/phiRn_st).toFixed(3) + (Vu <= phiRn_st ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 6. Flange Plate Weld to Column
+                var throat = w * 0.707;
+                var Lw_fp = 2 * bfp;
+                var Fexx = 490;
+                var Rn_w = 0.6 * Fexx * throat * Lw_fp / 1000;
+                var phiRn_w = phi_v * Rn_w;
+                checks.push({ name: 'Flange Plate Weld', capacity: phiRn_w.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/phiRn_w).toFixed(3), pass: Pf <= phiRn_w });
+                formulas.push({ title: '6. FLANGE PLATE WELD — AISC 360-22 §J2.4', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;a = 0.707 × ' + w + ' = ' + throat.toFixed(2) + ' mm<br>' +
+                    '&nbsp;&nbsp;Lw = 2 × bfp = 2 × ' + bfp + ' = ' + Lw_fp + ' mm<br>' +
+                    '&nbsp;&nbsp;Rn = 0.6 × ' + Fexx + ' × ' + throat.toFixed(2) + ' × ' + Lw_fp + ' / 1000 = ' + Rn_w.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phiRn_w.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Pf/phiRn_w).toFixed(3) + (Pf <= phiRn_w ? ' ✓ OK' : ' ✗ NG')
+                });
+            }
+            else if (selectedCode === 'EC3') {
+                var gamma_M0 = 1.00, gamma_M2 = 1.25;
+                var fub = boltGrade === '8.8' ? 800 : 1000;
+                var alpha_v = boltGrade === '8.8' ? 0.6 : 0.5;
+                var Pf = Mu * 1000 / h;
+
+                // 1. Flange Plate Yield
+                var Npl_Rd = bfp * tfp * Fy_plate / (gamma_M0 * 1000);
+                checks.push({ name: 'Flange Plate Yield', capacity: Npl_Rd.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Npl_Rd).toFixed(3), pass: Pf <= Npl_Rd });
+                formulas.push({ title: '1. FLANGE PLATE YIELD — EN 1993-1-1 §6.2.3', formula: '<span class="result">Npl,Rd = ' + Npl_Rd.toFixed(2) + ' kN</span>' });
+
+                // 2. Flange Plate Rupture
+                var An = (bfp - 2*bolt.dh) * tfp;
+                var Nu_Rd = 0.9 * An * Fu / (gamma_M2 * 1000);
+                checks.push({ name: 'Flange Plate Rupture', capacity: Nu_Rd.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Nu_Rd).toFixed(3), pass: Pf <= Nu_Rd });
+                formulas.push({ title: '2. FLANGE PLATE RUPTURE — EN 1993-1-1 §6.2.3', formula: '<span class="result">Nu,Rd = ' + Nu_Rd.toFixed(2) + ' kN</span>' });
+
+                // 3. Bolt Shear (Flange)
+                var Fv_Rd_fp = nfp * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Bolt Shear - Flange', capacity: Fv_Rd_fp.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Fv_Rd_fp).toFixed(3), pass: Pf <= Fv_Rd_fp });
+                formulas.push({ title: '3. BOLT SHEAR (FLANGE) — EN 1993-1-8 Table 3.4', formula: '<span class="result">Fv,Rd = ' + Fv_Rd_fp.toFixed(2) + ' kN</span>' });
+
+                // 4. Bolt Shear (Web)
+                var Fv_Rd_w = nw * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Bolt Shear - Web', capacity: Fv_Rd_w.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fv_Rd_w).toFixed(3), pass: Vu <= Fv_Rd_w });
+                formulas.push({ title: '4. BOLT SHEAR (WEB) — EN 1993-1-8 Table 3.4', formula: '<span class="result">Fv,Rd = ' + Fv_Rd_w.toFixed(2) + ' kN</span>' });
+
+                // 5. Weld
+                var a = w * 0.707;
+                var Lw = 2 * bfp;
+                var fvw_d = Fu / (Math.sqrt(3) * 0.9 * gamma_M2);
+                var Fw_Rd = a * Lw * fvw_d / 1000;
+                checks.push({ name: 'Flange Plate Weld', capacity: Fw_Rd.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Fw_Rd).toFixed(3), pass: Pf <= Fw_Rd });
+                formulas.push({ title: '5. WELD — EN 1993-1-8 §4.5', formula: '<span class="result">Fw,Rd = ' + Fw_Rd.toFixed(2) + ' kN</span>' });
+            }
+            else if (selectedCode === 'CSA') {
+                var phi = 0.75, phi_y = 0.90;
+                var Fu_bolt = boltGrade === '8.8' ? 830 : 1040;
+                var Pf = Mu * 1000 / h;
+
+                // 1. Plate Yield
+                var Tr_y = phi_y * bfp * tfp * Fy_plate / 1000;
+                checks.push({ name: 'Flange Plate Yield', capacity: Tr_y.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Tr_y).toFixed(3), pass: Pf <= Tr_y });
+                formulas.push({ title: '1. FLANGE PLATE YIELD — CSA S16-19 Cl.13.2', formula: '<span class="result">Tr = ' + Tr_y.toFixed(2) + ' kN</span>' });
+
+                // 2. Plate Rupture
+                var An = (bfp - 2*(bolt.dh+2)) * tfp;
+                var Tr_r = phi * An * Fu / 1000;
+                checks.push({ name: 'Flange Plate Rupture', capacity: Tr_r.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Tr_r).toFixed(3), pass: Pf <= Tr_r });
+                formulas.push({ title: '2. FLANGE PLATE RUPTURE — CSA S16-19 Cl.13.2', formula: '<span class="result">Tr = ' + Tr_r.toFixed(2) + ' kN</span>' });
+
+                // 3. Bolt Shear (Flange)
+                var Vr_fp = nfp * 0.6 * phi * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Flange', capacity: Vr_fp.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Vr_fp).toFixed(3), pass: Pf <= Vr_fp });
+                formulas.push({ title: '3. BOLT SHEAR (FLANGE) — CSA S16-19 Cl.13.12.1.2', formula: '<span class="result">Vr = ' + Vr_fp.toFixed(2) + ' kN</span>' });
+
+                // 4. Bolt Shear (Web)
+                var Vr_w = nw * 0.6 * phi * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Web', capacity: Vr_w.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_w).toFixed(3), pass: Vu <= Vr_w });
+                formulas.push({ title: '4. BOLT SHEAR (WEB) — CSA S16-19 Cl.13.12.1.2', formula: '<span class="result">Vr = ' + Vr_w.toFixed(2) + ' kN</span>' });
+
+                // 5. Weld
+                var Aw = w * 0.707 * 2 * bfp;
+                var Vr_weld = 0.67 * 0.67 * 490 * Aw / 1000;
+                checks.push({ name: 'Flange Plate Weld', capacity: Vr_weld.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Vr_weld).toFixed(3), pass: Pf <= Vr_weld });
+                formulas.push({ title: '5. WELD — CSA S16-19 Cl.13.13', formula: '<span class="result">Vr = ' + Vr_weld.toFixed(2) + ' kN</span>' });
+            }
+            else if (selectedCode === 'AS') {
+                var phi = 0.80, phi_y = 0.90;
+                var fuf = boltGrade === '8.8' ? 830 : 1040;
+                var Pf = Mu * 1000 / h;
+
+                // 1. Plate Yield
+                var Nt_y = phi_y * bfp * tfp * Fy_plate / 1000;
+                checks.push({ name: 'Flange Plate Yield', capacity: Nt_y.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Nt_y).toFixed(3), pass: Pf <= Nt_y });
+                formulas.push({ title: '1. FLANGE PLATE YIELD — AS 4100 Cl.7.2', formula: '<span class="result">φNt = ' + Nt_y.toFixed(2) + ' kN</span>' });
+
+                // 2. Plate Rupture
+                var An = 0.85 * (bfp - 2*bolt.dh) * tfp;
+                var Nt_r = phi * An * Fu / 1000;
+                checks.push({ name: 'Flange Plate Rupture', capacity: Nt_r.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Nt_r).toFixed(3), pass: Pf <= Nt_r });
+                formulas.push({ title: '2. FLANGE PLATE RUPTURE — AS 4100 Cl.7.2', formula: '<span class="result">φNt = ' + Nt_r.toFixed(2) + ' kN</span>' });
+
+                // 3. Bolt Shear (Flange)
+                var Vf_fp = nfp * phi * 0.62 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Flange', capacity: Vf_fp.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Vf_fp).toFixed(3), pass: Pf <= Vf_fp });
+                formulas.push({ title: '3. BOLT SHEAR (FLANGE) — AS 4100 Cl.9.2.2.1', formula: '<span class="result">Vf = ' + Vf_fp.toFixed(2) + ' kN</span>' });
+
+                // 4. Bolt Shear (Web)
+                var Vf_w = nw * phi * 0.62 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Web', capacity: Vf_w.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vf_w).toFixed(3), pass: Vu <= Vf_w });
+                formulas.push({ title: '4. BOLT SHEAR (WEB) — AS 4100 Cl.9.2.2.1', formula: '<span class="result">Vf = ' + Vf_w.toFixed(2) + ' kN</span>' });
+
+                // 5. Weld
+                var tt = w * 0.707;
+                var Lw = 2 * bfp;
+                var vw = 0.6 * 480 / Math.sqrt(3);
+                var Vw = phi * tt * Lw * vw / 1000;
+                checks.push({ name: 'Flange Plate Weld', capacity: Vw.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Vw).toFixed(3), pass: Pf <= Vw });
+                formulas.push({ title: '5. WELD — AS 4100 Cl.9.6', formula: '<span class="result">φVw = ' + Vw.toFixed(2) + ' kN</span>' });
+            }
+            else {
+                checks.push({ name: 'Flange Plate (Other Codes)', capacity: '—', demand: Mu.toFixed(1), ratio: '—', pass: true });
+                formulas.push({ title: 'Note', formula: 'Detailed flange plate calculations for ' + codeData[selectedCode].name + ' are under development.' });
+            }
+        }
+
+        function calculateBasePlate(checks, formulas, Fy, Fu, bolt, boltGrade, boltDia) {
+            var PuEl = document.getElementById('axialForce');
+            var Pu = PuEl ? parseFloat(PuEl.value) || 800 : 800;
+            var MuEl = document.getElementById('momentForce');
+            var Mu = MuEl ? parseFloat(MuEl.value) || 50 : 50;
+            var VuEl = document.getElementById('shearForce');
+            var Vu = VuEl ? parseFloat(VuEl.value) || 30 : 30;
+            var BEl = document.getElementById('basePlateB');
+            var B = BEl ? parseFloat(BEl.value) || 450 : 450;
+            var NEl = document.getElementById('basePlateN');
+            var N = NEl ? parseFloat(NEl.value) || 500 : 500;
+            var tpEl = document.getElementById('plateThickness');
+            var tp = tpEl ? parseFloat(tpEl.value) || 32 : 32;
+            var nEl = document.getElementById('numBolts');
+            var n = nEl ? parseInt(nEl.value) || 4 : 4;
+            var hefEl = document.getElementById('embedment');
+            var hef = hefEl ? parseFloat(hefEl.value) || 300 : 300;
+            var caEl = document.getElementById('edgeDistance');
+            var ca = caEl ? parseFloat(caEl.value) || 150 : 150;
+            var fcEl = document.getElementById('concreteFc');
+            var fc = fcEl ? parseFloat(fcEl.value) || 25 : 25;
+
+            var d_col = 356, bf_col = 368;
+            var Fy_plate = 250;
+            var e = Mu * 1000 / Pu;
+
+            if (selectedCode === 'AISC') {
+                var phi_c = 0.65, phi_b = 0.90;
+
+                // 1. Bearing on Concrete
+                var A1 = B * N;
+                var A2 = A1 * 4;
+                var sqrtRatio = Math.min(Math.sqrt(A2/A1), 2);
+                var Pp = 0.85 * fc * A1 * sqrtRatio / 1000;
+                var phiPp = phi_c * Pp;
+                checks.push({ name: 'Concrete Bearing Strength', capacity: phiPp.toFixed(1), demand: Pu.toFixed(1), ratio: (Pu/phiPp).toFixed(3), pass: Pu <= phiPp });
+                formulas.push({ title: '1. CONCRETE BEARING — AISC 360-22 §J8', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;B = ' + B + ' mm, N = ' + N + ' mm, f\'c = ' + fc + ' MPa<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;A1 = B × N = ' + B + ' × ' + N + ' = ' + A1 + ' mm²<br>' +
+                    '&nbsp;&nbsp;√(A2/A1) = ' + sqrtRatio.toFixed(2) + ' (max 2.0)<br>' +
+                    '&nbsp;&nbsp;Pp = 0.85 × f\'c × A1 × √(A2/A1) = 0.85 × ' + fc + ' × ' + A1 + ' × ' + sqrtRatio.toFixed(2) + ' / 1000<br>' +
+                    '&nbsp;&nbsp;Pp = ' + Pp.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φPp = ' + phi_c + ' × ' + Pp.toFixed(2) + ' = ' + phiPp.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Pu/phiPp).toFixed(3) + (Pu <= phiPp ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 2. Base Plate Thickness (Cantilever method)
+                var m = (N - 0.95 * d_col) / 2;
+                var n_dim = (B - 0.8 * bf_col) / 2;
+                var lambda_n = Math.sqrt(d_col * bf_col) / 4;
+                var l = Math.max(m, n_dim, lambda_n);
+                var fp = Pu * 1000 / A1;
+                var tp_req = l * Math.sqrt(2 * fp / (phi_b * Fy_plate));
+                checks.push({ name: 'Base Plate Thickness', capacity: tp.toFixed(0), demand: tp_req.toFixed(1), ratio: (tp_req/tp).toFixed(3), pass: tp >= tp_req });
+                formulas.push({ title: '2. BASE PLATE THICKNESS — AISC Design Guide 1', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;m = (N - 0.95d) / 2 = (' + N + ' - 0.95×' + d_col + ') / 2 = ' + m.toFixed(1) + ' mm<br>' +
+                    '&nbsp;&nbsp;n = (B - 0.8bf) / 2 = (' + B + ' - 0.8×' + bf_col + ') / 2 = ' + n_dim.toFixed(1) + ' mm<br>' +
+                    '&nbsp;&nbsp;λn\' = √(d×bf) / 4 = ' + lambda_n.toFixed(1) + ' mm<br>' +
+                    '&nbsp;&nbsp;l = max(m, n, λn\') = ' + l.toFixed(1) + ' mm<br>' +
+                    '&nbsp;&nbsp;fp = Pu / A1 = ' + fp.toFixed(2) + ' MPa<br>' +
+                    '&nbsp;&nbsp;tp,req = l × √(2fp / φFy) = ' + l.toFixed(1) + ' × √(2×' + fp.toFixed(2) + ' / ' + (phi_b * Fy_plate) + ')<br>' +
+                    '&nbsp;&nbsp;<span class="result">tp,req = ' + tp_req.toFixed(1) + ' mm ≤ tp = ' + tp + ' mm</span><br><br>' +
+                    '<strong>Check:</strong> ' + (tp_req/tp).toFixed(3) + (tp >= tp_req ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 3. Anchor Bolt Tension (if moment present)
+                var Tu = 0;
+                if (e > N/6) {
+                    Tu = (Mu * 1000 - Pu * N/6) / (N - ca);
+                    Tu = Math.max(Tu, 0);
+                }
+                var Fnt_anchor = boltGrade === '4.6' ? 248 : 620;
+                var Rn_t = n/2 * Fnt_anchor * bolt.Ab / 1000;
+                var phiRn_t = 0.75 * Rn_t;
+                checks.push({ name: 'Anchor Bolt Tension', capacity: phiRn_t.toFixed(1), demand: Tu.toFixed(1), ratio: Tu > 0 ? (Tu/phiRn_t).toFixed(3) : '0.000', pass: Tu <= phiRn_t });
+                formulas.push({ title: '3. ANCHOR BOLT TENSION — AISC Design Guide 1', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;e = Mu/Pu = ' + e.toFixed(1) + ' mm, N/6 = ' + (N/6).toFixed(1) + ' mm<br>' +
+                    '&nbsp;&nbsp;Eccentricity ' + (e > N/6 ? '> N/6 → Tension in anchors' : '≤ N/6 → No tension') + '<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Tu = ' + Tu.toFixed(2) + ' kN (tension side anchors)<br>' +
+                    '&nbsp;&nbsp;Fnt = ' + Fnt_anchor + ' MPa, n/2 = ' + (n/2) + ' anchors in tension<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = 0.75 × ' + (n/2) + ' × ' + Fnt_anchor + ' × ' + bolt.Ab + ' / 1000 = ' + phiRn_t.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Tu > 0 ? (Tu/phiRn_t).toFixed(3) : '0.000') + (Tu <= phiRn_t ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 4. Anchor Bolt Shear
+                var Fnv_anchor = boltGrade === '4.6' ? 166 : 372;
+                var Rn_v = n * Fnv_anchor * bolt.Ab / 1000;
+                var phiRn_v = 0.75 * Rn_v;
+                checks.push({ name: 'Anchor Bolt Shear', capacity: phiRn_v.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/phiRn_v).toFixed(3), pass: Vu <= phiRn_v });
+                formulas.push({ title: '4. ANCHOR BOLT SHEAR — AISC 360-22 §J3.6', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Fnv = ' + Fnv_anchor + ' MPa, n = ' + n + ' anchors<br>' +
+                    '&nbsp;&nbsp;Rn = n × Fnv × Ab = ' + n + ' × ' + Fnv_anchor + ' × ' + bolt.Ab + ' / 1000 = ' + Rn_v.toFixed(2) + ' kN<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = 0.75 × ' + Rn_v.toFixed(2) + ' = ' + phiRn_v.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/phiRn_v).toFixed(3) + (Vu <= phiRn_v ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 5. Concrete Breakout (Simplified)
+                var kc = 10;
+                var Nb = kc * Math.sqrt(fc) * Math.pow(hef, 1.5) / 1000;
+                var phiNb = 0.70 * Nb * (n/2);
+                checks.push({ name: 'Concrete Breakout (Tension)', capacity: phiNb.toFixed(1), demand: Tu.toFixed(1), ratio: Tu > 0 ? (Tu/phiNb).toFixed(3) : '0.000', pass: Tu <= phiNb });
+                formulas.push({ title: '5. CONCRETE BREAKOUT — ACI 318 §17.6', formula: 
+                    '<strong>Calculation (Simplified):</strong><br>' +
+                    '&nbsp;&nbsp;Nb = kc × √f\'c × hef^1.5 = 10 × √' + fc + ' × ' + hef + '^1.5 / 1000 = ' + Nb.toFixed(2) + ' kN per anchor<br>' +
+                    '&nbsp;&nbsp;<span class="result">φNcbg ≈ 0.70 × ' + Nb.toFixed(2) + ' × ' + (n/2) + ' = ' + phiNb.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Tu > 0 ? (Tu/phiNb).toFixed(3) : '0.000') + (Tu <= phiNb ? ' ✓ OK' : ' ✗ NG')
+                });
+            }
+            else if (selectedCode === 'EC3') {
+                var gamma_M0 = 1.00, gamma_M2 = 1.25, gamma_c = 1.50;
+                var fub = boltGrade === '4.6' ? 400 : 800;
+                var e = Mu > 0 ? Mu * 1000 / Pu : 0;
+
+                // 1. Bearing
+                var A1 = B * N;
+                var fjd = 0.67 * fc / gamma_c;
+                var Fc_Rd = fjd * A1 / 1000;
+                checks.push({ name: 'Concrete Bearing', capacity: Fc_Rd.toFixed(1), demand: Pu.toFixed(1), ratio: (Pu/Fc_Rd).toFixed(3), pass: Pu <= Fc_Rd });
+                formulas.push({ title: '1. BEARING — EN 1993-1-8 §6.2.5', formula: '<strong>Calculation:</strong><br>&nbsp;&nbsp;fjd = 0.67 × fck / γc = ' + fjd.toFixed(2) + ' MPa<br>&nbsp;&nbsp;<span class="result">Fc,Rd = fjd × A = ' + Fc_Rd.toFixed(2) + ' kN</span>' });
+
+                // 2. Plate Thickness
+                var c = tp * Math.sqrt(Fy_plate / (3 * fjd * gamma_M0));
+                var c_req = Math.max((N - d_col)/2, (B - bf_col)/2);
+                checks.push({ name: 'Base Plate Cantilever', capacity: c.toFixed(1), demand: c_req.toFixed(1), ratio: (c_req/c).toFixed(3), pass: c >= c_req });
+                formulas.push({ title: '2. PLATE THICKNESS — EN 1993-1-8 §6.2.5', formula: '<strong>Calculation:</strong><br>&nbsp;&nbsp;c = tp × √(fy/3fjdγM0) = ' + c.toFixed(1) + ' mm<br>&nbsp;&nbsp;c,req = ' + c_req.toFixed(1) + ' mm' });
+
+                // 3. Anchor Tension
+                var Tu = e > N/6 ? (Mu * 1000 - Pu * N/6) / (N - ca) : 0;
+                Tu = Math.max(Tu, 0);
+                var Ft_Rd = (n/2) * 0.9 * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Anchor Bolt Tension', capacity: Ft_Rd.toFixed(1), demand: Tu.toFixed(1), ratio: Tu > 0 ? (Tu/Ft_Rd).toFixed(3) : '0.000', pass: Tu <= Ft_Rd });
+                formulas.push({ title: '3. ANCHOR TENSION — EN 1993-1-8 Table 3.4', formula: '<span class="result">Ft,Rd = ' + Ft_Rd.toFixed(2) + ' kN</span>' });
+
+                // 4. Anchor Shear
+                var alpha_v = 0.6;
+                var Fv_Rd = n * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Anchor Bolt Shear', capacity: Fv_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fv_Rd).toFixed(3), pass: Vu <= Fv_Rd });
+                formulas.push({ title: '4. ANCHOR SHEAR — EN 1993-1-8 Table 3.4', formula: '<span class="result">Fv,Rd = ' + Fv_Rd.toFixed(2) + ' kN</span>' });
+
+                // 5. Concrete Breakout
+                var Nb = 8.5 * Math.sqrt(fc) * Math.pow(hef, 1.5) / 1000;
+                var Nrk = 0.71 * Nb * (n/2);
+                checks.push({ name: 'Concrete Breakout', capacity: Nrk.toFixed(1), demand: Tu.toFixed(1), ratio: Tu > 0 ? (Tu/Nrk).toFixed(3) : '0.000', pass: Tu <= Nrk });
+                formulas.push({ title: '5. CONCRETE BREAKOUT — EN 1992-4', formula: '<span class="result">NRk = ' + Nrk.toFixed(2) + ' kN</span>' });
+            }
+            else if (selectedCode === 'CSA') {
+                var phi_c = 0.65, phi_s = 0.75;
+                var Fu_bolt = boltGrade === '4.6' ? 400 : 830;
+                var e = Mu > 0 ? Mu * 1000 / Pu : 0;
+
+                // 1. Bearing
+                var A1 = B * N;
+                var Pr = phi_c * 0.85 * fc * A1 * Math.min(Math.sqrt(4), 2) / 1000;
+                checks.push({ name: 'Concrete Bearing', capacity: Pr.toFixed(1), demand: Pu.toFixed(1), ratio: (Pu/Pr).toFixed(3), pass: Pu <= Pr });
+                formulas.push({ title: '1. BEARING — CSA A23.3 Cl.10.8', formula: '<span class="result">Pr = ' + Pr.toFixed(2) + ' kN</span>' });
+
+                // 2. Plate Thickness
+                var m = (N - 0.95*d_col)/2;
+                var n_dim = (B - 0.8*bf_col)/2;
+                var fp = Pu * 1000 / A1;
+                var tp_req = Math.max(m, n_dim) * Math.sqrt(2*fp / (0.9*Fy_plate));
+                checks.push({ name: 'Base Plate Thickness', capacity: tp.toFixed(0), demand: tp_req.toFixed(1), ratio: (tp_req/tp).toFixed(3), pass: tp >= tp_req });
+                formulas.push({ title: '2. PLATE THICKNESS — CSA S16-19', formula: '<span class="result">tp,req = ' + tp_req.toFixed(1) + ' mm</span>' });
+
+                // 3. Anchor Tension
+                var Tu = e > N/6 ? (Mu * 1000 - Pu * N/6) / (N - ca) : 0;
+                Tu = Math.max(Tu, 0);
+                var Tr = (n/2) * 0.75 * phi_s * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Anchor Bolt Tension', capacity: Tr.toFixed(1), demand: Tu.toFixed(1), ratio: Tu > 0 ? (Tu/Tr).toFixed(3) : '0.000', pass: Tu <= Tr });
+                formulas.push({ title: '3. ANCHOR TENSION — CSA S16-19 Cl.25.3', formula: '<span class="result">Tr = ' + Tr.toFixed(2) + ' kN</span>' });
+
+                // 4. Anchor Shear
+                var Vr = n * 0.6 * phi_s * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Anchor Bolt Shear', capacity: Vr.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr).toFixed(3), pass: Vu <= Vr });
+                formulas.push({ title: '4. ANCHOR SHEAR — CSA S16-19 Cl.25.3', formula: '<span class="result">Vr = ' + Vr.toFixed(2) + ' kN</span>' });
+
+                // 5. Concrete Breakout
+                var Nbr = 10 * Math.sqrt(fc) * Math.pow(hef, 1.5) / 1000;
+                var Nr = 0.65 * Nbr * (n/2);
+                checks.push({ name: 'Concrete Breakout', capacity: Nr.toFixed(1), demand: Tu.toFixed(1), ratio: Tu > 0 ? (Tu/Nr).toFixed(3) : '0.000', pass: Tu <= Nr });
+                formulas.push({ title: '5. CONCRETE BREAKOUT — CSA A23.3 Annex D', formula: '<span class="result">Nr = ' + Nr.toFixed(2) + ' kN</span>' });
+            }
+            else if (selectedCode === 'AS') {
+                var phi = 0.65, phi_s = 0.80;
+                var fuf = boltGrade === '4.6' ? 400 : 830;
+                var e = Mu > 0 ? Mu * 1000 / Pu : 0;
+
+                // 1. Bearing
+                var A1 = B * N;
+                var phiNc = phi * 0.85 * fc * A1 * Math.min(2, Math.sqrt(4)) / 1000;
+                checks.push({ name: 'Concrete Bearing', capacity: phiNc.toFixed(1), demand: Pu.toFixed(1), ratio: (Pu/phiNc).toFixed(3), pass: Pu <= phiNc });
+                formulas.push({ title: '1. BEARING — AS 3600 Cl.12.3', formula: '<span class="result">φNc = ' + phiNc.toFixed(2) + ' kN</span>' });
+
+                // 2. Plate Thickness
+                var am = (N - 0.95*d_col)/2;
+                var an = (B - 0.8*bf_col)/2;
+                var fb = Pu * 1000 / A1;
+                var ti_req = Math.max(am, an) * Math.sqrt(2*fb / (0.9*Fy_plate));
+                checks.push({ name: 'Base Plate Thickness', capacity: tp.toFixed(0), demand: ti_req.toFixed(1), ratio: (ti_req/tp).toFixed(3), pass: tp >= ti_req });
+                formulas.push({ title: '2. PLATE THICKNESS — AS 4100', formula: '<span class="result">ti,req = ' + ti_req.toFixed(1) + ' mm</span>' });
+
+                // 3. Anchor Tension
+                var Tu = e > N/6 ? (Mu * 1000 - Pu * N/6) / (N - ca) : 0;
+                Tu = Math.max(Tu, 0);
+                var Ntf = (n/2) * phi_s * 0.9 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Anchor Bolt Tension', capacity: Ntf.toFixed(1), demand: Tu.toFixed(1), ratio: Tu > 0 ? (Tu/Ntf).toFixed(3) : '0.000', pass: Tu <= Ntf });
+                formulas.push({ title: '3. ANCHOR TENSION — AS 4100 Cl.9.2.2.2', formula: '<span class="result">φNtf = ' + Ntf.toFixed(2) + ' kN</span>' });
+
+                // 4. Anchor Shear
+                var Vf = n * phi_s * 0.62 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Anchor Bolt Shear', capacity: Vf.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vf).toFixed(3), pass: Vu <= Vf });
+                formulas.push({ title: '4. ANCHOR SHEAR — AS 4100 Cl.9.2.2.1', formula: '<span class="result">φVf = ' + Vf.toFixed(2) + ' kN</span>' });
+
+                // 5. Concrete Breakout
+                var Nbo = 9.5 * Math.sqrt(fc) * Math.pow(hef, 1.5) / 1000;
+                var phiNcb = 0.65 * Nbo * (n/2);
+                checks.push({ name: 'Concrete Breakout', capacity: phiNcb.toFixed(1), demand: Tu.toFixed(1), ratio: Tu > 0 ? (Tu/phiNcb).toFixed(3) : '0.000', pass: Tu <= phiNcb });
+                formulas.push({ title: '5. CONCRETE BREAKOUT — AS 5216', formula: '<span class="result">φNcb = ' + phiNcb.toFixed(2) + ' kN</span>' });
+            }
+            else {
+                checks.push({ name: 'Base Plate (Other Codes)', capacity: '—', demand: Pu.toFixed(1), ratio: '—', pass: true });
+                formulas.push({ title: 'Note', formula: 'Detailed base plate calculations for ' + codeData[selectedCode].name + ' are under development.' });
+            }
+        }
+
+        function calculateBeamSplice(checks, formulas, Fy, Fu, bolt, boltGrade, boltDia) {
+            var MuEl = document.getElementById('momentForce');
+            var Mu = MuEl ? parseFloat(MuEl.value) || 300 : 300;
+            var VuEl = document.getElementById('shearForce');
+            var Vu = VuEl ? parseFloat(VuEl.value) || 150 : 150;
+            var bfpEl = document.getElementById('flangePlateWidth');
+            var bfp = bfpEl ? parseFloat(bfpEl.value) || 166 : 166;
+            var tfpEl = document.getElementById('flangePlateThick');
+            var tfp = tfpEl ? parseFloat(tfpEl.value) || 12 : 12;
+            var nfpEl = document.getElementById('boltsFP');
+            var nfp = nfpEl ? parseInt(nfpEl.value) || 4 : 4;
+            var nrfpEl = document.getElementById('boltRowsFP');
+            var nrfp = nrfpEl ? parseInt(nrfpEl.value) || 2 : 2;
+            var dwpEl = document.getElementById('webPlateDepth');
+            var dwp = dwpEl ? parseFloat(dwpEl.value) || 400 : 400;
+            var twpEl = document.getElementById('webPlateThick');
+            var twp = twpEl ? parseFloat(twpEl.value) || 10 : 10;
+            var nwpEl = document.getElementById('boltsWP');
+            var nwp = nwpEl ? parseInt(nwpEl.value) || 6 : 6;
+            var sEl = document.getElementById('boltSpacing');
+            var s = sEl ? parseFloat(sEl.value) || 75 : 75;
+            var LeEl = document.getElementById('edgeDistance');
+            var Le = LeEl ? parseFloat(LeEl.value) || 40 : 40;
+
+            var d_beam = 529, bf = 166, tf = 14, tw = 9;
+            var h = d_beam - tf;
+            var Fy_plate = 345;
+
+            if (selectedCode === 'AISC') {
+                var phi_v = 0.75, phi_y = 0.90, phi_r = 0.75;
+                var Fnv = boltGrade === '8.8' ? 372 : 468;
+
+                // Flange force from moment
+                var Pf = Mu * 1000 / h;
+
+                // 1. Flange Splice Plate Yield
+                var Ag_fp = bfp * tfp * 2;
+                var Pn_y = Fy_plate * Ag_fp / 1000;
+                var phiPn_y = phi_y * Pn_y;
+                checks.push({ name: 'Flange Plate Yield (2 plates)', capacity: phiPn_y.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/phiPn_y).toFixed(3), pass: Pf <= phiPn_y });
+                formulas.push({ title: '1. FLANGE SPLICE PLATE YIELD — AISC 360-22 §J4.1', formula: 
+                    '<strong>Given:</strong><br>' +
+                    '&nbsp;&nbsp;Pf = Mu / h = ' + Mu + ' × 1000 / ' + h + ' = ' + Pf.toFixed(2) + ' kN<br><br>' +
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Ag = 2 × bfp × tfp = 2 × ' + bfp + ' × ' + tfp + ' = ' + Ag_fp + ' mm²<br>' +
+                    '&nbsp;&nbsp;<span class="result">φPn = ' + phi_y + ' × ' + Fy_plate + ' × ' + Ag_fp + ' / 1000 = ' + phiPn_y.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Pf/phiPn_y).toFixed(3) + (Pf <= phiPn_y ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 2. Flange Splice Plate Rupture
+                var An_fp = (bfp - 2 * bolt.dh) * tfp * 2;
+                var Pn_r = Fu * An_fp / 1000;
+                var phiPn_r = phi_r * Pn_r;
+                checks.push({ name: 'Flange Plate Rupture', capacity: phiPn_r.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/phiPn_r).toFixed(3), pass: Pf <= phiPn_r });
+                formulas.push({ title: '2. FLANGE SPLICE PLATE RUPTURE — AISC 360-22 §J4.1', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;An = 2 × (bfp - 2dh) × tfp = 2 × (' + bfp + ' - 2×' + bolt.dh + ') × ' + tfp + ' = ' + An_fp + ' mm²<br>' +
+                    '&nbsp;&nbsp;<span class="result">φPn = ' + phi_r + ' × ' + Fu + ' × ' + An_fp + ' / 1000 = ' + phiPn_r.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Pf/phiPn_r).toFixed(3) + (Pf <= phiPn_r ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 3. Bolt Shear - Flange (Double shear)
+                var n_flange_bolts = nfp * nrfp;
+                var rn_v = Fnv * bolt.Ab / 1000;
+                var phiRn_f = phi_v * n_flange_bolts * 2 * rn_v;
+                checks.push({ name: 'Bolt Shear - Flange (2× shear)', capacity: phiRn_f.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/phiRn_f).toFixed(3), pass: Pf <= phiRn_f });
+                formulas.push({ title: '3. BOLT SHEAR (FLANGE) — AISC 360-22 §J3.6', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;n = ' + nfp + ' × ' + nrfp + ' = ' + n_flange_bolts + ' bolts per side, Double shear<br>' +
+                    '&nbsp;&nbsp;rn = ' + Fnv + ' × ' + bolt.Ab + ' / 1000 = ' + rn_v.toFixed(2) + ' kN/bolt/plane<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_v + ' × ' + n_flange_bolts + ' × 2 × ' + rn_v.toFixed(2) + ' = ' + phiRn_f.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Pf/phiRn_f).toFixed(3) + (Pf <= phiRn_f ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 4. Web Plate Shear Yield
+                var Agv_wp = 2 * dwp * twp;
+                var Vn_wp_y = phi_y * 0.6 * Fy_plate * Agv_wp / 1000;
+                checks.push({ name: 'Web Plate Shear Yield', capacity: Vn_wp_y.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_wp_y).toFixed(3), pass: Vu <= Vn_wp_y });
+                formulas.push({ title: '4. WEB SPLICE PLATE SHEAR YIELD — AISC 360-22 §J4.2', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Agv = 2 × dwp × twp = 2 × ' + dwp + ' × ' + twp + ' = ' + Agv_wp + ' mm²<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_y + ' × 0.6 × ' + Fy_plate + ' × ' + Agv_wp + ' / 1000 = ' + Vn_wp_y.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vn_wp_y).toFixed(3) + (Vu <= Vn_wp_y ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 5. Web Plate Shear Rupture
+                var Anv_wp = 2 * (dwp - nwp * bolt.dh) * twp;
+                var Vn_wp_r = phi_r * 0.6 * Fu * Anv_wp / 1000;
+                checks.push({ name: 'Web Plate Shear Rupture', capacity: Vn_wp_r.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vn_wp_r).toFixed(3), pass: Vu <= Vn_wp_r });
+                formulas.push({ title: '5. WEB SPLICE PLATE SHEAR RUPTURE — AISC 360-22 §J4.2', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Anv = 2 × (dwp - n×dh) × twp = 2 × (' + dwp + ' - ' + nwp + '×' + bolt.dh + ') × ' + twp + ' = ' + Anv_wp + ' mm²<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_r + ' × 0.6 × ' + Fu + ' × ' + Anv_wp + ' / 1000 = ' + Vn_wp_r.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/Vn_wp_r).toFixed(3) + (Vu <= Vn_wp_r ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 6. Bolt Shear - Web (Double shear)
+                var phiRn_w = phi_v * nwp * 2 * rn_v;
+                checks.push({ name: 'Bolt Shear - Web (2× shear)', capacity: phiRn_w.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/phiRn_w).toFixed(3), pass: Vu <= phiRn_w });
+                formulas.push({ title: '6. BOLT SHEAR (WEB) — AISC 360-22 §J3.6', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;n = ' + nwp + ' bolts per side, Double shear (2 web plates)<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + phi_v + ' × ' + nwp + ' × 2 × ' + rn_v.toFixed(2) + ' = ' + phiRn_w.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + (Vu/phiRn_w).toFixed(3) + (Vu <= phiRn_w ? ' ✓ OK' : ' ✗ NG')
+                });
+
+                // 7. Beam Flange Block Shear
+                var Ant_bf = (Le - bolt.dh/2) * tf;
+                var Agv_bf = ((nfp-1)*s + Le) * tf;
+                var Anv_bf = Agv_bf - (nfp-0.5)*bolt.dh*tf;
+                var Rn_bs = phi_r * (Fu*Ant_bf/1000 + Math.min(0.6*Fy*Agv_bf/1000, 0.6*Fu*Anv_bf/1000));
+                checks.push({ name: 'Beam Flange Block Shear', capacity: Rn_bs.toFixed(1), demand: (Pf/2).toFixed(1), ratio: ((Pf/2)/Rn_bs).toFixed(3), pass: (Pf/2) <= Rn_bs });
+                formulas.push({ title: '7. BEAM FLANGE BLOCK SHEAR — AISC 360-22 §J4.3', formula: 
+                    '<strong>Calculation:</strong><br>' +
+                    '&nbsp;&nbsp;Per bolt line (Pf/2 = ' + (Pf/2).toFixed(2) + ' kN):<br>' +
+                    '&nbsp;&nbsp;Ant = ' + Ant_bf.toFixed(0) + ' mm², Agv = ' + Agv_bf.toFixed(0) + ' mm², Anv = ' + Anv_bf.toFixed(0) + ' mm²<br>' +
+                    '&nbsp;&nbsp;<span class="result">φRn = ' + Rn_bs.toFixed(2) + ' kN</span><br><br>' +
+                    '<strong>Check:</strong> ' + ((Pf/2)/Rn_bs).toFixed(3) + ((Pf/2) <= Rn_bs ? ' ✓ OK' : ' ✗ NG')
+                });
+            }
+            else if (selectedCode === 'EC3') {
+                var gamma_M0 = 1.00, gamma_M2 = 1.25;
+                var fub = boltGrade === '8.8' ? 800 : 1000;
+                var alpha_v = boltGrade === '8.8' ? 0.6 : 0.5;
+                var Pf = Mu * 1000 / h;
+                var n_flange_bolts = nfp * nrfp;
+
+                // 1. Flange Plate Yield
+                var Ag = 2 * bfp * tfp;
+                var Npl_Rd = Ag * Fy_plate / (gamma_M0 * 1000);
+                checks.push({ name: 'Flange Plate Yield', capacity: Npl_Rd.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Npl_Rd).toFixed(3), pass: Pf <= Npl_Rd });
+                formulas.push({ title: '1. FLANGE PLATE YIELD — EN 1993-1-1 §6.2.3', formula: '<span class="result">Npl,Rd = ' + Npl_Rd.toFixed(2) + ' kN</span>' });
+
+                // 2. Flange Plate Rupture
+                var An = 2 * (bfp - 2*bolt.dh) * tfp;
+                var Nu_Rd = 0.9 * An * Fu / (gamma_M2 * 1000);
+                checks.push({ name: 'Flange Plate Rupture', capacity: Nu_Rd.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Nu_Rd).toFixed(3), pass: Pf <= Nu_Rd });
+                formulas.push({ title: '2. FLANGE PLATE RUPTURE — EN 1993-1-1 §6.2.3', formula: '<span class="result">Nu,Rd = ' + Nu_Rd.toFixed(2) + ' kN</span>' });
+
+                // 3. Bolt Shear (Flange) - Double shear
+                var Fv_Rd_f = n_flange_bolts * 2 * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Bolt Shear - Flange', capacity: Fv_Rd_f.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Fv_Rd_f).toFixed(3), pass: Pf <= Fv_Rd_f });
+                formulas.push({ title: '3. BOLT SHEAR (FLANGE) — EN 1993-1-8 Table 3.4', formula: '<span class="result">Fv,Rd = ' + Fv_Rd_f.toFixed(2) + ' kN</span>' });
+
+                // 4. Web Plate Shear
+                var Av = 2 * dwp * twp;
+                var Vpl_Rd = Av * Fy_plate / (Math.sqrt(3) * gamma_M0 * 1000);
+                checks.push({ name: 'Web Plate Shear', capacity: Vpl_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vpl_Rd).toFixed(3), pass: Vu <= Vpl_Rd });
+                formulas.push({ title: '4. WEB PLATE SHEAR — EN 1993-1-1 §6.2.6', formula: '<span class="result">Vpl,Rd = ' + Vpl_Rd.toFixed(2) + ' kN</span>' });
+
+                // 5. Web Net Shear
+                var Anet = 2 * (dwp - nwp*bolt.dh) * twp;
+                var Vnet_Rd = Anet * Fu / (Math.sqrt(3) * gamma_M2 * 1000);
+                checks.push({ name: 'Web Net Shear', capacity: Vnet_Rd.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vnet_Rd).toFixed(3), pass: Vu <= Vnet_Rd });
+                formulas.push({ title: '5. WEB NET SHEAR — EN 1993-1-1 §6.2.6', formula: '<span class="result">Vnet,Rd = ' + Vnet_Rd.toFixed(2) + ' kN</span>' });
+
+                // 6. Bolt Shear (Web) - Double shear
+                var Fv_Rd_w = nwp * 2 * alpha_v * fub * bolt.Ab / (gamma_M2 * 1000);
+                checks.push({ name: 'Bolt Shear - Web', capacity: Fv_Rd_w.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Fv_Rd_w).toFixed(3), pass: Vu <= Fv_Rd_w });
+                formulas.push({ title: '6. BOLT SHEAR (WEB) — EN 1993-1-8 Table 3.4', formula: '<span class="result">Fv,Rd = ' + Fv_Rd_w.toFixed(2) + ' kN</span>' });
+            }
+            else if (selectedCode === 'CSA') {
+                var phi = 0.75, phi_y = 0.90;
+                var Fu_bolt = boltGrade === '8.8' ? 830 : 1040;
+                var Pf = Mu * 1000 / h;
+                var n_flange_bolts = nfp * nrfp;
+
+                // 1. Flange Plate Yield
+                var Ag = 2 * bfp * tfp;
+                var Tr_y = phi_y * Ag * Fy_plate / 1000;
+                checks.push({ name: 'Flange Plate Yield', capacity: Tr_y.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Tr_y).toFixed(3), pass: Pf <= Tr_y });
+                formulas.push({ title: '1. FLANGE PLATE YIELD — CSA S16-19 Cl.13.2', formula: '<span class="result">Tr = ' + Tr_y.toFixed(2) + ' kN</span>' });
+
+                // 2. Flange Plate Rupture
+                var An = 2 * (bfp - 2*(bolt.dh+2)) * tfp;
+                var Tr_r = phi * An * Fu / 1000;
+                checks.push({ name: 'Flange Plate Rupture', capacity: Tr_r.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Tr_r).toFixed(3), pass: Pf <= Tr_r });
+                formulas.push({ title: '2. FLANGE PLATE RUPTURE — CSA S16-19 Cl.13.2', formula: '<span class="result">Tr = ' + Tr_r.toFixed(2) + ' kN</span>' });
+
+                // 3. Bolt Shear (Flange)
+                var Vr_f = n_flange_bolts * 2 * 0.6 * phi * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Flange', capacity: Vr_f.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Vr_f).toFixed(3), pass: Pf <= Vr_f });
+                formulas.push({ title: '3. BOLT SHEAR (FLANGE) — CSA S16-19 Cl.13.12.1.2', formula: '<span class="result">Vr = ' + Vr_f.toFixed(2) + ' kN</span>' });
+
+                // 4. Web Plate Shear
+                var Ag_w = 2 * dwp * twp;
+                var Vr_w = phi * 0.6 * Fy_plate * Ag_w / 1000;
+                checks.push({ name: 'Web Plate Shear', capacity: Vr_w.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_w).toFixed(3), pass: Vu <= Vr_w });
+                formulas.push({ title: '4. WEB PLATE SHEAR — CSA S16-19 Cl.13.11', formula: '<span class="result">Vr = ' + Vr_w.toFixed(2) + ' kN</span>' });
+
+                // 5. Web Net Shear
+                var An_w = 2 * (dwp - nwp*(bolt.dh+2)) * twp;
+                var Vr_net = phi * 0.6 * Fu * An_w / 1000;
+                checks.push({ name: 'Web Net Shear', capacity: Vr_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_net).toFixed(3), pass: Vu <= Vr_net });
+                formulas.push({ title: '5. WEB NET SHEAR — CSA S16-19 Cl.13.11', formula: '<span class="result">Vr = ' + Vr_net.toFixed(2) + ' kN</span>' });
+
+                // 6. Bolt Shear (Web)
+                var Vr_wb = nwp * 2 * 0.6 * phi * Fu_bolt * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Web', capacity: Vr_wb.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vr_wb).toFixed(3), pass: Vu <= Vr_wb });
+                formulas.push({ title: '6. BOLT SHEAR (WEB) — CSA S16-19 Cl.13.12.1.2', formula: '<span class="result">Vr = ' + Vr_wb.toFixed(2) + ' kN</span>' });
+            }
+            else if (selectedCode === 'AS') {
+                var phi = 0.80, phi_y = 0.90;
+                var fuf = boltGrade === '8.8' ? 830 : 1040;
+                var Pf = Mu * 1000 / h;
+                var n_flange_bolts = nfp * nrfp;
+
+                // 1. Flange Plate Yield
+                var Ag = 2 * bfp * tfp;
+                var Nt_y = phi_y * Ag * Fy_plate / 1000;
+                checks.push({ name: 'Flange Plate Yield', capacity: Nt_y.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Nt_y).toFixed(3), pass: Pf <= Nt_y });
+                formulas.push({ title: '1. FLANGE PLATE YIELD — AS 4100 Cl.7.2', formula: '<span class="result">φNt = ' + Nt_y.toFixed(2) + ' kN</span>' });
+
+                // 2. Flange Plate Rupture
+                var An = 0.85 * 2 * (bfp - 2*bolt.dh) * tfp;
+                var Nt_r = phi * An * Fu / 1000;
+                checks.push({ name: 'Flange Plate Rupture', capacity: Nt_r.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Nt_r).toFixed(3), pass: Pf <= Nt_r });
+                formulas.push({ title: '2. FLANGE PLATE RUPTURE — AS 4100 Cl.7.2', formula: '<span class="result">φNt = ' + Nt_r.toFixed(2) + ' kN</span>' });
+
+                // 3. Bolt Shear (Flange)
+                var Vf_f = n_flange_bolts * 2 * phi * 0.62 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Flange', capacity: Vf_f.toFixed(1), demand: Pf.toFixed(1), ratio: (Pf/Vf_f).toFixed(3), pass: Pf <= Vf_f });
+                formulas.push({ title: '3. BOLT SHEAR (FLANGE) — AS 4100 Cl.9.2.2.1', formula: '<span class="result">Vf = ' + Vf_f.toFixed(2) + ' kN</span>' });
+
+                // 4. Web Plate Shear
+                var Ag_w = 2 * dwp * twp;
+                var Vw = phi * 0.6 * Fy_plate * Ag_w / 1000;
+                checks.push({ name: 'Web Plate Shear', capacity: Vw.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vw).toFixed(3), pass: Vu <= Vw });
+                formulas.push({ title: '4. WEB PLATE SHEAR — AS 4100 Cl.5.11.2', formula: '<span class="result">Vw = ' + Vw.toFixed(2) + ' kN</span>' });
+
+                // 5. Web Net Shear
+                var An_w = 0.85 * 2 * (dwp - nwp*bolt.dh) * twp;
+                var Vu_net = phi * 0.6 * Fu * An_w / 1000;
+                checks.push({ name: 'Web Net Shear', capacity: Vu_net.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vu_net).toFixed(3), pass: Vu <= Vu_net });
+                formulas.push({ title: '5. WEB NET SHEAR — AS 4100 Cl.5.11.3', formula: '<span class="result">Vu = ' + Vu_net.toFixed(2) + ' kN</span>' });
+
+                // 6. Bolt Shear (Web)
+                var Vf_w = nwp * 2 * phi * 0.62 * fuf * bolt.Ab / 1000;
+                checks.push({ name: 'Bolt Shear - Web', capacity: Vf_w.toFixed(1), demand: Vu.toFixed(1), ratio: (Vu/Vf_w).toFixed(3), pass: Vu <= Vf_w });
+                formulas.push({ title: '6. BOLT SHEAR (WEB) — AS 4100 Cl.9.2.2.1', formula: '<span class="result">Vf = ' + Vf_w.toFixed(2) + ' kN</span>' });
+            }
+            else {
+                checks.push({ name: 'Beam Splice (Other Codes)', capacity: '—', demand: Mu.toFixed(1), ratio: '—', pass: true });
+                formulas.push({ title: 'Note', formula: 'Detailed beam splice calculations for ' + codeData[selectedCode].name + ' are under development.' });
+            }
         }
 
         function renderResults(checks, formulas, allPass, maxRatio) {
@@ -439,42 +2232,48 @@
             var html = '<div class="capacity-summary">';
             html += '<div class="capacity-card' + (maxRatio > 0.9 ? ' critical' : '') + (maxRatio > 1.0 ? ' fail' : '') + '">';
             html += '<div class="capacity-label">Governing Ratio</div>';
-            html += '<div class="capacity-value">' + maxRatio.toFixed(2) + '</div>';
+            html += '<div class="capacity-value">' + maxRatio.toFixed(3) + '</div>';
             html += '<div class="capacity-ratio ' + (maxRatio <= 1.0 ? 'pass' : 'fail') + '">' + (maxRatio <= 1.0 ? '✓ OK' : '✗ EXCEEDS') + '</div>';
             html += '</div>';
             html += '<div class="capacity-card">';
             html += '<div class="capacity-label">Design Code</div>';
-            html += '<div class="capacity-value" style="font-size:0.85rem;">' + codeData[selectedCode].name + '</div>';
-            html += '<div class="capacity-ratio pass">' + passCount + '/' + checks.length + ' pass</div>';
+            html += '<div class="capacity-value" style="font-size:1.1rem;">' + codeData[selectedCode].name + '</div>';
+            html += '<div class="capacity-ratio pass">' + passCount + '/' + checks.length + ' checks pass</div>';
             html += '</div></div>';
 
-            html += '<div class="checks-header"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" width="12" height="12"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg> Design Checks</div>';
-
+            // Summary table
+            html += '<div class="checks-header"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" width="16" height="16"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg> Design Checks Summary</div>';
+            html += '<table class="dim-table" style="margin-bottom:1.5rem;"><thead><tr><th>Check</th><th style="text-align:right;">Capacity (kN)</th><th style="text-align:right;">Demand (kN)</th><th style="text-align:right;">Ratio</th><th style="text-align:center;">Status</th></tr></thead><tbody>';
             for (var i = 0; i < checks.length; i++) {
                 var c = checks[i];
-                html += '<div class="check-item">';
-                html += '<span class="check-name">' + c.name + '</span>';
-                html += '<span class="check-values">' + c.capacity + '/' + c.demand + '</span>';
-                html += '<span class="check-ratio ' + (c.pass ? 'pass' : 'fail') + '">' + c.ratio + '</span>';
-                html += '<div class="check-status ' + (c.pass ? 'pass' : 'fail') + '">';
-                html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="9" height="9">';
-                html += c.pass ? '<path d="M20 6L9 17l-5-5"/>' : '<path d="M18 6L6 18M6 6l12 12"/>';
-                html += '</svg></div></div>';
+                html += '<tr>';
+                html += '<td>' + c.name + '</td>';
+                html += '<td style="text-align:right;font-family:JetBrains Mono,monospace;">' + c.capacity + '</td>';
+                html += '<td style="text-align:right;font-family:JetBrains Mono,monospace;">' + c.demand + '</td>';
+                html += '<td style="text-align:right;font-family:JetBrains Mono,monospace;font-weight:600;color:' + (c.pass ? 'var(--success)' : 'var(--error)') + ';">' + c.ratio + '</td>';
+                html += '<td style="text-align:center;">' + (c.pass ? '<span style="color:var(--success);font-weight:bold;">✓ OK</span>' : '<span style="color:var(--error);font-weight:bold;">✗ NG</span>') + '</td>';
+                html += '</tr>';
             }
+            html += '</tbody></table>';
 
+            // Detailed calculations
             if (formulas.length > 0) {
-                html += '<div class="calc-details"><h4>Calculation Details</h4>';
+                html += '<div class="checks-header"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" width="16" height="16"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg> Detailed Calculations</div>';
                 for (var j = 0; j < formulas.length; j++) {
-                    html += '<div style="margin-bottom:0.75rem;">';
-                    html += '<strong style="color:var(--rebar-orange);font-size:0.65rem;">' + formulas[j].title + '</strong>';
+                    html += '<div class="calc-details" style="margin-bottom:1rem;">';
+                    html += '<h4 style="font-size:0.95rem;margin-bottom:0.75rem;">' + formulas[j].title + '</h4>';
                     html += '<div class="calc-formula">' + formulas[j].formula + '</div>';
                     html += '</div>';
                 }
-                html += '<div class="calc-ref">Reference: <code>' + codeData[selectedCode].name + '</code></div></div>';
             }
 
             document.getElementById('resultsBody').innerHTML = html;
         }
+
+        // Run calculation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateConnection();
+        });
     </script>
 </body>
 </html>
