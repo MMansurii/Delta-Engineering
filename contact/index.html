@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Delta Engineering</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d97706' stroke-width='2'%3E%3Cpath d='M12 2L2 19h20L12 2z'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --concrete-dark: #2c3038;
+            --concrete-mid: #4a4f5a;
+            --concrete-light: #6b7280;
+            --steel-blue: #3d5a73;
+            --rebar-orange: #d97706;
+            --blueprint-bg: #1e3a5f;
+            --blueprint-line: #4a90c2;
+            --blueprint-grid: rgba(74, 144, 194, 0.15);
+            --white: #ffffff;
+            --off-white: #f8f9fa;
+            --light-gray: #e5e7eb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        body {
+            font-family: 'Barlow', sans-serif;
+            background-color: var(--off-white);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        .blueprint-pattern {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; opacity: 0.4;
+            background-image: 
+                linear-gradient(rgba(45, 65, 85, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 65, 85, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(45, 65, 85, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 65, 85, 0.02) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+        }
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1rem 4rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); border-bottom: 3px solid var(--concrete-dark);
+            transition: all 0.3s ease;
+        }
+        nav::after {
+            content: ''; position: absolute; bottom: 0; left: 0; height: 3px;
+            width: var(--scroll-progress, 0%);
+            background: linear-gradient(90deg, var(--rebar-orange), var(--steel-blue));
+            transition: width 0.1s ease-out;
+        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon {
+            width: 40px; height: 40px; background: var(--concrete-dark);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-icon svg { width: 24px; height: 24px; stroke: var(--rebar-orange); }
+        .logo-text {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 700; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; line-height: 1.1;
+        }
+        .logo-text span {
+            display: block; font-size: 0.7rem; font-weight: 500;
+            color: var(--concrete-light); letter-spacing: 0.15em;
+        }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--concrete-mid); font-size: 0.8125rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+            transition: color 0.3s ease; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -6px; left: 0; width: 0;
+            height: 2px; background: var(--rebar-orange); transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--concrete-dark); }
+        .nav-links a:hover::after { width: 100%; }
+        .mobile-menu-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            color: var(--rebar-orange); padding: 0.5rem;
+        }
+        .mobile-menu {
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--concrete-dark); flex-direction: column;
+            padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            color: rgba(255, 255, 255, 0.7); text-decoration: none;
+            padding: 0.75rem 2rem; font-size: 0.875rem; text-transform: uppercase;
+            letter-spacing: 0.05em; transition: all 0.3s ease;
+        }
+        .mobile-menu a:hover { color: var(--rebar-orange); background: rgba(255,255,255,0.05); }
+
+        /* Hero */
+        .hero {
+            position: relative; min-height: 100vh;
+            background: linear-gradient(135deg, var(--blueprint-bg) 0%, #152a45 100%);
+            display: flex; align-items: center; 
+            padding: 8rem 4rem 4rem 4rem;
+            margin: 0;
+            z-index: 1;
+            width: 100vw;
+            max-width: 100vw;
+            box-sizing: border-box;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px),
+                linear-gradient(rgba(74, 144, 194, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 144, 194, 0.08) 1px, transparent 1px);
+            background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+        }
+        .corner-mark {
+            position: absolute; width: 60px; height: 60px;
+            border: 2px solid var(--blueprint-line); opacity: 0.4;
+            animation: floatCorner 6s ease-in-out infinite;
+        }
+        .corner-mark.top-left { top: 100px; left: 40px; border-right: none; border-bottom: none; animation-delay: 0s; }
+        .corner-mark.top-right { top: 100px; right: 40px; border-left: none; border-bottom: none; animation-delay: 1.5s; }
+        .corner-mark.bottom-left { bottom: 40px; left: 40px; border-right: none; border-top: none; animation-delay: 3s; }
+        .corner-mark.bottom-right { bottom: 40px; right: 40px; border-left: none; border-top: none; animation-delay: 4.5s; }
+        @keyframes floatCorner {
+            0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+            50% { transform: translate(5px, 5px); opacity: 0.6; }
+        }
+        .hero-content {
+            position: relative; z-index: 2; max-width: 1400px; width: 100%; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: center;
+        }
+        .hero-text { color: var(--white); }
+        .project-code {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--blueprint-line); margin-bottom: 1.5rem; padding: 0.5rem 1rem;
+            border: 1px solid var(--blueprint-line); background: rgba(74, 144, 194, 0.1);
+            animation: pulseBorder 3s ease-in-out infinite;
+        }
+        .project-code::before { content: ''; width: 8px; height: 8px; background: var(--rebar-orange); animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulseBorder {
+            0%, 100% { border-color: var(--blueprint-line); box-shadow: 0 0 0 rgba(74, 144, 194, 0); }
+            50% { border-color: var(--rebar-orange); box-shadow: 0 0 15px rgba(217, 119, 6, 0.3); }
+        }
+        .hero h1 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700; line-height: 1.1; text-transform: uppercase;
+            letter-spacing: 0.02em; margin-bottom: 1rem;
+            animation: slideUp 0.8s ease 0.1s forwards; opacity: 0; transform: translateY(30px);
+        }
+        .hero h1 .highlight { color: var(--rebar-orange); }
+        .hero-subtitle {
+            font-size: 1.0625rem; color: rgba(255, 255, 255, 0.75);
+            max-width: 500px; line-height: 1.7; text-align: justify;
+            animation: slideUp 0.8s ease 0.2s forwards; opacity: 0; transform: translateY(30px);
+        }
+        .typing-container {
+            display: flex; align-items: center; gap: 0.25rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 1.25rem;
+            color: var(--rebar-orange); margin-top: 1.5rem;
+        }
+        .typing-prefix { color: rgba(255, 255, 255, 0.5); }
+        .typing-text { color: var(--rebar-orange); font-weight: 500; }
+        .typing-cursor {
+            color: var(--rebar-orange); animation: blink 1s infinite; margin-left: -2px;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .hero-image-wrapper {
+            position: relative;
+            animation: fadeIn 1s ease 0.4s forwards; opacity: 0;
+        }
+        .hero-image-frame {
+            position: relative; border: 2px solid var(--blueprint-line); padding: 10px;
+            transition: transform 0.3s ease;
+        }
+        .hero-image-frame:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.02);
+        }
+        .hero-image { width: 100%; height: 450px; object-fit: cover; display: block; image-rendering: auto; }
+        .dimension-line {
+            position: absolute; display: flex; align-items: center;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; color: var(--blueprint-line);
+        }
+        .dimension-line.horizontal { bottom: -30px; left: 10px; right: 10px; }
+        .dimension-line.horizontal::before, .dimension-line.horizontal::after {
+            content: ''; flex: 1; height: 1px; background: var(--blueprint-line);
+        }
+        .dimension-line span { padding: 0 10px; }
+
+        /* Data Strip */
+        .data-strip { position: relative; z-index: 1; background: var(--concrete-dark); }
+        .data-strip-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(5, 1fr);
+        }
+        .data-item {
+            padding: 2rem 1.5rem; border-right: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center; position: relative;
+        }
+        .data-item:last-child { border-right: none; }
+        .data-item::before {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--rebar-orange); transform: scaleX(0); transition: transform 0.4s ease;
+        }
+        .data-item:hover::before { transform: scaleX(1); }
+        .data-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: rgba(255, 255, 255, 0.5); text-transform: uppercase;
+            letter-spacing: 0.15em; margin-bottom: 0.5rem;
+        }
+        .data-value {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.75rem;
+            font-weight: 700; color: var(--white);
+        }
+        .data-value .unit { font-size: 0.875rem; font-weight: 500; color: var(--rebar-orange); margin-left: 2px; }
+
+        /* Section Styles */
+        section { position: relative; z-index: 1; padding: 6rem 4rem; max-width: 1400px; margin: 0 auto; }
+        .section-header {
+            display: flex; align-items: flex-end; gap: 1.5rem; margin-bottom: 3rem;
+            padding-bottom: 1.5rem; border-bottom: 2px solid var(--light-gray);
+        }
+        .section-number {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--concrete-light); background: var(--light-gray);
+            padding: 0.25rem 0.75rem; letter-spacing: 0.05em;
+        }
+        .section-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 2rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.02em; color: var(--concrete-dark);
+            position: relative;
+        }
+        .section-title .accent { 
+            color: var(--steel-blue); 
+            position: relative;
+        }
+        .section-title .accent::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+            background: var(--rebar-orange);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .section-header:hover .section-title .accent::after { width: 100%; }
+
+        /* Scope */
+        .scope-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; }
+        .scope-text p { font-size: 1.0625rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.8; text-align: justify; }
+        .scope-text p:first-of-type { font-size: 1.125rem; color: var(--text-primary); font-weight: 500; }
+        .spec-table { background: var(--white); border: 1px solid var(--light-gray); position: relative; }
+        .spec-table::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, var(--steel-blue), var(--rebar-orange));
+        }
+        .spec-table-header {
+            background: var(--concrete-dark); padding: 1rem 1.5rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem;
+            color: rgba(255, 255, 255, 0.7); text-transform: uppercase; letter-spacing: 0.15em;
+        }
+        .spec-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 1.5rem; border-bottom: 1px solid var(--light-gray); transition: background 0.3s ease;
+        }
+        .spec-row:last-child { border-bottom: none; }
+        .spec-row.last { border-bottom: none; }
+        .spec-table { border-bottom: 2px solid var(--steel-blue); }
+        .spec-row:hover { background: rgba(61, 90, 115, 0.05); }
+        .spec-label { font-size: 0.8125rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+        .spec-value { font-weight: 600; color: var(--text-primary); text-align: right; font-family: 'JetBrains Mono', monospace; }
+        .spec-row.highlight { background: rgba(217, 119, 6, 0.08); }
+        .spec-row.highlight .spec-value { color: var(--rebar-orange); }
+        
+        .challenges-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; margin: 1.5rem 0 0.75rem;
+            padding-top: 1.5rem; border-top: 1px solid var(--light-gray);
+        }
+        .challenges-text {
+            font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.7; text-align: justify;
+        }
+
+        /* Gallery */
+        .gallery-section {
+            background: var(--white); max-width: 100%; padding: 6rem 4rem;
+            border-top: 1px solid var(--light-gray); border-bottom: 1px solid var(--light-gray);
+        }
+        .gallery-section .section-header { max-width: 1400px; margin: 0 auto 3rem; }
+        
+        .gallery-carousel-wrapper {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; gap: 1.5rem;
+        }
+        .gallery-carousel-wrapper .carousel-arrow {
+            background: var(--concrete-dark); border-color: var(--concrete-dark);
+        }
+        .gallery-carousel-wrapper .carousel-arrow:hover {
+            background: var(--rebar-orange); border-color: var(--rebar-orange);
+        }
+        .gallery-carousel-wrapper .carousel-arrow:disabled {
+            background: var(--light-gray); border-color: var(--light-gray);
+            opacity: 0.5;
+        }
+        .gallery-carousel {
+            flex: 1; overflow: hidden;
+        }
+        .gallery-track {
+            display: flex; gap: 1.5rem;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1400px; margin: 0 auto; }
+        .gallery-item {
+            flex: 0 0 calc(33.333% - 1rem);
+            position: relative; overflow: hidden; cursor: pointer;
+            border: 1px solid var(--light-gray); background: var(--off-white);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gallery-item:hover {
+            border-color: var(--steel-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(44, 48, 56, 0.15);
+        }
+        .gallery-item img { 
+            width: 100%; height: 280px; object-fit: cover;
+            transition: transform 0.6s ease;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+        .gallery-item:hover img { transform: scale(1.05); }
+        .gallery-overlay {
+            position: absolute; inset: 36px 0 0 0;
+            background: linear-gradient(to top, rgba(44, 48, 56, 0.9), transparent 60%);
+            opacity: 0; transition: opacity 0.4s ease; display: flex; align-items: flex-end; padding: 1.25rem;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-caption { color: var(--white); font-size: 0.8125rem; font-weight: 500; }
+
+        /* 3D Viewer Section */
+        .viewer-section {
+            background: var(--concrete-dark); max-width: 100%; padding: 5rem 4rem;
+            position: relative;
+        }
+        .viewer-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .viewer-section .section-header { max-width: 1400px; margin: 0 auto 2rem; border-bottom-color: rgba(255, 255, 255, 0.1); }
+        .viewer-section .section-number { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); }
+        .viewer-section .section-title { color: var(--white); }
+        .viewer-section .section-title .accent { color: var(--rebar-orange); }
+        .viewer-container {
+            display: grid; grid-template-columns: 1fr 320px; gap: 2rem;
+            max-width: 1400px; margin: 0 auto; position: relative; z-index: 1;
+        }
+        .viewer-wrapper {
+            position: relative; background: #f8fafc; border: 2px solid var(--steel-blue);
+            height: 450px; overflow: hidden;
+        }
+        .viewer-wrapper.dark-mode { background: #1a1a2e; }
+        .viewer-wrapper.dark-mode { background: #1a1a2e; }
+        .viewer-controls {
+            position: absolute; top: 12px; left: 12px; z-index: 10;
+            display: flex; gap: 12px; align-items: center;
+        }
+        .viewer-control-row {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(44, 48, 56, 0.9); padding: 6px 12px; border-radius: 4px;
+        }
+        .viewer-control-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: rgba(255, 255, 255, 0.7); text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .viewer-toggle { position: relative; width: 36px; height: 20px; }
+        .viewer-toggle input { opacity: 0; width: 0; height: 0; }
+        .viewer-slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2); border-radius: 20px; transition: 0.3s;
+        }
+        .viewer-slider::before {
+            position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+            background-color: white; border-radius: 50%; transition: 0.3s;
+        }
+        .viewer-toggle input:checked + .viewer-slider { background-color: var(--rebar-orange); }
+        .viewer-toggle input:checked + .viewer-slider::before { transform: translateX(16px); }
+        .viewer-reset-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(44, 48, 56, 0.9); border: none; padding: 6px 12px;
+            color: rgba(255, 255, 255, 0.8); font-family: 'JetBrains Mono', monospace;
+            font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.05em;
+            cursor: pointer; border-radius: 4px; transition: all 0.3s ease;
+        }
+        .viewer-reset-btn:hover { background: var(--rebar-orange); color: white; }
+        .viewer-reset-btn svg { width: 14px; height: 14px; }
+        .viewer-fullscreen-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: var(--steel-blue); border: none; padding: 6px 12px;
+            color: white; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.05em;
+            cursor: pointer; border-radius: 4px; transition: all 0.3s ease;
+        }
+        .viewer-fullscreen-btn:hover { background: var(--rebar-orange); }
+        .viewer-fullscreen-btn svg { width: 14px; height: 14px; }
+        
+        /* Fullscreen mode - applied to body */
+        body.fullscreen-mode { overflow: hidden !important; }
+        body.fullscreen-mode nav { display: none !important; }
+        body.fullscreen-mode .hero { display: none !important; }
+        body.fullscreen-mode .scope-section { display: none !important; }
+        body.fullscreen-mode .gallery-section { display: none !important; }
+        body.fullscreen-mode .loads-section { display: none !important; }
+        body.fullscreen-mode .approach-section { display: none !important; }
+        body.fullscreen-mode .other-projects-section { display: none !important; }
+        body.fullscreen-mode .cta-section { display: none !important; }
+        body.fullscreen-mode footer { display: none !important; }
+        body.fullscreen-mode .blueprint-pattern { display: none !important; }
+        
+        body.fullscreen-mode .viewer-section {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            z-index: 99999 !important;
+        }
+        body.fullscreen-mode .viewer-section::before { display: none !important; }
+        body.fullscreen-mode .viewer-section .section-header { display: none !important; }
+        
+        body.fullscreen-mode .viewer-container {
+            display: block !important;
+            max-width: 100% !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        body.fullscreen-mode .viewer-info { display: none !important; }
+        
+        body.fullscreen-mode .viewer-wrapper {
+            width: 100vw !important;
+            height: 100vh !important;
+            border: none !important;
+        }
+        body.fullscreen-mode .viewer-controls {
+            top: 20px !important;
+            left: 20px !important;
+        }
+        body.fullscreen-mode .viewer-instructions {
+            bottom: 20px !important;
+            right: 20px !important;
+        }
+        #modelCanvas { width: 100%; height: 100%; display: block; }
+        .viewer-instructions {
+            position: absolute; bottom: 12px; right: 12px;
+            background: rgba(44, 48, 56, 0.9); padding: 10px 14px; border-radius: 4px;
+        }
+        .instruction-item {
+            font-size: 0.6875rem; color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 4px; display: flex; gap: 8px;
+        }
+        .instruction-item:last-child { margin-bottom: 0; }
+        .instruction-key {
+            font-family: 'JetBrains Mono', monospace; color: var(--rebar-orange);
+            min-width: 45px; font-weight: 500;
+        }
+        .viewer-info {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.5rem; display: flex; flex-direction: column;
+        }
+        .viewer-info h4 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 600;
+            color: var(--white); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 1rem;
+        }
+        .viewer-info p { font-size: 0.875rem; color: rgba(255, 255, 255, 0.6); line-height: 1.7; margin-bottom: 1.5rem; text-align: justify; }
+        .viewer-stats { margin-top: auto; }
+        .viewer-stat {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.625rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .viewer-stat:last-child { border-bottom: none; }
+        .viewer-stat-label { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); }
+        .viewer-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--rebar-orange); }
+
+        /* Loads */
+        .loads-section {
+            background: linear-gradient(135deg, var(--concrete-dark) 0%, #1f242b 100%);
+            max-width: 100%; padding: 6rem 4rem; position: relative;
+        }
+        .loads-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .loads-section .section-header { max-width: 1400px; margin: 0 auto 3rem; border-bottom-color: rgba(255, 255, 255, 0.1); }
+        .loads-section .section-number { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); }
+        .loads-section .section-title { color: var(--white); }
+        .loads-section .section-title .accent { color: var(--rebar-orange); }
+        .loads-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+        .load-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative;
+        }
+        .load-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0;
+            background: var(--rebar-orange); transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .load-card:hover { 
+            background: rgba(255, 255, 255, 0.08); 
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        .load-card:hover::before { height: 100%; }
+        .load-card:hover .load-icon { transform: scale(1.1) rotate(5deg); }
+        .load-icon { 
+            width: 48px; height: 48px; background: var(--rebar-orange); 
+            display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+        .load-icon svg { width: 24px; height: 24px; stroke: var(--white); }
+        .load-card h4 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem; font-weight: 600;
+            color: var(--white); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.75rem;
+        }
+        .load-card p { font-size: 0.9375rem; color: rgba(255, 255, 255, 0.6); line-height: 1.7; text-align: justify; }
+
+        /* Analysis */
+        .analysis-section { background: var(--off-white); }
+        .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+        .analysis-image { position: relative; border: 1px solid var(--light-gray); background: var(--white); padding: 10px; }
+        .analysis-image::before {
+            content: 'FIG. 07 — FINITE ELEMENT MODEL'; position: absolute; top: -25px; left: 10px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; color: var(--concrete-light); letter-spacing: 0.1em;
+        }
+        .analysis-image img { width: 100%; display: block; }
+        .analysis-content h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; font-weight: 700;
+            text-transform: uppercase; color: var(--concrete-dark); margin-bottom: 1.5rem;
+        }
+        .check-list { list-style: none; }
+        .check-item { display: flex; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--light-gray); }
+        .check-item:last-child { border-bottom: none; }
+        .check-icon { width: 32px; height: 32px; background: var(--steel-blue); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .check-icon svg { width: 16px; height: 16px; stroke: var(--white); }
+        .check-content strong { display: block; font-size: 0.9375rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .check-content span { font-size: 0.875rem; color: var(--text-secondary); }
+
+        /* Approach */
+        .approach-section { background: var(--white); border-top: 1px solid var(--light-gray); }
+        .approach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .approach-card {
+            border: 1px solid var(--light-gray); padding: 2rem; position: relative;
+            transition: all 0.4s ease; background: var(--off-white);
+        }
+        .approach-card::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--steel-blue); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+        }
+        .approach-card:hover { border-color: var(--steel-blue); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(44, 48, 56, 0.1); }
+        .approach-card:hover::after { transform: scaleX(1); }
+        
+        .verification-summary {
+            max-width: 1400px; margin: 3rem auto 0; padding-top: 3rem;
+            border-top: 1px solid var(--light-gray);
+        }
+        .verification-summary h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; margin-bottom: 1.5rem;
+        }
+        .verification-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+        }
+        .verification-item {
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            padding: 1rem; background: var(--off-white); border: 1px solid var(--light-gray);
+        }
+        .check-icon-small {
+            flex-shrink: 0; width: 24px; height: 24px;
+            background: var(--rebar-orange); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .check-icon-small svg { width: 14px; height: 14px; stroke: var(--white); }
+        .verification-item div { font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5; }
+        .verification-item strong { color: var(--concrete-dark); }
+        .approach-number { font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: var(--concrete-light); margin-bottom: 1rem; }
+        .approach-card h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 600;
+            text-transform: uppercase; color: var(--concrete-dark); margin-bottom: 1rem;
+        }
+        .approach-card p { font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.7; text-align: justify; }
+
+        /* CTA */
+        .cta-section { background: var(--steel-blue); max-width: 100%; padding: 0.625rem 4rem; position: relative; }
+        .cta-section::before {
+            content: ''; position: absolute; top: 0; right: 0; width: 400px; height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(217, 119, 6, 0.2) 100%);
+        }
+        .cta-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+        .cta-text h2 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.75rem; font-weight: 700;
+            text-transform: uppercase; color: var(--white); margin-bottom: 0.25rem;
+        }
+        .cta-text p { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); }
+        .cta-button {
+            display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem;
+            background: linear-gradient(135deg, #e8860c 0%, #c76b00 100%); color: var(--white); text-decoration: none;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.875rem;
+            transition: all 0.4s ease; border: none; border-radius: 50px;
+            position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(217, 119, 6, 0.35);
+        }
+        .cta-button::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        .cta-button:hover::before { left: 100%; }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(217, 119, 6, 0.5); }
+        .cta-button svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .cta-button:hover svg { transform: translateX(5px); }
+
+        /* Footer */
+        footer { background: var(--concrete-dark); padding: 1rem 4rem; position: relative; z-index: 1; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { display: flex; align-items: center; gap: 0.75rem; }
+        .footer-logo-icon { width: 36px; height: 36px; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; }
+        .footer-logo-icon svg { width: 20px; height: 20px; stroke: var(--rebar-orange); }
+        .footer-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 0.05em; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { color: rgba(255, 255, 255, 0.5); text-decoration: none; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--rebar-orange); }
+        .footer-copyright { font-family: 'JetBrains Mono', monospace; color: rgba(255, 255, 255, 0.3); font-size: 0.6875rem; letter-spacing: 0.05em; }
+
+        /* Other Projects Section */
+        .other-projects-section {
+            position: relative; z-index: 1; background: var(--concrete-dark);
+            padding: 5rem 4rem;
+        }
+        .other-projects-section .section-header {
+            max-width: 1400px; margin: 0 auto 3rem;
+        }
+        .other-projects-section .section-number { color: var(--rebar-orange); }
+        .other-projects-section .section-title { color: var(--white); }
+        .other-projects-section .section-title .accent { color: var(--rebar-orange); }
+        
+        .projects-carousel-wrapper {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; gap: 1.5rem;
+        }
+        .carousel-arrow {
+            width: 50px; height: 50px; flex-shrink: 0;
+            background: transparent; border: 2px solid var(--blueprint-line);
+            color: var(--white); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .carousel-arrow:hover {
+            background: var(--rebar-orange); border-color: var(--rebar-orange);
+        }
+        .carousel-arrow svg { width: 24px; height: 24px; }
+        .carousel-arrow:disabled {
+            opacity: 0.3; cursor: not-allowed;
+        }
+        .carousel-arrow:disabled:hover {
+            background: transparent; border-color: var(--blueprint-line);
+        }
+        
+        .projects-carousel {
+            flex: 1; overflow: hidden;
+        }
+        .projects-track {
+            display: flex; gap: 1.5rem;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .project-card {
+            flex: 0 0 calc(33.333% - 1rem);
+            background: var(--concrete-mid);
+            text-decoration: none; overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .project-image {
+            position: relative; height: 200px; overflow: hidden;
+        }
+        .project-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+        .project-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 40%, rgba(44, 48, 56, 0.9) 100%);
+        }
+        .project-info {
+            padding: 1.25rem;
+        }
+        .project-type {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: var(--rebar-orange); text-transform: uppercase;
+            letter-spacing: 0.15em; margin-bottom: 0.5rem; display: block;
+        }
+        .project-info h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem;
+            font-weight: 600; color: var(--white); text-transform: uppercase;
+            letter-spacing: 0.02em; margin-bottom: 0.5rem; line-height: 1.2;
+        }
+        .project-info p {
+            font-size: 0.75rem; color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5; margin-bottom: 1rem;
+        }
+        .project-link {
+            font-family: 'Barlow', sans-serif; font-size: 0.75rem;
+            font-weight: 600; color: var(--blueprint-line); text-transform: uppercase;
+            letter-spacing: 0.1em; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        .project-link svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+        .project-card:hover .project-link { color: var(--rebar-orange); }
+        .project-card:hover .project-link svg { transform: translateX(4px); }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(30, 58, 95, 0.98); z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+        .lightbox.active { opacity: 1; visibility: visible; }
+        .lightbox img { 
+            max-width: 90%; max-height: 85%; object-fit: contain; 
+            border: 2px solid var(--blueprint-line);
+            transform: scale(0.9); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+        }
+        .lightbox.active img { transform: scale(1); opacity: 1; }
+        .lightbox-label {
+            display: none;
+        }
+        .lightbox-close {
+            position: absolute; top: 2rem; right: 2rem; width: 48px; height: 48px;
+            background: transparent; border: 1px solid var(--blueprint-line); color: var(--white);
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .lightbox-close:hover { background: var(--rebar-orange); border-color: var(--rebar-orange); }
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%); width: 56px; height: 56px;
+            background: transparent; border: 1px solid var(--blueprint-line); color: var(--white);
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .lightbox-nav:hover { background: var(--rebar-orange); border-color: var(--rebar-orange); }
+        .lightbox-prev { left: 2rem; }
+        .lightbox-next { right: 2rem; }
+
+        /* Animations */
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideInLeft { 
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight { 
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes drawLine {
+            from { stroke-dashoffset: 1000; }
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+        .reveal-scale { opacity: 0; transform: scale(0.95); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal-scale.active { opacity: 1; transform: scale(1); }
+        
+        /* Staggered animations for children */
+        .stagger-children > *:nth-child(1) { transition-delay: 0.05s; }
+        .stagger-children > *:nth-child(2) { transition-delay: 0.1s; }
+        .stagger-children > *:nth-child(3) { transition-delay: 0.15s; }
+        .stagger-children > *:nth-child(4) { transition-delay: 0.2s; }
+        .stagger-children > *:nth-child(5) { transition-delay: 0.25s; }
+        .stagger-children > *:nth-child(6) { transition-delay: 0.3s; }
+        
+        /* Hover animations */
+        .hover-float { transition: transform 0.3s ease; }
+        .hover-float:hover { transform: translateY(-5px); }
+        .hover-glow { transition: box-shadow 0.3s ease; }
+        .hover-glow:hover { box-shadow: 0 0 20px rgba(217, 119, 6, 0.3); }
+        
+        /* Animated border */
+        .animated-border { position: relative; }
+        .animated-border::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, var(--rebar-orange), var(--steel-blue), var(--rebar-orange));
+            background-size: 200% 100%;
+            animation: gradientMove 3s ease infinite;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Parallax effect for hero */
+        .parallax-slow { transition: transform 0.5s ease-out; }
+        
+        /* Number counter animation */
+        .count-up { animation: countUp 0.6s ease forwards; }
+        
+        /* Icon spin on hover */
+        .icon-spin:hover svg { animation: spin 0.5s ease; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-content { grid-template-columns: 1fr; gap: 3rem; }
+            .hero-image-wrapper { order: -1; }
+            .quantities-grid { grid-template-columns: repeat(2, 1fr); }
+            .coord-grid-inner { grid-template-columns: repeat(2, 1fr); }
+            .project-card { flex: 0 0 calc(50% - 0.75rem); }
+            .gallery-item { flex: 0 0 calc(50% - 0.75rem); }
+            .materials-grid-three { grid-template-columns: 1fr 1fr; }
+            .viewer-container { grid-template-columns: 1fr; }
+            .viewer-wrapper { height: 400px; }
+            .viewer-info { padding: 1.25rem; }
+            .loads-grid, .approach-grid { grid-template-columns: repeat(2, 1fr); }
+            .analysis-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 992px) {
+            .gallery-carousel-wrapper, .projects-carousel-wrapper { gap: 1rem; }
+            .gallery-item { flex: 0 0 calc(50% - 0.75rem); }
+            .materials-grid-three { grid-template-columns: 1fr; gap: 1.5rem; }
+            .hero-image { height: 350px; }
+            .section-title { font-size: 1.75rem; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero { padding: 5rem 1.5rem 3rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero-subtitle { font-size: 0.9375rem; }
+            .hero-image { height: 280px; }
+            .project-code { font-size: 0.625rem; padding: 0.4rem 0.75rem; }
+            .typing-container { font-size: 1.125rem; margin-top: 1rem; flex-wrap: wrap; }
+            .corner-mark.top-left { left: 15px; }
+            .corner-mark.top-right { right: 15px; }
+            .corner-mark.bottom-left { left: 15px; }
+            .corner-mark.bottom-right { right: 15px; }
+            section, .gallery-section, .loads-section, .cta-section, .viewer-section, .other-projects-section, .approach-section { padding: 3rem 1.5rem; }
+            .section-header { margin-bottom: 2rem; }
+            .section-title { font-size: 1.5rem; }
+            .section-number { font-size: 0.625rem; }
+            .project-card { flex: 0 0 100%; }
+            .gallery-item { flex: 0 0 100%; }
+            .carousel-arrow { width: 36px; height: 36px; }
+            .carousel-arrow svg { width: 18px; height: 18px; }
+            .gallery-carousel-wrapper, .projects-carousel-wrapper { gap: 0.5rem; }
+            .viewer-wrapper { height: 300px; }
+            .viewer-controls { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .viewer-instructions { flex-direction: column; gap: 0.5rem; padding: 0.75rem; }
+            .scope-grid, .materials-grid { grid-template-columns: 1fr; }
+            .scope-text { margin-bottom: 2rem; }
+            .spec-table { margin-top: 0; }
+            .challenges-text { font-size: 0.875rem; }
+            .gallery-grid, .loads-grid, .approach-grid { grid-template-columns: 1fr; }
+            .load-card, .approach-card { padding: 1.25rem; }
+            .cta-content { flex-direction: column; text-align: center; gap: 2rem; }
+            .footer-content { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+            .lightbox-nav { width: 44px; height: 44px; }
+            .lightbox-prev { left: 1rem; }
+            .lightbox-next { right: 1rem; }
+            /* Contact form mobile */
+            .contact-form { grid-template-columns: 1fr !important; padding: 1.5rem !important; }
+            .contact-info-cards { margin-top: 2rem; }
+        }
+        @media (max-width: 480px) {
+            .hero { padding: 4.5rem 1rem 2rem; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero-image { height: 220px; }
+            .typing-container { font-size: 1rem; margin-top: 0.75rem; }
+            .corner-mark { width: 40px; height: 40px; }
+            .corner-mark.top-left { left: 10px; top: 70px; }
+            .corner-mark.top-right { right: 10px; top: 70px; }
+            .corner-mark.bottom-left { left: 10px; bottom: 20px; }
+            .corner-mark.bottom-right { right: 10px; bottom: 20px; }
+            section, .gallery-section, .loads-section, .cta-section, .viewer-section, .other-projects-section, .approach-section { padding: 2.5rem 1rem; }
+            .section-title { font-size: 1.25rem; }
+            .viewer-wrapper { height: 250px; }
+            .carousel-arrow { width: 32px; height: 32px; }
+            .carousel-arrow svg { width: 16px; height: 16px; }
+            .spec-row { padding: 0.75rem 1rem; font-size: 0.75rem; }
+            .spec-label { font-size: 0.6875rem; }
+            .spec-value { font-size: 0.75rem; }
+            .project-info h3 { font-size: 1rem; }
+            .project-info p { font-size: 0.6875rem; }
+            .gallery-caption { font-size: 0.6875rem; }
+            .approach-number { font-size: 1.25rem; width: 40px; height: 40px; }
+            .approach-card h3 { font-size: 1rem; }
+            .approach-card p { font-size: 0.8125rem; }
+            /* Contact form small mobile */
+            .contact-form { padding: 1rem !important; gap: 1rem !important; }
+            .contact-form input, .contact-form select, .contact-form textarea { padding: 0.875rem !important; font-size: 0.9375rem !important; }
+            .contact-form button { width: 100%; justify-content: center; }
+            .info-card { padding: 1rem 1.25rem !important; }
+            .cta-button { padding: 0.875rem 1.5rem !important; font-size: 0.8125rem !important; }
+            footer { padding: 0.7rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="blueprint-pattern"></div>
+
+    <nav>
+        <a href="./index.html" class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 19h20L12 2z"/>
+                </svg>
+            </div>
+            <div class="logo-text">Delta Engineering<span>Structural Consultants</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./projects.html">Projects</a></li>
+            <li><a href="./services.html">Services</a></li>
+            <li><a href="./tools.html">Tools</a></li>
+            <li><a href="./publications.html">Publications</a></li>
+            <li><a href="./about.html">About</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="./index.html">Home</a>
+            <a href="./projects.html">Projects</a>
+            <a href="./services.html">Services</a>
+            <a href="./tools.html">Tools</a>
+            <a href="./publications.html">Publications</a>
+            <a href="./about.html">About</a>
+            <a href="./contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="corner-mark top-left"></div>
+        <div class="corner-mark top-right"></div>
+        <div class="corner-mark bottom-left"></div>
+        <div class="corner-mark bottom-right"></div>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="project-code">GET IN TOUCH</div>
+                <h1>Contact <span class="highlight">Delta Engineering</span></h1>
+                <p class="hero-subtitle">Whether you're planning a large-scale infrastructure project, an industrial facility, or need specialized structural engineering consultation, our team is ready to help bring your vision to life.</p>
+                <div class="typing-container">
+                    <span class="typing-prefix">We specialize in&nbsp;</span>
+                    <span class="typing-text" id="typingText">Concrete Structures</span>
+                    <span class="typing-cursor">|</span>
+                </div>
+            </div>
+            <div class="hero-image-wrapper">
+                <div class="hero-image-frame">
+                    <img src="./assets/image1.png" alt="Delta Engineering Office" class="hero-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <!-- Contact Info Section -->
+        <section class="scope-section reveal">
+            <div class="section-header">
+                <h2 class="section-title">Let's Start a <span class="accent">Conversation</span></h2>
+            </div>
+            <div class="scope-grid">
+                <div class="scope-text">
+                    <p>Whether you're planning a large-scale municipal project, a commercial development, an industrial facility, or need expert structural engineering consultation, we're here to help. Our team of experienced engineers is ready to discuss your project requirements and provide tailored solutions.</p>
+                    <p>At Delta Engineering, we pride ourselves on delivering innovative structural designs that meet the highest standards of safety, efficiency, and sustainability. From initial concept to final construction documentation, we work closely with our clients to ensure every project exceeds expectations.</p>
+                    <p>Connect with us today to schedule a consultation, request a proposal, or learn more about our comprehensive engineering services. We look forward to partnering with you on your next project.</p>
+                    
+                    <h4 class="challenges-title">Connect With Us</h4>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <a href="https://twitter.com/deltaengineering" target="_blank" class="social-link" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: var(--steel-blue); color: white; text-decoration: none; transition: all 0.3s ease; border-radius: 8px;" onmouseover="this.style.background='var(--rebar-orange)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='var(--steel-blue)'; this.style.transform='translateY(0)'">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg>
+                        </a>
+                        <a href="https://linkedin.com/company/deltaengineering" target="_blank" class="social-link" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: var(--steel-blue); color: white; text-decoration: none; transition: all 0.3s ease; border-radius: 8px;" onmouseover="this.style.background='var(--rebar-orange)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='var(--steel-blue)'; this.style.transform='translateY(0)'">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                        <a href="https://instagram.com/deltaengineering" target="_blank" class="social-link" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: var(--steel-blue); color: white; text-decoration: none; transition: all 0.3s ease; border-radius: 8px;" onmouseover="this.style.background='var(--rebar-orange)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='var(--steel-blue)'; this.style.transform='translateY(0)'">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-info-cards" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                    <div class="info-card" style="background: var(--white); border: 1px solid var(--light-gray); padding: 1.25rem 1.5rem; position: relative; transition: all 0.3s ease; cursor: default;" onmouseover="this.style.borderColor='var(--steel-blue)'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.1)'" onmouseout="this.style.borderColor='var(--light-gray)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, var(--steel-blue), var(--rebar-orange));"></div>
+                        <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                            <div style="width: 44px; height: 44px; background: var(--blueprint-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="var(--blueprint-line)" stroke-width="2" width="22" height="22"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div>
+                                <h4 style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--concrete-dark); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Office Address</h4>
+                                <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.5;">250 University Avenue, Suite 500<br>Toronto, ON M5H 3E5, Canada</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-card" style="background: var(--white); border: 1px solid var(--light-gray); padding: 1.25rem 1.5rem; position: relative; transition: all 0.3s ease; cursor: default;" onmouseover="this.style.borderColor='var(--steel-blue)'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.1)'" onmouseout="this.style.borderColor='var(--light-gray)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, var(--steel-blue), var(--rebar-orange));"></div>
+                        <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                            <div style="width: 44px; height: 44px; background: var(--blueprint-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="var(--blueprint-line)" stroke-width="2" width="22" height="22"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                            <div>
+                                <h4 style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--concrete-dark); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Email</h4>
+                                <p style="font-size: 0.9375rem; color: var(--text-secondary);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="573e3931381733323b23363239303e393232253e3930793436">[email&#160;protected]</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-card" style="background: var(--white); border: 1px solid var(--light-gray); padding: 1.25rem 1.5rem; position: relative; transition: all 0.3s ease; cursor: default;" onmouseover="this.style.borderColor='var(--steel-blue)'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.1)'" onmouseout="this.style.borderColor='var(--light-gray)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, var(--steel-blue), var(--rebar-orange));"></div>
+                        <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                            <div style="width: 44px; height: 44px; background: var(--blueprint-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="var(--blueprint-line)" stroke-width="2" width="22" height="22"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </div>
+                            <div>
+                                <h4 style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--concrete-dark); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Phone</h4>
+                                <p style="font-size: 0.9375rem; color: var(--text-secondary);">+1 (416) 555-0123</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-card" style="background: var(--white); border: 1px solid var(--light-gray); padding: 1.25rem 1.5rem; position: relative; transition: all 0.3s ease; cursor: default;" onmouseover="this.style.borderColor='var(--steel-blue)'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.1)'" onmouseout="this.style.borderColor='var(--light-gray)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, var(--steel-blue), var(--rebar-orange));"></div>
+                        <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                            <div style="width: 44px; height: 44px; background: var(--blueprint-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="var(--blueprint-line)" stroke-width="2" width="22" height="22"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <div>
+                                <h4 style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--concrete-dark); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Working Hours</h4>
+                                <p style="font-size: 0.9375rem; color: var(--text-secondary);">Monday - Friday: 8:00 AM - 5:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section class="gallery-section" style="background: linear-gradient(135deg, var(--blueprint-bg) 0%, #152a45 100%); position: relative;">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(74, 144, 194, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(74, 144, 194, 0.1) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none;"></div>
+            <div class="section-header reveal" style="position: relative; z-index: 1;">
+                <h2 class="section-title" style="color: var(--white);">Send Us a <span class="accent" style="color: var(--rebar-orange);">Message</span></h2>
+            </div>
+            <div style="max-width: 900px; margin: 0 auto; position: relative; z-index: 1;">
+                <form id="contactForm" class="contact-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; background: rgba(255,255,255,0.03); padding: 2.5rem; border: 1px solid rgba(74, 144, 194, 0.3); backdrop-filter: blur(10px); border-radius: 8px;">
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em;">Full Name *</label>
+                        <input type="text" name="name" required style="padding: 1rem; border: 1px solid rgba(74, 144, 194, 0.4); background: rgba(255,255,255,0.05); font-family: 'Barlow', sans-serif; font-size: 1rem; transition: all 0.3s ease; outline: none; color: var(--white); border-radius: 4px;" onfocus="this.style.borderColor='var(--rebar-orange)'; this.style.background='rgba(255,255,255,0.1)'; this.style.boxShadow='0 0 15px rgba(217, 119, 6, 0.2)'" onblur="this.style.borderColor='rgba(74, 144, 194, 0.4)'; this.style.background='rgba(255,255,255,0.05)'; this.style.boxShadow='none'">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em;">Company Name</label>
+                        <input type="text" name="company" style="padding: 1rem; border: 1px solid rgba(74, 144, 194, 0.4); background: rgba(255,255,255,0.05); font-family: 'Barlow', sans-serif; font-size: 1rem; transition: all 0.3s ease; outline: none; color: var(--white); border-radius: 4px;" onfocus="this.style.borderColor='var(--rebar-orange)'; this.style.background='rgba(255,255,255,0.1)'; this.style.boxShadow='0 0 15px rgba(217, 119, 6, 0.2)'" onblur="this.style.borderColor='rgba(74, 144, 194, 0.4)'; this.style.background='rgba(255,255,255,0.05)'; this.style.boxShadow='none'">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em;">Email Address *</label>
+                        <input type="email" name="email" required style="padding: 1rem; border: 1px solid rgba(74, 144, 194, 0.4); background: rgba(255,255,255,0.05); font-family: 'Barlow', sans-serif; font-size: 1rem; transition: all 0.3s ease; outline: none; color: var(--white); border-radius: 4px;" onfocus="this.style.borderColor='var(--rebar-orange)'; this.style.background='rgba(255,255,255,0.1)'; this.style.boxShadow='0 0 15px rgba(217, 119, 6, 0.2)'" onblur="this.style.borderColor='rgba(74, 144, 194, 0.4)'; this.style.background='rgba(255,255,255,0.05)'; this.style.boxShadow='none'">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em;">Phone Number</label>
+                        <input type="tel" name="phone" style="padding: 1rem; border: 1px solid rgba(74, 144, 194, 0.4); background: rgba(255,255,255,0.05); font-family: 'Barlow', sans-serif; font-size: 1rem; transition: all 0.3s ease; outline: none; color: var(--white); border-radius: 4px;" onfocus="this.style.borderColor='var(--rebar-orange)'; this.style.background='rgba(255,255,255,0.1)'; this.style.boxShadow='0 0 15px rgba(217, 119, 6, 0.2)'" onblur="this.style.borderColor='rgba(74, 144, 194, 0.4)'; this.style.background='rgba(255,255,255,0.05)'; this.style.boxShadow='none'">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em;">Your Role</label>
+                        <select name="role" style="padding: 1rem; border: 1px solid rgba(74, 144, 194, 0.4); background: rgba(255,255,255,0.05); font-family: 'Barlow', sans-serif; font-size: 1rem; transition: all 0.3s ease; outline: none; cursor: pointer; color: var(--white); border-radius: 4px;" onfocus="this.style.borderColor='var(--rebar-orange)'; this.style.background='rgba(255,255,255,0.1)'" onblur="this.style.borderColor='rgba(74, 144, 194, 0.4)'; this.style.background='rgba(255,255,255,0.05)'">
+                            <option value="" style="background: var(--blueprint-bg); color: var(--white);">Select your role...</option>
+                            <option value="architect" style="background: var(--blueprint-bg);">Architect</option>
+                            <option value="contractor" style="background: var(--blueprint-bg);">Contractor</option>
+                            <option value="developer" style="background: var(--blueprint-bg);">Developer</option>
+                            <option value="owner" style="background: var(--blueprint-bg);">Building Owner</option>
+                            <option value="engineer" style="background: var(--blueprint-bg);">Engineer</option>
+                            <option value="government" style="background: var(--blueprint-bg);">Government / Municipality</option>
+                            <option value="other" style="background: var(--blueprint-bg);">Other</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em;">Project Type</label>
+                        <select name="project" style="padding: 1rem; border: 1px solid rgba(74, 144, 194, 0.4); background: rgba(255,255,255,0.05); font-family: 'Barlow', sans-serif; font-size: 1rem; transition: all 0.3s ease; outline: none; cursor: pointer; color: var(--white); border-radius: 4px;" onfocus="this.style.borderColor='var(--rebar-orange)'; this.style.background='rgba(255,255,255,0.1)'" onblur="this.style.borderColor='rgba(74, 144, 194, 0.4)'; this.style.background='rgba(255,255,255,0.05)'">
+                            <option value="" style="background: var(--blueprint-bg); color: var(--white);">Select project type...</option>
+                            <option value="residential" style="background: var(--blueprint-bg);">Residential</option>
+                            <option value="commercial" style="background: var(--blueprint-bg);">Commercial</option>
+                            <option value="industrial" style="background: var(--blueprint-bg);">Industrial</option>
+                            <option value="infrastructure" style="background: var(--blueprint-bg);">Infrastructure</option>
+                            <option value="seismic" style="background: var(--blueprint-bg);">Seismic Assessment</option>
+                            <option value="consultation" style="background: var(--blueprint-bg);">Consultation</option>
+                            <option value="other" style="background: var(--blueprint-bg);">Other</option>
+                        </select>
+                    </div>
+                    <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em;">Your Message *</label>
+                        <textarea name="message" rows="6" required style="padding: 1rem; border: 1px solid rgba(74, 144, 194, 0.4); background: rgba(255,255,255,0.05); font-family: 'Barlow', sans-serif; font-size: 1rem; transition: all 0.3s ease; outline: none; resize: vertical; color: var(--white); border-radius: 4px;" onfocus="this.style.borderColor='var(--rebar-orange)'; this.style.background='rgba(255,255,255,0.1)'; this.style.boxShadow='0 0 15px rgba(217, 119, 6, 0.2)'" onblur="this.style.borderColor='rgba(74, 144, 194, 0.4)'; this.style.background='rgba(255,255,255,0.05)'; this.style.boxShadow='none'" placeholder="Tell us about your project requirements, timeline, and any specific questions you may have..."></textarea>
+                    </div>
+                    <div style="grid-column: 1 / -1; display: flex; justify-content: flex-end;">
+                        <button type="submit" class="submit-btn" style="position: relative; display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2.5rem; background: linear-gradient(135deg, #e8860c 0%, #c76b00 100%); color: var(--white); border: none; font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.4s ease; overflow: hidden; border-radius: 50px; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 25px rgba(217, 119, 6, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(217, 119, 6, 0.3)'">
+                            <span style="position: relative; z-index: 1;">Send Message</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="position: relative; z-index: 1; transition: transform 0.3s ease;"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+
+        <section class="cta-section">
+            <div class="cta-content reveal">
+                <div class="cta-text">
+                    <h2>Ready to Get Started?</h2>
+                    <p>Schedule a consultation with our engineering team today.</p>
+                </div>
+                <a href="tel:+14165550123" class="cta-button" style="position: relative; overflow: hidden; transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-3px) scale(1.02)'; this.style.boxShadow='0 15px 40px rgba(217, 119, 6, 0.4)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='none'">
+                    <span style="position: relative; z-index: 1;">Call Us Now</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: relative; z-index: 1;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/></svg>
+                </div>
+                <div class="footer-logo-text">Delta Engineering</div>
+            </div>
+            <div class="footer-links">
+                <a href="./projects.html">Projects</a><a href="./services.html">Services</a><a href="./tools.html">Tools</a><a href="./publications.html">Publications</a><a href="./about.html">About</a><a href="./contact.html">Contact</a>
+            </div>
+            <div class="footer-copyright">© 2018 DELTA ENGINEERING. ALL RIGHTS RESERVED.</div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Enhanced reveal animation with multiple types
+        function reveal() {
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+            revealElements.forEach((el, index) => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                const revealPoint = 100;
+                
+                if (elementTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        
+        // Staggered reveal for grid items
+        function revealStaggered() {
+            const grids = document.querySelectorAll('.stagger-children');
+            grids.forEach(grid => {
+                const windowHeight = window.innerHeight;
+                const gridTop = grid.getBoundingClientRect().top;
+                
+                if (gridTop < windowHeight - 100) {
+                    const children = grid.children;
+                    Array.from(children).forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('active');
+                        }, index * 100);
+                    });
+                }
+            });
+        }
+        
+        // Animate numbers counting up
+        function animateNumbers() {
+            const numbers = document.querySelectorAll('.animate-number');
+            numbers.forEach(num => {
+                const windowHeight = window.innerHeight;
+                const numTop = num.getBoundingClientRect().top;
+                
+                if (numTop < windowHeight - 50 && !num.classList.contains('counted')) {
+                    num.classList.add('counted');
+                    const target = parseFloat(num.getAttribute('data-target'));
+                    const duration = 1500;
+                    const start = 0;
+                    const startTime = performance.now();
+                    
+                    function updateNumber(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easeOut = 1 - Math.pow(1 - progress, 3);
+                        const current = start + (target - start) * easeOut;
+                        
+                        if (target % 1 === 0) {
+                            num.textContent = Math.floor(current);
+                        } else {
+                            num.textContent = current.toFixed(1);
+                        }
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(updateNumber);
+                        }
+                    }
+                    requestAnimationFrame(updateNumber);
+                }
+            });
+        }
+        
+        // Parallax effect on scroll
+        function parallaxEffect() {
+            const scrolled = window.pageYOffset;
+            const heroImage = document.querySelector('.hero-image-wrapper');
+            const cornerMarks = document.querySelectorAll('.corner-mark');
+            
+            if (heroImage && scrolled < window.innerHeight) {
+                heroImage.style.transform = `translateY(${scrolled * 0.1}px)`;
+            }
+            
+            cornerMarks.forEach((mark, index) => {
+                const speed = 0.05 * (index + 1);
+                mark.style.transform = `translate(${scrolled * speed}px, ${scrolled * speed}px)`;
+            });
+        }
+        
+        // Smooth scroll progress indicator
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.documentElement.style.setProperty('--scroll-progress', scrollPercent + '%');
+        }
+        
+        // Mouse move parallax for hero section
+        document.addEventListener('mousemove', (e) => {
+            const hero = document.querySelector('.hero');
+            if (!hero) return;
+            
+            const heroRect = hero.getBoundingClientRect();
+            if (e.clientY > heroRect.bottom) return;
+            
+            const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            
+            const gridBg = document.querySelector('.hero::before');
+            const heroFrame = document.querySelector('.hero-image-frame');
+            
+            if (heroFrame) {
+                heroFrame.style.transform = `perspective(1000px) rotateY(${mouseX * 2}deg) rotateX(${-mouseY * 2}deg)`;
+            }
+        });
+        
+        // Initialize
+        window.addEventListener('scroll', () => {
+            reveal();
+            revealStaggered();
+            animateNumbers();
+            parallaxEffect();
+            updateScrollProgress();
+            
+            // Nav shadow
+            document.querySelector('nav').style.boxShadow = window.scrollY > 50 ? '0 2px 20px rgba(0,0,0,0.1)' : 'none';
+        });
+        
+        // Initial calls
+        reveal();
+        revealStaggered();
+        
+        // Add intersection observer for better performance
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Add hover effects to stat blocks
+        document.querySelectorAll('.stat-block, .coord-block, .load-card, .approach-card').forEach(block => {
+            block.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            block.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // ============================================
+        // TYPING ANIMATION
+        // ============================================
+        const typingPhrases = [
+            'Concrete Structures',
+            'Steel Connections',
+            'Precast Systems',
+            'Bridge Engineering',
+            'Seismic Retrofit',
+            'Foundation Design',
+            'Industrial Facilities',
+            'High-Rise Buildings'
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typingText');
+        
+        function typeText() {
+            if (!typingElement) return;
+            
+            const currentPhrase = typingPhrases[phraseIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            let typeSpeed = isDeleting ? 30 : 80;
+            
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % typingPhrases.length;
+                typeSpeed = 500; // Pause before next word
+            }
+            
+            setTimeout(typeText, typeSpeed);
+        }
+        
+        // Start typing animation
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(typeText, 500);
+            });
+        } else {
+            setTimeout(typeText, 500);
+        }
+        
+        // ============================================
+        // MOBILE MENU
+        // ============================================
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
