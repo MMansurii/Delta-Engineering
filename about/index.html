@@ -123,6 +123,43 @@
                 linear-gradient(90deg, rgba(74, 144, 194, 0.08) 1px, transparent 1px);
             background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
         }
+        
+        /* About Hero with Background Image */
+        .about-hero {
+            min-height: 70vh;
+        }
+        .about-hero .hero-bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('./assets/image1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0;
+        }
+        .about-hero .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.92) 0%, rgba(21, 42, 69, 0.88) 100%);
+            z-index: 1;
+        }
+        .about-hero::before {
+            z-index: 2;
+            opacity: 0.5;
+        }
+        .about-hero .corner-mark {
+            z-index: 3;
+        }
+        .about-hero .hero-content {
+            z-index: 4;
+        }
+        
         .corner-mark {
             position: absolute; width: 60px; height: 60px;
             border: 2px solid var(--blueprint-line); opacity: 0.4;
@@ -1069,37 +1106,31 @@
         }
         .team-social {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem;
-            background: linear-gradient(to top, rgba(30, 58, 95, 0.95), transparent);
+            bottom: 1rem;
+            right: 1rem;
             display: flex;
             gap: 0.75rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.4s ease;
-        }
-        .team-card:hover .team-social {
             opacity: 1;
             transform: translateY(0);
+            transition: all 0.4s ease;
         }
         .social-icon {
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            background: rgba(30, 58, 95, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--white);
             text-decoration: none;
             transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
         .social-icon:hover {
             background: var(--rebar-orange);
             border-color: var(--rebar-orange);
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.1);
         }
         .team-info {
             padding: 1.5rem;
@@ -1506,6 +1537,9 @@
             .services-section { padding: 4rem 2rem; }
             .service-item { grid-template-columns: 1fr; gap: 2rem; }
             .service-item.service-right { direction: ltr; }
+            /* Make all images appear first on mobile */
+            .service-item .service-image-container { order: 1; }
+            .service-item .service-content { order: 2; }
             .service-image-container img { height: 300px; }
             .service-number { font-size: 3.5rem; top: 1rem; left: 1rem; }
             .service-content { padding: 0; }
@@ -1678,7 +1712,9 @@
         </div>
     </nav>
 
-    <section class="hero">
+    <section class="hero about-hero">
+        <div class="hero-bg-image"></div>
+        <div class="hero-overlay"></div>
         <div class="corner-mark top-left"></div>
         <div class="corner-mark top-right"></div>
         <div class="corner-mark bottom-left"></div>
@@ -1686,7 +1722,6 @@
         
         <div class="hero-content" style="grid-template-columns: 1fr; text-align: center; max-width: 900px;">
             <div class="hero-text" style="max-width: 100%;">
-                <div class="project-code" style="margin: 0 auto 1.5rem;">ESTABLISHED 2018</div>
                 <h1>Engineering Solutions<br><span class="highlight">Built to Last</span></h1>
                 <p class="hero-subtitle" style="max-width: 700px; margin: 0 auto; text-align: center;">We are a structural engineering consulting firm dedicated to delivering precise, innovative, and code-compliant designs. From concept to construction, we partner with clients to build projects that stand the test of time.</p>
             </div>
@@ -1706,7 +1741,6 @@
                 </div>
                 <div class="about-who-image reveal-right">
                     <img src="./assets/image1.png" alt="Delta Engineering Office">
-                    <div class="image-overlay-label">Our Team at Work</div>
                 </div>
             </div>
         </section>
