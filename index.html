@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Engineering | Structural Engineering Consultants</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d97706' stroke-width='2'%3E%3Cpath d='M12 2L2 19h20L12 2z'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --concrete-dark: #2c3038;
+            --concrete-mid: #4a4f5a;
+            --concrete-light: #6b7280;
+            --steel-blue: #3d5a73;
+            --rebar-orange: #d97706;
+            --blueprint-bg: #1e3a5f;
+            --blueprint-line: #4a90c2;
+            --blueprint-grid: rgba(74, 144, 194, 0.15);
+            --white: #ffffff;
+            --off-white: #f8f9fa;
+            --light-gray: #e5e7eb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        body {
+            font-family: 'Barlow', sans-serif;
+            background-color: var(--off-white);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1rem 4rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); border-bottom: 3px solid var(--concrete-dark);
+            transition: all 0.3s ease;
+        }
+        nav::after {
+            content: ''; position: absolute; bottom: 0; left: 0; height: 3px;
+            width: var(--scroll-progress, 0%);
+            background: linear-gradient(90deg, var(--rebar-orange), var(--steel-blue));
+            transition: width 0.1s ease-out;
+        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo-icon {
+            width: 40px; height: 40px; background: var(--concrete-dark);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-icon svg { width: 24px; height: 24px; stroke: var(--rebar-orange); }
+        .logo-text {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 700; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; line-height: 1.1;
+        }
+        .logo-text span {
+            display: block; font-size: 0.7rem; font-weight: 500;
+            color: var(--concrete-light); letter-spacing: 0.15em;
+        }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--concrete-mid); font-size: 0.8125rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+            transition: color 0.3s ease; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -6px; left: 0; width: 0;
+            height: 2px; background: var(--rebar-orange); transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--concrete-dark); }
+        .nav-links a:hover::after { width: 100%; }
+        .mobile-menu-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            color: var(--rebar-orange); padding: 0.5rem;
+        }
+        .mobile-menu {
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--concrete-dark); flex-direction: column;
+            padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            color: rgba(255, 255, 255, 0.7); text-decoration: none;
+            padding: 0.75rem 2rem; font-size: 0.875rem; text-transform: uppercase;
+            letter-spacing: 0.05em; transition: all 0.3s ease;
+        }
+        .mobile-menu a:hover { color: var(--rebar-orange); background: rgba(255,255,255,0.05); }
+
+        /* Hero */
+        .hero {
+            position: relative; min-height: 100vh;
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.55) 0%, rgba(21, 42, 69, 0.6) 100%),
+                        url('./assets/image1.png') center/cover no-repeat;
+            display: flex; align-items: center; 
+            padding: 8rem 4rem 12rem 4rem;
+            margin: 0;
+            z-index: 1;
+            width: 100vw;
+            max-width: 100vw;
+            box-sizing: border-box;
+        }
+        .hero-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            z-index: 5;
+        }
+        .hero-wave svg {
+            position: relative;
+            display: block;
+            width: calc(134% + 1.3px);
+            height: 150px;
+        }
+        .hero-wave .shape-fill {
+            fill: var(--off-white);
+        }
+        @media (max-width: 768px) {
+            .hero-wave svg { height: 80px; }
+        }
+        @media (max-width: 480px) {
+            .hero-wave svg { height: 50px; }
+        }
+        .corner-mark {
+            position: absolute; width: 60px; height: 60px;
+            border: 2px solid var(--blueprint-line); opacity: 0.4;
+            animation: floatCorner 6s ease-in-out infinite;
+        }
+        .corner-mark.top-left { top: 100px; left: 40px; border-right: none; border-bottom: none; animation-delay: 0s; }
+        .corner-mark.top-right { top: 100px; right: 40px; border-left: none; border-bottom: none; animation-delay: 1.5s; }
+        .corner-mark.bottom-left { bottom: 40px; left: 40px; border-right: none; border-top: none; animation-delay: 3s; }
+        .corner-mark.bottom-right { bottom: 40px; right: 40px; border-left: none; border-top: none; animation-delay: 4.5s; }
+        @keyframes floatCorner {
+            0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+            50% { transform: translate(5px, 5px); opacity: 0.6; }
+        }
+        .hero-content {
+            position: relative; z-index: 2; max-width: 1400px; width: 100%; margin: 0 auto;
+            display: flex; flex-direction: column; align-items: flex-start; text-align: left;
+        }
+        .hero-text { color: var(--white); max-width: 700px; }
+        .project-code {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--blueprint-line); margin-bottom: 1.5rem; padding: 0.5rem 1rem;
+            border: 1px solid var(--blueprint-line); background: rgba(74, 144, 194, 0.1);
+            animation: pulseBorder 3s ease-in-out infinite;
+        }
+        .project-code::before { content: ''; width: 8px; height: 8px; background: var(--rebar-orange); animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulseBorder {
+            0%, 100% { border-color: var(--blueprint-line); box-shadow: 0 0 0 rgba(74, 144, 194, 0); }
+            50% { border-color: var(--rebar-orange); box-shadow: 0 0 15px rgba(217, 119, 6, 0.3); }
+        }
+        .hero h1 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 700; line-height: 1.1; text-transform: uppercase;
+            letter-spacing: 0.02em; margin-bottom: 1.5rem;
+            animation: slideUp 0.8s ease 0.1s forwards; opacity: 0; transform: translateY(30px);
+        }
+        .hero h1 .highlight { color: var(--rebar-orange); }
+        .hero-subtitle {
+            font-size: 1.25rem; color: rgba(255, 255, 255, 0.9);
+            max-width: 650px; line-height: 1.8; text-align: left;
+            font-weight: 400;
+            animation: slideUp 0.8s ease 0.2s forwards; opacity: 0; transform: translateY(30px);
+        }
+        .typing-container {
+            display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem;
+            font-family: 'Barlow Condensed', sans-serif; font-size: 2rem; font-weight: 700;
+            color: #39ff14; margin-top: 2rem;
+        }
+        .typing-prefix { 
+            color: rgba(255, 255, 255, 0.85); 
+            font-weight: 600;
+            font-size: 2rem;
+        }
+        .typing-text {
+            font-weight: 700;
+            color: #39ff14;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+        }
+        .typing-cursor {
+            animation: blink 1s step-end infinite;
+            font-weight: 400;
+            color: #39ff14;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .hero-image-wrapper {
+            position: relative;
+            animation: fadeIn 1s ease 0.4s forwards; opacity: 0;
+        }
+        .hero-image-frame {
+            position: relative; border: 2px solid var(--blueprint-line); padding: 10px;
+            transition: transform 0.3s ease;
+        }
+        .hero-image-frame:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.02);
+        }
+        .hero-image { width: 100%; height: 450px; object-fit: cover; display: block; image-rendering: auto; }
+        .dimension-line {
+            position: absolute; display: flex; align-items: center;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; color: var(--blueprint-line);
+        }
+        .dimension-line.horizontal { bottom: -30px; left: 10px; right: 10px; }
+        .dimension-line.horizontal::before, .dimension-line.horizontal::after {
+            content: ''; flex: 1; height: 1px; background: var(--blueprint-line);
+        }
+        .dimension-line span { padding: 0 10px; }
+        
+        /* Hero Buttons */
+        .hero-buttons {
+            display: flex; gap: 1rem; margin-top: 2.5rem; justify-content: flex-start; flex-wrap: wrap;
+        }
+        .hero-btn {
+            display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.875rem;
+            text-decoration: none; transition: all 0.4s ease; border-radius: 50px;
+            position: relative; overflow: hidden;
+        }
+        .hero-btn-primary {
+            background: linear-gradient(135deg, #c76b00 0%, #b45309 100%); color: var(--white);
+            box-shadow: 0 4px 20px rgba(217, 119, 6, 0.35);
+        }
+        .hero-btn-primary::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        .hero-btn-primary:hover::before { left: 100%; }
+        .hero-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(217, 119, 6, 0.5); }
+        .hero-btn-secondary {
+            background: transparent; color: var(--white);
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+        .hero-btn-secondary:hover {
+            border-color: var(--rebar-orange); background: rgba(217, 119, 6, 0.1);
+            transform: translateY(-3px);
+        }
+        .hero-btn svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .hero-btn:hover svg { transform: translateX(5px); }
+        
+        /* Services Grid - IGEX4 Style with Gradient Border */
+        .services-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+        }
+        .service-card {
+            background: var(--white); 
+            border-radius: 20px;
+            overflow: hidden; 
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 3px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899, #f97316, #eab308);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        .service-card-image {
+            height: 220px; overflow: hidden;
+        }
+        .service-card-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .service-card:hover .service-card-image img {
+            transform: scale(1.08);
+        }
+        .service-card-content {
+            padding: 1.75rem 1.75rem 2rem;
+        }
+        .service-card h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; font-weight: 600;
+            color: var(--concrete-dark); margin-bottom: 1rem;
+            letter-spacing: 0.01em;
+        }
+        .service-card p {
+            font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.75;
+            margin-bottom: 1.25rem;
+        }
+        .service-card ul {
+            list-style: none; margin-top: 1rem;
+        }
+        .service-card ul li {
+            font-size: 0.9rem; color: var(--text-secondary); padding: 0.5rem 0;
+            padding-left: 1.75rem; position: relative; line-height: 1.5;
+        }
+        .service-card ul li::before {
+            content: '✓'; 
+            position: absolute; 
+            left: 0; 
+            color: #10b981;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        /* Home Projects Section - Same as projects.html */
+        .home-services-section {
+            background: linear-gradient(135deg, var(--blueprint-bg) 0%, #152a45 100%);
+            padding: 6rem 4rem;
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .home-services-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(74, 144, 194, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 144, 194, 0.08) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+        .home-services-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .section-intro {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.0625rem;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Project Tabs */
+        .project-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        .project-tab {
+            padding: 0.875rem 2rem;
+            background: transparent;
+            border: 2px solid rgba(74, 144, 194, 0.3);
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .project-tab::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--rebar-orange);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        .project-tab:hover {
+            border-color: rgba(74, 144, 194, 0.6);
+            color: var(--white);
+        }
+        .project-tab.active {
+            background: rgba(217, 119, 6, 0.15);
+            border-color: var(--rebar-orange);
+            color: var(--white);
+        }
+        .project-tab.active::before {
+            transform: scaleX(1);
+        }
+        .project-tab-content {
+            display: none;
+            animation: fadeInTab 0.5s ease;
+        }
+        .project-tab-content.active {
+            display: block;
+        }
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .home-projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .project-card-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(74, 144, 194, 0.2);
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .project-card-item:hover {
+            border-color: var(--rebar-orange);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+        .project-card-image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+        .project-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .project-card-item:hover .project-card-image img {
+            transform: scale(1.1);
+        }
+        .project-card-info {
+            padding: 1.5rem;
+        }
+        .project-card-info h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--white);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        .project-card-info p {
+            font-size: 0.9375rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .project-card-info .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--rebar-orange);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+        .project-card-info .project-link svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+        .project-card-item:hover .project-link {
+            color: var(--white);
+        }
+        .project-card-item:hover .project-link svg {
+            transform: translateX(5px);
+        }
+        
+        .show-more-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--rebar-orange) 0%, #c76b00 100%);
+            color: var(--white);
+            border: none;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            border-radius: 50px;
+        }
+        .show-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(217, 119, 6, 0.4);
+        }
+        .show-more-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+        .show-more-btn:hover svg {
+            transform: translateX(5px);
+        }
+        
+        /* Why Choose Us Section */
+        .why-us-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+        }
+        .why-card {
+            text-align: center; padding: 2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s ease;
+        }
+        .why-card:hover {
+            background: rgba(255, 255, 255, 0.08); transform: translateY(-5px);
+        }
+        .why-icon {
+            width: 64px; height: 64px; background: var(--rebar-orange);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.25rem; transition: transform 0.3s ease;
+        }
+        .why-card:hover .why-icon { transform: scale(1.1) rotate(5deg); }
+        .why-icon svg { width: 32px; height: 32px; stroke: var(--white); }
+        .why-card h4 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem; font-weight: 600;
+            color: var(--white); text-transform: uppercase; margin-bottom: 0.75rem;
+        }
+        .why-card p { font-size: 0.875rem; color: rgba(255, 255, 255, 0.6); line-height: 1.6; }
+        
+        /* About Preview */
+        .about-preview-grid {
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center;
+        }
+        .about-image-wrapper {
+            position: relative;
+        }
+        .about-image-wrapper img {
+            width: 100%; display: block; border: 2px solid var(--steel-blue);
+        }
+        .about-stats-floating {
+            position: absolute; bottom: -30px; right: -30px;
+            background: var(--concrete-dark); padding: 1.5rem 2rem;
+            display: flex; gap: 2rem;
+        }
+        .about-stat { text-align: center; }
+        .about-stat-number {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 2.5rem;
+            font-weight: 700; color: var(--rebar-orange);
+        }
+        .about-stat-label {
+            font-size: 0.75rem; color: rgba(255,255,255,0.7);
+            text-transform: uppercase; letter-spacing: 0.1em;
+        }
+        
+        /* Tech Section - IGEX4 Style with Vertical Line */
+        .tech-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+            margin-bottom: 4rem;
+        }
+        .tech-item:last-child {
+            margin-bottom: 0;
+        }
+        .tech-item.tech-reverse {
+            direction: rtl;
+        }
+        .tech-item.tech-reverse > * {
+            direction: ltr;
+        }
+        .tech-content {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .tech-timeline {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 0.5rem;
+        }
+        .tech-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            flex-shrink: 0;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+        }
+        .tech-line {
+            width: 3px;
+            flex: 1;
+            min-height: 100px;
+            background: linear-gradient(180deg, #3b82f6, #8b5cf6, #ec4899);
+            margin-top: 0.5rem;
+        }
+        .tech-text h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--concrete-dark);
+            margin-bottom: 1rem;
+        }
+        .tech-text p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .tech-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        .tech-list li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            padding: 0.5rem 0;
+            padding-left: 1.75rem;
+            position: relative;
+        }
+        .tech-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        .tech-image {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+        .tech-image img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .about-text h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.75rem;
+            font-weight: 700; color: var(--concrete-dark); text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .about-text p {
+            font-size: 1rem; color: var(--text-secondary); line-height: 1.8;
+            margin-bottom: 1.25rem;
+        }
+        .about-features {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;
+        }
+        .about-feature {
+            display: flex; align-items: center; gap: 0.75rem;
+            font-size: 0.9375rem; color: var(--text-primary);
+        }
+        .about-feature-icon {
+            width: 28px; height: 28px; background: var(--steel-blue);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .about-feature-icon svg { width: 14px; height: 14px; stroke: var(--white); }
+
+        /* Data Strip */
+        .data-strip { position: relative; z-index: 1; background: var(--concrete-dark); }
+        .data-strip-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(5, 1fr);
+        }
+        .data-item {
+            padding: 2rem 1.5rem; border-right: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center; position: relative;
+        }
+        .data-item:last-child { border-right: none; }
+        .data-item::before {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--rebar-orange); transform: scaleX(0); transition: transform 0.4s ease;
+        }
+        .data-item:hover::before { transform: scaleX(1); }
+        .data-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: rgba(255, 255, 255, 0.5); text-transform: uppercase;
+            letter-spacing: 0.15em; margin-bottom: 0.5rem;
+        }
+        .data-value {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.75rem;
+            font-weight: 700; color: var(--white);
+        }
+        .data-value .unit { font-size: 0.875rem; font-weight: 500; color: var(--rebar-orange); margin-left: 2px; }
+
+        /* Section Styles */
+        section { position: relative; z-index: 1; padding: 6rem 4rem; max-width: 1400px; margin: 0 auto; }
+        .section-header {
+            display: flex; align-items: flex-end; gap: 1.5rem; margin-bottom: 3rem;
+            padding-bottom: 1.5rem; border-bottom: 2px solid var(--light-gray);
+        }
+        .section-number {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--concrete-light); background: var(--light-gray);
+            padding: 0.25rem 0.75rem; letter-spacing: 0.05em;
+        }
+        .section-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 2rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.02em; color: var(--concrete-dark);
+            position: relative;
+        }
+        .section-title .accent { 
+            color: var(--steel-blue); 
+            position: relative;
+        }
+        .section-title .accent::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+            background: var(--rebar-orange);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .section-header:hover .section-title .accent::after { width: 100%; }
+
+        /* Scope */
+        .scope-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; }
+        .scope-text p { font-size: 1.0625rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.8; text-align: justify; }
+        .scope-text p:first-of-type { font-size: 1.125rem; color: var(--text-primary); font-weight: 500; }
+        .spec-table { background: var(--white); border: 1px solid var(--light-gray); position: relative; }
+        .spec-table::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, var(--steel-blue), var(--rebar-orange));
+        }
+        .spec-table-header {
+            background: var(--concrete-dark); padding: 1rem 1.5rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem;
+            color: rgba(255, 255, 255, 0.7); text-transform: uppercase; letter-spacing: 0.15em;
+        }
+        .spec-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 1.5rem; border-bottom: 1px solid var(--light-gray); transition: background 0.3s ease;
+        }
+        .spec-row:last-child { border-bottom: none; }
+        .spec-row.last { border-bottom: none; }
+        .spec-table { border-bottom: 2px solid var(--steel-blue); }
+        .spec-row:hover { background: rgba(61, 90, 115, 0.05); }
+        .spec-label { font-size: 0.8125rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+        .spec-value { font-weight: 600; color: var(--text-primary); text-align: right; font-family: 'JetBrains Mono', monospace; }
+        .spec-row.highlight { background: rgba(217, 119, 6, 0.08); }
+        .spec-row.highlight .spec-value { color: var(--rebar-orange); }
+        
+        .challenges-title {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; margin: 1.5rem 0 0.75rem;
+            padding-top: 1.5rem; border-top: 1px solid var(--light-gray);
+        }
+        .challenges-text {
+            font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.7; text-align: justify;
+        }
+
+        /* Gallery */
+        .gallery-section {
+            background: var(--white); max-width: 100%; padding: 6rem 4rem;
+            border-top: 1px solid var(--light-gray); border-bottom: 1px solid var(--light-gray);
+        }
+        .gallery-section .section-header { max-width: 1400px; margin: 0 auto 3rem; }
+        
+        .gallery-carousel-wrapper {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; gap: 1.5rem;
+        }
+        .gallery-carousel-wrapper .carousel-arrow {
+            background: var(--concrete-dark); border-color: var(--concrete-dark);
+        }
+        .gallery-carousel-wrapper .carousel-arrow:hover {
+            background: var(--rebar-orange); border-color: var(--rebar-orange);
+        }
+        .gallery-carousel-wrapper .carousel-arrow:disabled {
+            background: var(--light-gray); border-color: var(--light-gray);
+            opacity: 0.5;
+        }
+        .gallery-carousel {
+            flex: 1; overflow: hidden;
+        }
+        .gallery-track {
+            display: flex; gap: 1.5rem;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1400px; margin: 0 auto; }
+        .gallery-item {
+            flex: 0 0 calc(33.333% - 1rem);
+            position: relative; overflow: hidden; cursor: pointer;
+            border: 1px solid var(--light-gray); background: var(--off-white);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gallery-item:hover {
+            border-color: var(--steel-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(44, 48, 56, 0.15);
+        }
+        .gallery-item img { 
+            width: 100%; height: 280px; object-fit: cover;
+            transition: transform 0.6s ease;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+        .gallery-item:hover img { transform: scale(1.05); }
+        .gallery-overlay {
+            position: absolute; inset: 36px 0 0 0;
+            background: linear-gradient(to top, rgba(44, 48, 56, 0.9), transparent 60%);
+            opacity: 0; transition: opacity 0.4s ease; display: flex; align-items: flex-end; padding: 1.25rem;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-caption { color: var(--white); font-size: 0.8125rem; font-weight: 500; }
+
+        /* 3D Viewer Section */
+        .viewer-section {
+            background: var(--concrete-dark); max-width: 100%; padding: 5rem 4rem;
+            position: relative;
+        }
+        .viewer-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .viewer-section .section-header { max-width: 1400px; margin: 0 auto 2rem; border-bottom-color: rgba(255, 255, 255, 0.1); }
+        .viewer-section .section-number { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); }
+        .viewer-section .section-title { color: var(--white); }
+        .viewer-section .section-title .accent { color: var(--rebar-orange); }
+        .viewer-container {
+            display: grid; grid-template-columns: 1fr 320px; gap: 2rem;
+            max-width: 1400px; margin: 0 auto; position: relative; z-index: 1;
+        }
+        .viewer-wrapper {
+            position: relative; background: #f8fafc; border: 2px solid var(--steel-blue);
+            height: 450px; overflow: hidden;
+        }
+        .viewer-wrapper.dark-mode { background: #1a1a2e; }
+        .viewer-wrapper.dark-mode { background: #1a1a2e; }
+        .viewer-controls {
+            position: absolute; top: 12px; left: 12px; z-index: 10;
+            display: flex; gap: 12px; align-items: center;
+        }
+        .viewer-control-row {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(44, 48, 56, 0.9); padding: 6px 12px; border-radius: 4px;
+        }
+        .viewer-control-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: rgba(255, 255, 255, 0.7); text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .viewer-toggle { position: relative; width: 36px; height: 20px; }
+        .viewer-toggle input { opacity: 0; width: 0; height: 0; }
+        .viewer-slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2); border-radius: 20px; transition: 0.3s;
+        }
+        .viewer-slider::before {
+            position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+            background-color: white; border-radius: 50%; transition: 0.3s;
+        }
+        .viewer-toggle input:checked + .viewer-slider { background-color: var(--rebar-orange); }
+        .viewer-toggle input:checked + .viewer-slider::before { transform: translateX(16px); }
+        .viewer-reset-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(44, 48, 56, 0.9); border: none; padding: 6px 12px;
+            color: rgba(255, 255, 255, 0.8); font-family: 'JetBrains Mono', monospace;
+            font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.05em;
+            cursor: pointer; border-radius: 4px; transition: all 0.3s ease;
+        }
+        .viewer-reset-btn:hover { background: var(--rebar-orange); color: white; }
+        .viewer-reset-btn svg { width: 14px; height: 14px; }
+        .viewer-fullscreen-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: var(--steel-blue); border: none; padding: 6px 12px;
+            color: white; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.05em;
+            cursor: pointer; border-radius: 4px; transition: all 0.3s ease;
+        }
+        .viewer-fullscreen-btn:hover { background: var(--rebar-orange); }
+        .viewer-fullscreen-btn svg { width: 14px; height: 14px; }
+        
+        /* Fullscreen mode - applied to body */
+        body.fullscreen-mode { overflow: hidden !important; }
+        body.fullscreen-mode nav { display: none !important; }
+        body.fullscreen-mode .hero { display: none !important; }
+        body.fullscreen-mode .scope-section { display: none !important; }
+        body.fullscreen-mode .gallery-section { display: none !important; }
+        body.fullscreen-mode .loads-section { display: none !important; }
+        body.fullscreen-mode .approach-section { display: none !important; }
+        body.fullscreen-mode .other-projects-section { display: none !important; }
+        body.fullscreen-mode .cta-section { display: none !important; }
+        body.fullscreen-mode footer { display: none !important; }
+        body.fullscreen-mode .blueprint-pattern { display: none !important; }
+        
+        body.fullscreen-mode .viewer-section {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            z-index: 99999 !important;
+        }
+        body.fullscreen-mode .viewer-section::before { display: none !important; }
+        body.fullscreen-mode .viewer-section .section-header { display: none !important; }
+        
+        body.fullscreen-mode .viewer-container {
+            display: block !important;
+            max-width: 100% !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        body.fullscreen-mode .viewer-info { display: none !important; }
+        
+        body.fullscreen-mode .viewer-wrapper {
+            width: 100vw !important;
+            height: 100vh !important;
+            border: none !important;
+        }
+        body.fullscreen-mode .viewer-controls {
+            top: 20px !important;
+            left: 20px !important;
+        }
+        body.fullscreen-mode .viewer-instructions {
+            bottom: 20px !important;
+            right: 20px !important;
+        }
+        #modelCanvas { width: 100%; height: 100%; display: block; }
+        .viewer-instructions {
+            position: absolute; bottom: 12px; right: 12px;
+            background: rgba(44, 48, 56, 0.9); padding: 10px 14px; border-radius: 4px;
+        }
+        .instruction-item {
+            font-size: 0.6875rem; color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 4px; display: flex; gap: 8px;
+        }
+        .instruction-item:last-child { margin-bottom: 0; }
+        .instruction-key {
+            font-family: 'JetBrains Mono', monospace; color: var(--rebar-orange);
+            min-width: 45px; font-weight: 500;
+        }
+        .viewer-info {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.5rem; display: flex; flex-direction: column;
+        }
+        .viewer-info h4 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 600;
+            color: var(--white); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 1rem;
+        }
+        .viewer-info p { font-size: 0.875rem; color: rgba(255, 255, 255, 0.6); line-height: 1.7; margin-bottom: 1.5rem; text-align: justify; }
+        .viewer-stats { margin-top: auto; }
+        .viewer-stat {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.625rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .viewer-stat:last-child { border-bottom: none; }
+        .viewer-stat-label { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); }
+        .viewer-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--rebar-orange); }
+
+        /* Loads */
+        .loads-section {
+            background: linear-gradient(135deg, var(--concrete-dark) 0%, #1f242b 100%);
+            max-width: 100%; padding: 6rem 4rem; position: relative;
+        }
+        .loads-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .loads-section .section-header { max-width: 1400px; margin: 0 auto 3rem; border-bottom-color: rgba(255, 255, 255, 0.1); }
+        .loads-section .section-number { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); }
+        .loads-section .section-title { color: var(--white); }
+        .loads-section .section-title .accent { color: var(--rebar-orange); }
+        .loads-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+        .load-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative;
+        }
+        .load-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0;
+            background: var(--rebar-orange); transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .load-card:hover { 
+            background: rgba(255, 255, 255, 0.08); 
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        .load-card:hover::before { height: 100%; }
+        .load-card:hover .load-icon { transform: scale(1.1) rotate(5deg); }
+        .load-icon { 
+            width: 48px; height: 48px; background: var(--rebar-orange); 
+            display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+        .load-icon svg { width: 24px; height: 24px; stroke: var(--white); }
+        .load-card h4 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem; font-weight: 600;
+            color: var(--white); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.75rem;
+        }
+        .load-card p { font-size: 0.9375rem; color: rgba(255, 255, 255, 0.6); line-height: 1.7; text-align: justify; }
+
+        /* Analysis */
+        .analysis-section { background: var(--off-white); }
+        .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+        .analysis-image { position: relative; border: 1px solid var(--light-gray); background: var(--white); padding: 10px; }
+        .analysis-image::before {
+            content: 'FIG. 07 — FINITE ELEMENT MODEL'; position: absolute; top: -25px; left: 10px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; color: var(--concrete-light); letter-spacing: 0.1em;
+        }
+        .analysis-image img { width: 100%; display: block; }
+        .analysis-content h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; font-weight: 700;
+            text-transform: uppercase; color: var(--concrete-dark); margin-bottom: 1.5rem;
+        }
+        .check-list { list-style: none; }
+        .check-item { display: flex; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--light-gray); }
+        .check-item:last-child { border-bottom: none; }
+        .check-icon { width: 32px; height: 32px; background: var(--steel-blue); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .check-icon svg { width: 16px; height: 16px; stroke: var(--white); }
+        .check-content strong { display: block; font-size: 0.9375rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .check-content span { font-size: 0.875rem; color: var(--text-secondary); }
+
+        /* Approach */
+        .approach-section { background: var(--white); border-top: 1px solid var(--light-gray); }
+        .approach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .approach-card {
+            border: 1px solid var(--light-gray); padding: 2rem; position: relative;
+            transition: all 0.4s ease; background: var(--off-white);
+        }
+        .approach-card::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--steel-blue); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+        }
+        .approach-card:hover { border-color: var(--steel-blue); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(44, 48, 56, 0.1); }
+        .approach-card:hover::after { transform: scaleX(1); }
+        
+        .verification-summary {
+            max-width: 1400px; margin: 3rem auto 0; padding-top: 3rem;
+            border-top: 1px solid var(--light-gray);
+        }
+        .verification-summary h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem;
+            font-weight: 600; color: var(--concrete-dark); text-transform: uppercase;
+            letter-spacing: 0.05em; margin-bottom: 1.5rem;
+        }
+        .verification-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+        }
+        .verification-item {
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            padding: 1rem; background: var(--off-white); border: 1px solid var(--light-gray);
+        }
+        .check-icon-small {
+            flex-shrink: 0; width: 24px; height: 24px;
+            background: var(--rebar-orange); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .check-icon-small svg { width: 14px; height: 14px; stroke: var(--white); }
+        .verification-item div { font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5; }
+        .verification-item strong { color: var(--concrete-dark); }
+        .approach-number { font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; color: var(--concrete-light); margin-bottom: 1rem; }
+        .approach-card h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 600;
+            text-transform: uppercase; color: var(--concrete-dark); margin-bottom: 1rem;
+        }
+        .approach-card p { font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.7; text-align: justify; }
+
+        /* CTA */
+        .cta-section { background: var(--steel-blue); max-width: 100%; padding: 0.625rem 4rem; position: relative; }
+        .cta-section::before {
+            content: ''; position: absolute; top: 0; right: 0; width: 400px; height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(217, 119, 6, 0.2) 100%);
+        }
+        .cta-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+        .cta-text h2 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.75rem; font-weight: 700;
+            text-transform: uppercase; color: var(--white); margin-bottom: 0.25rem;
+        }
+        .cta-text p { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); }
+        .cta-button {
+            display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem;
+            background: linear-gradient(135deg, #c76b00 0%, #b45309 100%); color: var(--white); text-decoration: none;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.875rem;
+            transition: all 0.4s ease; border: none; border-radius: 50px;
+            position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(217, 119, 6, 0.35);
+        }
+        .cta-button::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        .cta-button:hover::before { left: 100%; }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(217, 119, 6, 0.5); }
+        .cta-button svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .cta-button:hover svg { transform: translateX(5px); }
+
+        /* Footer */
+        footer { background: var(--concrete-dark); padding: 1rem 4rem; position: relative; z-index: 1; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { display: flex; align-items: center; gap: 0.75rem; }
+        .footer-logo-icon { width: 36px; height: 36px; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; }
+        .footer-logo-icon svg { width: 20px; height: 20px; stroke: var(--rebar-orange); }
+        .footer-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 0.05em; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { color: rgba(255, 255, 255, 0.5); text-decoration: none; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--rebar-orange); }
+        .footer-copyright { font-family: 'JetBrains Mono', monospace; color: rgba(255, 255, 255, 0.3); font-size: 0.6875rem; letter-spacing: 0.05em; }
+
+        /* Other Projects Section */
+        .other-projects-section {
+            position: relative; z-index: 1; background: var(--concrete-dark);
+            padding: 5rem 4rem;
+        }
+        .other-projects-section .section-header {
+            max-width: 1400px; margin: 0 auto 3rem;
+        }
+        .other-projects-section .section-number { color: var(--rebar-orange); }
+        .other-projects-section .section-title { color: var(--white); }
+        .other-projects-section .section-title .accent { color: var(--rebar-orange); }
+        
+        .projects-carousel-wrapper {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; gap: 1.5rem;
+        }
+        .carousel-arrow {
+            width: 50px; height: 50px; flex-shrink: 0;
+            background: transparent; border: 2px solid var(--blueprint-line);
+            color: var(--white); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .carousel-arrow:hover {
+            background: var(--rebar-orange); border-color: var(--rebar-orange);
+        }
+        .carousel-arrow svg { width: 24px; height: 24px; }
+        .carousel-arrow:disabled {
+            opacity: 0.3; cursor: not-allowed;
+        }
+        .carousel-arrow:disabled:hover {
+            background: transparent; border-color: var(--blueprint-line);
+        }
+        
+        .projects-carousel {
+            flex: 1; overflow: hidden;
+        }
+        .projects-track {
+            display: flex; gap: 1.5rem;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .project-card {
+            flex: 0 0 calc(33.333% - 1rem);
+            background: var(--concrete-mid);
+            text-decoration: none; overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .project-image {
+            position: relative; height: 200px; overflow: hidden;
+        }
+        .project-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+        .project-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 40%, rgba(44, 48, 56, 0.9) 100%);
+        }
+        .project-info {
+            padding: 1.25rem;
+        }
+        .project-type {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+            color: var(--rebar-orange); text-transform: uppercase;
+            letter-spacing: 0.15em; margin-bottom: 0.5rem; display: block;
+        }
+        .project-info h3 {
+            font-family: 'Barlow Condensed', sans-serif; font-size: 1.125rem;
+            font-weight: 600; color: var(--white); text-transform: uppercase;
+            letter-spacing: 0.02em; margin-bottom: 0.5rem; line-height: 1.2;
+        }
+        .project-info p {
+            font-size: 0.75rem; color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5; margin-bottom: 1rem;
+        }
+        .project-link {
+            font-family: 'Barlow', sans-serif; font-size: 0.75rem;
+            font-weight: 600; color: var(--blueprint-line); text-transform: uppercase;
+            letter-spacing: 0.1em; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        .project-link svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+        .project-card:hover .project-link { color: var(--rebar-orange); }
+        .project-card:hover .project-link svg { transform: translateX(4px); }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(30, 58, 95, 0.98); z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+        .lightbox.active { opacity: 1; visibility: visible; }
+        .lightbox img { 
+            max-width: 90%; max-height: 85%; object-fit: contain; 
+            border: 2px solid var(--blueprint-line);
+            transform: scale(0.9); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+        }
+        .lightbox.active img { transform: scale(1); opacity: 1; }
+        .lightbox-label {
+            display: none;
+        }
+        .lightbox-close {
+            position: absolute; top: 2rem; right: 2rem; width: 48px; height: 48px;
+            background: transparent; border: 1px solid var(--blueprint-line); color: var(--white);
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .lightbox-close:hover { background: var(--rebar-orange); border-color: var(--rebar-orange); }
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%); width: 56px; height: 56px;
+            background: transparent; border: 1px solid var(--blueprint-line); color: var(--white);
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .lightbox-nav:hover { background: var(--rebar-orange); border-color: var(--rebar-orange); }
+        .lightbox-prev { left: 2rem; }
+        .lightbox-next { right: 2rem; }
+
+        /* Animations */
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideInLeft { 
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight { 
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes drawLine {
+            from { stroke-dashoffset: 1000; }
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+        .reveal-scale { opacity: 0; transform: scale(0.95); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal-scale.active { opacity: 1; transform: scale(1); }
+        
+        /* Staggered animations for children */
+        .stagger-children > *:nth-child(1) { transition-delay: 0.05s; }
+        .stagger-children > *:nth-child(2) { transition-delay: 0.1s; }
+        .stagger-children > *:nth-child(3) { transition-delay: 0.15s; }
+        .stagger-children > *:nth-child(4) { transition-delay: 0.2s; }
+        .stagger-children > *:nth-child(5) { transition-delay: 0.25s; }
+        .stagger-children > *:nth-child(6) { transition-delay: 0.3s; }
+        
+        /* Hover animations */
+        .hover-float { transition: transform 0.3s ease; }
+        .hover-float:hover { transform: translateY(-5px); }
+        .hover-glow { transition: box-shadow 0.3s ease; }
+        .hover-glow:hover { box-shadow: 0 0 20px rgba(217, 119, 6, 0.3); }
+        
+        /* Animated border */
+        .animated-border { position: relative; }
+        .animated-border::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, var(--rebar-orange), var(--steel-blue), var(--rebar-orange));
+            background-size: 200% 100%;
+            animation: gradientMove 3s ease infinite;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Parallax effect for hero */
+        .parallax-slow { transition: transform 0.5s ease-out; }
+        
+        /* Number counter animation */
+        .count-up { animation: countUp 0.6s ease forwards; }
+        
+        /* Icon spin on hover */
+        .icon-spin:hover svg { animation: spin 0.5s ease; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-content { flex-direction: column; gap: 2rem; }
+            .quantities-grid { grid-template-columns: repeat(2, 1fr); }
+            .coord-grid-inner { grid-template-columns: repeat(2, 1fr); }
+            .project-card { flex: 0 0 calc(50% - 0.75rem); }
+            .gallery-item { flex: 0 0 calc(50% - 0.75rem); }
+            .materials-grid-three { grid-template-columns: 1fr 1fr; }
+            .viewer-container { grid-template-columns: 1fr; }
+            .viewer-wrapper { height: 400px; }
+            .viewer-info { padding: 1.25rem; }
+            .loads-grid, .approach-grid { grid-template-columns: repeat(2, 1fr); }
+            .analysis-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .why-us-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-preview-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .about-stats-floating { position: relative; bottom: 0; right: 0; margin-top: 1rem; justify-content: center; }
+            .home-projects-grid { grid-template-columns: repeat(2, 1fr); }
+            .home-services-section { padding: 5rem 3rem; }
+            .tech-item { grid-template-columns: 1fr; gap: 2rem; }
+            .tech-item.tech-reverse { direction: ltr; }
+            .tech-item.tech-reverse .tech-image { order: -1; }
+            .tech-item .tech-image { order: -1; }
+            .tech-content { flex-direction: row; }
+            .tech-timeline { flex-direction: column; }
+            .tech-line { min-height: 80px; }
+        }
+        @media (max-width: 992px) {
+            .gallery-carousel-wrapper, .projects-carousel-wrapper { gap: 1rem; }
+            .gallery-item { flex: 0 0 calc(50% - 0.75rem); }
+            .materials-grid-three { grid-template-columns: 1fr; gap: 1.5rem; }
+            .hero-image { height: 350px; }
+            .section-title { font-size: 1.75rem; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero { padding: 5rem 1.5rem 8rem; }
+            .hero h1 { font-size: 2.25rem; }
+            .hero-subtitle { font-size: 1.0625rem; }
+            .hero-buttons { flex-direction: column; align-items: flex-start; }
+            .hero-btn { width: 100%; max-width: 280px; justify-content: center; }
+            .hero-wave svg { height: 60px; }
+            .typing-container { font-size: 1.375rem; margin-top: 1rem; flex-wrap: wrap; justify-content: flex-start; }
+            .typing-prefix, .typing-text { font-size: 1.375rem; }
+            .corner-mark.top-left { left: 15px; }
+            .corner-mark.top-right { right: 15px; }
+            .corner-mark.bottom-left { left: 15px; }
+            .corner-mark.bottom-right { right: 15px; }
+            section, .gallery-section, .loads-section, .cta-section, .viewer-section, .other-projects-section, .approach-section { padding: 3rem 1.5rem; }
+            .section-header { margin-bottom: 2rem; }
+            .section-title { font-size: 1.5rem; }
+            .section-number { font-size: 0.625rem; }
+            .project-card { flex: 0 0 100%; }
+            .gallery-item { flex: 0 0 100%; }
+            .carousel-arrow { width: 36px; height: 36px; }
+            .carousel-arrow svg { width: 18px; height: 18px; }
+            .gallery-carousel-wrapper, .projects-carousel-wrapper { gap: 0.5rem; }
+            .viewer-wrapper { height: 300px; }
+            .viewer-controls { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .viewer-instructions { flex-direction: column; gap: 0.5rem; padding: 0.75rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .why-us-grid { grid-template-columns: 1fr; }
+            .about-features { grid-template-columns: 1fr; }
+            .home-projects-grid { grid-template-columns: 1fr; }
+            .home-services-section { padding: 3rem 1.5rem; }
+            .project-tabs { gap: 0.375rem; }
+            .project-tab { padding: 0.625rem 1rem; font-size: 0.875rem; }
+            .tech-section { padding: 3rem 1.5rem !important; }
+            .tech-subtitle { font-size: 1rem !important; margin-bottom: 2.5rem !important; }
+            .tech-item { gap: 1.5rem; margin-bottom: 3rem; }
+            .tech-content { gap: 0.75rem; }
+            .tech-timeline { padding-top: 0.25rem; }
+            .tech-dot { width: 12px; height: 12px; }
+            .tech-line { width: 2px; min-height: 60px; }
+            .tech-text h3 { font-size: 1.375rem; margin-bottom: 0.75rem; }
+            .tech-text p { font-size: 0.9375rem; margin-bottom: 0.75rem; }
+            .tech-image img { height: 220px; }
+            .tech-list li { font-size: 0.875rem; padding: 0.375rem 0; }
+            .scope-grid, .materials-grid { grid-template-columns: 1fr; }
+            .scope-text { margin-bottom: 2rem; }
+            .spec-table { margin-top: 0; }
+            .challenges-text { font-size: 0.875rem; }
+            .gallery-grid, .loads-grid, .approach-grid { grid-template-columns: 1fr; }
+            .load-card, .approach-card { padding: 1.25rem; }
+            .cta-content { flex-direction: column; text-align: center; gap: 2rem; }
+            .footer-content { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+            .lightbox-nav { width: 44px; height: 44px; }
+            .lightbox-prev { left: 1rem; }
+            .lightbox-next { right: 1rem; }
+            /* Contact form mobile */
+            .contact-form { grid-template-columns: 1fr !important; padding: 1.5rem !important; }
+            .contact-info-cards { margin-top: 2rem; }
+        }
+        @media (max-width: 480px) {
+            .hero { padding: 4.5rem 1rem 6rem; }
+            .hero h1 { font-size: 1.875rem; }
+            .hero-image { height: 220px; }
+            .hero-wave svg { height: 40px; }
+            .typing-container { font-size: 1.125rem; margin-top: 0.75rem; }
+            .typing-prefix, .typing-text { font-size: 1.125rem; }
+            .corner-mark { width: 40px; height: 40px; }
+            .corner-mark.top-left { left: 10px; top: 70px; }
+            .corner-mark.top-right { right: 10px; top: 70px; }
+            .corner-mark.bottom-left { left: 10px; bottom: 20px; }
+            .corner-mark.bottom-right { right: 10px; bottom: 20px; }
+            section, .gallery-section, .loads-section, .cta-section, .viewer-section, .other-projects-section, .approach-section { padding: 2.5rem 1rem; }
+            .section-title { font-size: 1.25rem; }
+            .viewer-wrapper { height: 250px; }
+            .carousel-arrow { width: 32px; height: 32px; }
+            .carousel-arrow svg { width: 16px; height: 16px; }
+            .spec-row { padding: 0.75rem 1rem; font-size: 0.75rem; }
+            .spec-label { font-size: 0.6875rem; }
+            .spec-value { font-size: 0.75rem; }
+            .project-info h3 { font-size: 1rem; }
+            .project-info p { font-size: 0.6875rem; }
+            .gallery-caption { font-size: 0.6875rem; }
+            .approach-number { font-size: 1.25rem; width: 40px; height: 40px; }
+            .approach-card h3 { font-size: 1rem; }
+            .approach-card p { font-size: 0.8125rem; }
+            /* Contact form small mobile */
+            .contact-form { padding: 1rem !important; gap: 1rem !important; }
+            .contact-form input, .contact-form select, .contact-form textarea { padding: 0.875rem !important; font-size: 0.9375rem !important; }
+            .contact-form button { width: 100%; justify-content: center; }
+            .info-card { padding: 1rem 1.25rem !important; }
+            .cta-button { padding: 0.875rem 1.5rem !important; font-size: 0.8125rem !important; }
+            footer { padding: 0.7rem 1rem; }
+            .service-card { border-radius: 12px; }
+            .service-card::before { border-radius: 12px; }
+            /* Tech section small mobile */
+            .tech-section { padding: 2rem 1rem !important; }
+            .tech-subtitle { font-size: 0.9375rem !important; margin-bottom: 2rem !important; }
+            .tech-item { gap: 1.25rem; margin-bottom: 2.5rem; }
+            .tech-content { gap: 0.5rem; }
+            .tech-dot { width: 10px; height: 10px; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+            .tech-line { width: 2px; min-height: 50px; }
+            .tech-text h3 { font-size: 1.25rem; }
+            .tech-text p { font-size: 0.875rem; line-height: 1.7; }
+            .tech-image img { height: 180px; }
+            .tech-list li { font-size: 0.8125rem; padding-left: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="./index.html" class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 19h20L12 2z"/>
+                </svg>
+            </div>
+            <div class="logo-text">Delta Engineering<span>Structural Consultants</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./projects.html">Projects</a></li>
+            <li><a href="./services.html">Services</a></li>
+            <li><a href="./tools.html">Tools</a></li>
+            <li><a href="./publications.html">Publications</a></li>
+            <li><a href="./about.html">About</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="./index.html">Home</a>
+            <a href="./projects.html">Projects</a>
+            <a href="./services.html">Services</a>
+            <a href="./tools.html">Tools</a>
+            <a href="./publications.html">Publications</a>
+            <a href="./about.html">About</a>
+            <a href="./contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="corner-mark top-left"></div>
+        <div class="corner-mark top-right"></div>
+        <div class="corner-mark bottom-left"></div>
+        <div class="corner-mark bottom-right"></div>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Expert Structural <span class="highlight">Analysis & Design</span></h1>
+                <p class="hero-subtitle">Delta Engineering delivers comprehensive structural engineering services for complex projects across commercial, residential, industrial, and infrastructure sectors. From conceptual design to detailed engineering, we provide innovative solutions that ensure safety, efficiency, and structural integrity.</p>
+                <div class="typing-container">
+                    <span class="typing-prefix">We specialize in&nbsp;</span>
+                    <span class="typing-text" id="typingText">Concrete Structures</span>
+                    <span class="typing-cursor">|</span>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#services-section" class="hero-btn hero-btn-primary">
+                        <span>Explore Services</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                    <a href="./contact.html" class="hero-btn hero-btn-secondary">
+                        <span>Get In Touch</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path class="shape-fill" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <main>
+        <!-- Services Section -->
+        <section id="services-section" class="scope-section reveal" style="padding-top: 4rem;">
+            <div class="section-header" style="text-align: center;">
+                <h2 class="section-title">Our <span class="accent">Services</span></h2>
+            </div>
+            <p style="font-size: 1.125rem; color: var(--text-secondary); max-width: 800px; margin-bottom: 3rem; line-height: 1.8; text-align: center; margin-left: auto; margin-right: auto;">Comprehensive structural engineering solutions across diverse sectors and specializations</p>
+            <div class="services-grid stagger-children">
+                <div class="service-card reveal">
+                    <div class="service-card-image">
+                        <img src="./assets/image2.png" alt="Commercial Buildings">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Commercial Buildings</h3>
+                        <p>Complete structural analysis and design for office towers, retail centers, mixed-use developments, and commercial building complexes of all scales and heights.</p>
+                        <ul>
+                            <li>High-rise office towers and business centers</li>
+                            <li>Shopping malls and retail commercial spaces</li>
+                            <li>Mixed-use commercial developments</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-card-image">
+                        <img src="./assets/image5.png" alt="Residential Buildings">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Residential Buildings</h3>
+                        <p>Comprehensive structural engineering for single-family homes, multi-family housing, condominium towers, and residential high-rise building complexes.</p>
+                        <ul>
+                            <li>Single-family and multi-family residential homes</li>
+                            <li>Condominium towers and apartment buildings</li>
+                            <li>High-rise residential structures</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-card-image">
+                        <img src="./assets/image8.png" alt="Industrial Facilities">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Industrial Facilities</h3>
+                        <p>Heavy-duty structural design for manufacturing plants, warehouse facilities, distribution centers, and industrial processing complexes.</p>
+                        <ul>
+                            <li>Manufacturing and production plants</li>
+                            <li>Warehouse and distribution center facilities</li>
+                            <li>Heavy equipment and crane support structures</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-card-image">
+                        <img src="./assets/image9.png" alt="Bridge Design">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Bridge Design</h3>
+                        <p>Specialized bridge engineering including structural analysis, design, and construction management for all bridge types and spans.</p>
+                        <ul>
+                            <li>Highway and urban bridges</li>
+                            <li>Pedestrian and cycling bridges</li>
+                            <li>Bridge rehabilitation and retrofitting</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-card-image">
+                        <img src="./assets/image10.png" alt="Precast Systems">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Precast Systems</h3>
+                        <p>Engineering design and detailing for precast concrete components, connections, and complete precast structural systems.</p>
+                        <ul>
+                            <li>Precast concrete panels and members</li>
+                            <li>Structural connection design</li>
+                            <li>Parking structures and garages</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-card-image">
+                        <img src="./assets/image11.png" alt="Seismic Assessment">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Seismic Assessment</h3>
+                        <p>Comprehensive seismic evaluation, risk assessment, and retrofit design to ensure structural resilience against earthquakes.</p>
+                        <ul>
+                            <li>Seismic vulnerability assessment</li>
+                            <li>Retrofit and strengthening design</li>
+                            <li>Performance-based design</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section - Advanced Engineering Capabilities Style with Vertical Line -->
+        <section class="tech-section" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 5rem 4rem;">
+            <div style="max-width: 1400px; margin: 0 auto;">
+                <div class="section-header reveal" style="text-align: center; margin-bottom: 2rem;">
+                    <h2 class="section-title">About <span class="accent">Us</span></h2>
+                </div>
+                <p class="tech-subtitle" style="text-align: center; color: var(--text-secondary); font-size: 1.125rem; max-width: 800px; margin: 0 auto 4rem; line-height: 1.8;">Utilizing industry-leading expertise and adhering to international building codes</p>
+                
+                <!-- Tech Item 1: Text Left, Image Right -->
+                <div class="tech-item reveal">
+                    <div class="tech-content">
+                        <div class="tech-timeline">
+                            <div class="tech-dot"></div>
+                            <div class="tech-line"></div>
+                        </div>
+                        <div class="tech-text">
+                            <h3>Engineering Excellence Since 2010</h3>
+                            <p>Delta Engineering is a leading structural engineering consulting firm with a strong track record of delivering high-quality projects across commercial, residential, industrial, and infrastructure sectors.</p>
+                            <p>Our multidisciplinary team of licensed professional engineers brings expertise and innovation to every challenge, utilizing advanced software tools including ETABS, SAP2000, SAFE, and Revit for comprehensive BIM integration.</p>
+                        </div>
+                    </div>
+                    <div class="tech-image">
+                        <img src="./assets/image12.png" alt="Engineering Team">
+                    </div>
+                </div>
+                
+                <!-- Tech Item 2: Image Left, Text Right -->
+                <div class="tech-item tech-reverse reveal">
+                    <div class="tech-image">
+                        <img src="./assets/image13.png" alt="Building Codes">
+                    </div>
+                    <div class="tech-content">
+                        <div class="tech-timeline">
+                            <div class="tech-dot"></div>
+                            <div class="tech-line"></div>
+                        </div>
+                        <div class="tech-text">
+                            <h3>International Building Codes</h3>
+                            <p>Full compliance with major building codes including IBC (International Building Code), NBCC (National Building Code of Canada), ASCE 7, ACI 318, AISC, Eurocode, and AS/NZS (Australian/New Zealand Standards).</p>
+                            <ul class="tech-list">
+                                <li>Licensed Professional Engineers</li>
+                                <li>BIM & Advanced Software Integration</li>
+                                <li>International Code Compliance</li>
+                                <li>24/7 Project Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tech Item 3: Text Left, Image Right -->
+                <div class="tech-item reveal">
+                    <div class="tech-content">
+                        <div class="tech-timeline">
+                            <div class="tech-dot"></div>
+                            <div class="tech-line"></div>
+                        </div>
+                        <div class="tech-text">
+                            <h3>Comprehensive Analysis Methods</h3>
+                            <p>Advanced finite element analysis, nonlinear analysis, seismic performance evaluation, wind load analysis, dynamic analysis, pushover analysis, and performance-based design methodologies for all structural systems.</p>
+                            <p>We specialize in full-scope services from feasibility studies to permit approvals and construction-phase support, tailored to meet the complex needs of our diverse clients.</p>
+                            <a href="./about.html" class="hero-btn hero-btn-primary" style="margin-top: 2rem; display: inline-flex;"><span>Learn More About Us</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+                    <div class="tech-image">
+                        <img src="./assets/image14.png" alt="Analysis Methods">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Projects Section - Same as projects.html -->
+        <section class="home-services-section">
+            <div class="home-services-container">
+                <div class="section-header reveal" style="text-align: center;">
+                    <h2 class="section-title" style="color: var(--white);">Our <span class="accent" style="color: var(--rebar-orange);">Projects</span></h2>
+                </div>
+                <p class="section-intro reveal">Browse our portfolio of completed and ongoing projects across different sectors.</p>
+                
+                <!-- Project Tabs -->
+                <div class="project-tabs reveal">
+                    <button class="project-tab active" data-tab="all">All</button>
+                    <button class="project-tab" data-tab="commercial">Commercial</button>
+                    <button class="project-tab" data-tab="residential">Residential</button>
+                    <button class="project-tab" data-tab="industrial">Industrial</button>
+                </div>
+
+                <!-- All Projects -->
+                <div class="project-tab-content active" id="all">
+                    <div class="home-projects-grid">
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image2.png" alt="Office Tower Complex">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Downtown Office Tower</h3>
+                                <p>12-story commercial office building with steel frame structure and post-tensioned concrete floors in the business district.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image3.png" alt="Retail Center">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Mixed-Use Retail Center</h3>
+                                <p>Multi-tenant retail complex with underground parking, featuring long-span steel trusses and curtain wall facade system.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image5.png" alt="High-Rise Condominium">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Luxury High-Rise Condominium</h3>
+                                <p>25-story residential tower with reinforced concrete core and optimized floor systems for maximum efficiency and views.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commercial Projects -->
+                <div class="project-tab-content" id="commercial">
+                    <div class="home-projects-grid">
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image2.png" alt="Office Tower Complex">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Downtown Office Tower</h3>
+                                <p>12-story commercial office building with steel frame structure and post-tensioned concrete floors in the business district.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image3.png" alt="Retail Center">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Mixed-Use Retail Center</h3>
+                                <p>Multi-tenant retail complex with underground parking, featuring long-span steel trusses and curtain wall facade system.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image4.png" alt="Medical Center">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Healthcare Medical Center</h3>
+                                <p>State-of-the-art medical facility with specialized vibration control and flexible clinic spaces for healthcare services.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Residential Projects -->
+                <div class="project-tab-content" id="residential">
+                    <div class="home-projects-grid">
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image5.png" alt="High-Rise Condominium">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Luxury High-Rise Condominium</h3>
+                                <p>25-story residential tower with reinforced concrete core and optimized floor systems for maximum efficiency and views.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image6.png" alt="Mid-Rise Apartment">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Mid-Rise Apartment Complex</h3>
+                                <p>8-story multi-family residential building with wood-frame construction over concrete podium and underground parking.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image7.png" alt="Custom Home">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Executive Custom Home</h3>
+                                <p>Custom residential home with unique architectural features and hillside foundation design on challenging terrain.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Industrial Projects -->
+                <div class="project-tab-content" id="industrial">
+                    <div class="home-projects-grid">
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image8.png" alt="Distribution Center">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Regional Distribution Center</h3>
+                                <p>500,000 sq ft distribution warehouse with high-bay racking, loading docks, and office spaces integrated into design.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image9.png" alt="Manufacturing Plant">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Advanced Manufacturing Plant</h3>
+                                <p>Modern manufacturing facility with crane systems, heavy equipment foundations, and specialized floor loading.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                        <div class="project-card-item reveal">
+                            <div class="project-card-image">
+                                <img src="./assets/image10.png" alt="Food Processing">
+                            </div>
+                            <div class="project-card-info">
+                                <h3>Food Processing Facility</h3>
+                                <p>Temperature-controlled processing plant with specialized drainage, equipment platforms, and hygienic design.</p>
+                                <a href="./projects/index.html" class="project-link">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="./projects/index.html" class="show-more-btn">
+                        <span>Show More Projects</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-content reveal">
+                <div class="cta-text"><h2>Ready to Start Your Project?</h2><p>Contact our engineering team for a consultation today.</p></div>
+                <a href="./contact.html" class="cta-button"><span>Get In Touch</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/></svg>
+                </div>
+                <div class="footer-logo-text">Delta Engineering</div>
+            </div>
+            <div class="footer-links">
+                <a href="./projects.html">Projects</a><a href="./services.html">Services</a><a href="./tools.html">Tools</a><a href="./publications.html">Publications</a><a href="./about.html">About</a><a href="./contact.html">Contact</a>
+            </div>
+            <div class="footer-copyright">© 2018 DELTA ENGINEERING. ALL RIGHTS RESERVED.</div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Enhanced reveal animation with multiple types
+        function reveal() {
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+            revealElements.forEach((el, index) => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                const revealPoint = 100;
+                
+                if (elementTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        
+        // Staggered reveal for grid items
+        function revealStaggered() {
+            const grids = document.querySelectorAll('.stagger-children');
+            grids.forEach(grid => {
+                const windowHeight = window.innerHeight;
+                const gridTop = grid.getBoundingClientRect().top;
+                
+                if (gridTop < windowHeight - 100) {
+                    const children = grid.children;
+                    Array.from(children).forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('active');
+                        }, index * 100);
+                    });
+                }
+            });
+        }
+        
+        // Animate numbers counting up
+        function animateNumbers() {
+            const numbers = document.querySelectorAll('.animate-number');
+            numbers.forEach(num => {
+                const windowHeight = window.innerHeight;
+                const numTop = num.getBoundingClientRect().top;
+                
+                if (numTop < windowHeight - 50 && !num.classList.contains('counted')) {
+                    num.classList.add('counted');
+                    const target = parseFloat(num.getAttribute('data-target'));
+                    const duration = 1500;
+                    const start = 0;
+                    const startTime = performance.now();
+                    
+                    function updateNumber(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easeOut = 1 - Math.pow(1 - progress, 3);
+                        const current = start + (target - start) * easeOut;
+                        
+                        if (target % 1 === 0) {
+                            num.textContent = Math.floor(current);
+                        } else {
+                            num.textContent = current.toFixed(1);
+                        }
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(updateNumber);
+                        }
+                    }
+                    requestAnimationFrame(updateNumber);
+                }
+            });
+        }
+        
+        // Parallax effect on scroll
+        function parallaxEffect() {
+            const scrolled = window.pageYOffset;
+            const heroImage = document.querySelector('.hero-image-wrapper');
+            const cornerMarks = document.querySelectorAll('.corner-mark');
+            
+            if (heroImage && scrolled < window.innerHeight) {
+                heroImage.style.transform = `translateY(${scrolled * 0.1}px)`;
+            }
+            
+            cornerMarks.forEach((mark, index) => {
+                const speed = 0.05 * (index + 1);
+                mark.style.transform = `translate(${scrolled * speed}px, ${scrolled * speed}px)`;
+            });
+        }
+        
+        // Smooth scroll progress indicator
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.documentElement.style.setProperty('--scroll-progress', scrollPercent + '%');
+        }
+        
+        // Mouse move parallax for hero section
+        document.addEventListener('mousemove', (e) => {
+            const hero = document.querySelector('.hero');
+            if (!hero) return;
+            
+            const heroRect = hero.getBoundingClientRect();
+            if (e.clientY > heroRect.bottom) return;
+            
+            const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            
+            const gridBg = document.querySelector('.hero::before');
+            const heroFrame = document.querySelector('.hero-image-frame');
+            
+            if (heroFrame) {
+                heroFrame.style.transform = `perspective(1000px) rotateY(${mouseX * 2}deg) rotateX(${-mouseY * 2}deg)`;
+            }
+        });
+        
+        // Initialize
+        window.addEventListener('scroll', () => {
+            reveal();
+            revealStaggered();
+            animateNumbers();
+            parallaxEffect();
+            updateScrollProgress();
+            
+            // Nav shadow
+            document.querySelector('nav').style.boxShadow = window.scrollY > 50 ? '0 2px 20px rgba(0,0,0,0.1)' : 'none';
+        });
+        
+        // Initial calls
+        reveal();
+        revealStaggered();
+        
+        // Add intersection observer for better performance
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Add hover effects to stat blocks
+        document.querySelectorAll('.stat-block, .coord-block, .load-card, .approach-card').forEach(block => {
+            block.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            block.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // ============================================
+        // TYPING ANIMATION
+        // ============================================
+        const typingPhrases = [
+            'Concrete Structures',
+            'Steel Connections',
+            'Precast Systems',
+            'Bridge Engineering',
+            'Seismic Retrofit',
+            'Foundation Design',
+            'Industrial Facilities',
+            'High-Rise Buildings'
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typingText');
+        
+        function typeText() {
+            if (!typingElement) return;
+            
+            const currentPhrase = typingPhrases[phraseIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            let typeSpeed = isDeleting ? 30 : 80;
+            
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % typingPhrases.length;
+                typeSpeed = 500; // Pause before next word
+            }
+            
+            setTimeout(typeText, typeSpeed);
+        }
+        
+        // Start typing animation
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(typeText, 500);
+            });
+        } else {
+            setTimeout(typeText, 500);
+        }
+        
+        // ============================================
+        // MOBILE MENU
+        // ============================================
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.remove('active');
+            });
+        });
+        
+        // ============================================
+        // PROJECT TABS
+        // ============================================
+        document.querySelectorAll('.project-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.project-tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Hide all tab contents
+                document.querySelectorAll('.project-tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Show the selected tab content
+                const tabId = tab.getAttribute('data-tab');
+                const targetContent = document.getElementById(tabId);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                    // Re-trigger reveal animation for cards
+                    targetContent.querySelectorAll('.project-card-item').forEach((card, index) => {
+                        card.classList.remove('active');
+                        setTimeout(() => {
+                            card.classList.add('active');
+                        }, index * 100);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
